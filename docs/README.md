@@ -2,7 +2,7 @@
 
 LegendsMate is a fork of the amazing and legendary MavensMate. It's an open-source IDE for Salesforce development.
 
-MavensMate ended support in the summer of 2017, and recommended users move to Microsoft's Visual Code -- an excellent option. For those of us who prefer our open-source tools, LegendsMate hopes to keep the flame alive.
+MavensMate ended support in the summer of 2017, and recommended users move to Microsoft's Visual Code -- an excellent option. For those of us who prefer our open-source tools, LegendsMate hopes to keep the flame alive. As of this writing, this repo is purely for our own purposes to explore the value in continuing this project versus moving to the VS tools. The future is unwritten.
 
 ## Original MavensMate Contributors - a million thanks.
 

@@ -664,10 +664,52 @@ MetadataHelper.prototype.parentTypes = [
         'xmlName': 'Settings'
     },
     {
-      'directoryName': 'aura',
-      'inFolder': false,
-      'metaFile': false,
-      'xmlName': 'AuraDefinitionBundle'
+        'directoryName': 'aura',
+        'inFolder': false,
+        'metaFile': false,
+        'xmlName': 'AuraDefinitionBundle'
+    },
+    {
+        'directoryName': 'profileSessionSettings',
+        'inFolder': false,
+        'metaFile': false,
+        'suffix': 'profileSessionSetting',
+        'xmlName': 'ProfileSessionSetting'
+    },
+    {
+        'directoryName': 'corsWhitelistOrigins',
+        'inFolder': false,
+        'metaFile': false,
+        'suffix': 'corsWhitelistOrigin',
+        'xmlName': 'CorsWhitelistOrigin'
+    },
+    {
+        'directoryName': 'cspTrustedSites',
+        'inFolder': false,
+        'metaFile': false,
+        'suffix': 'cspTrustedSite',
+        'xmlName': 'CspTrustedSite'
+    },
+    {
+        'directoryName': 'globalValueSets',
+        'inFolder': false,
+        'metaFile': false,
+        'suffix': 'globalValueSet',
+        'xmlName': 'GlobalValueSet'
+    },
+    {
+        'directoryName': 'standardValueSets',
+        'inFolder': false,
+        'metaFile': false,
+        'suffix': 'standardValueSet',
+        'xmlName': 'StandardValueSet'
+    },
+    {
+        'directoryName': 'standardValueSetTranslations',
+        'inFolder': false,
+        'metaFile': false,
+        'suffix': 'standardValueSetTranslation',
+        'xmlName': 'StandardValueSetTranslation'
     }
 ];
 

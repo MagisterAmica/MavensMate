@@ -42,7 +42,11 @@ router.post('/', function(req, res) {
     }
   }
   var params = {
+<<<<<<< HEAD
     client_id: process.env.SFDC_OAUTH_CLIENT_ID || '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J',
+=======
+    client_id: process.env.SFDC_OAUTH_CLIENT_ID || '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J',
+>>>>>>> 5ec5c8d... Adding support to save OAuth ClientId in .settings
     redirect_uri: process.env.SFDC_OAUTH_CALLBACK_URL || 'http://localhost:56248/sfdc/auth/callback',
     response_type: process.env.SFDC_OAUTH_RESPONSE_TYPE || 'token',
     display: 'popup',

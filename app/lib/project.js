@@ -239,14 +239,16 @@ Project.prototype._initExisting = function() {
               refreshToken: creds.refreshToken,
               instanceUrl: self.settings.instanceUrl,
               loginUrl: self.settings.loginUrl,
-              orgType: self.settings.orgType
+              orgType: self.settings.orgType,
+              clientId: self.settings.clientId
             });
           } else {
             self.sfdcClient = new SalesforceClient({
               username: self.settings.username,
               password: creds.password,
               loginUrl: self.settings.loginUrl,
-              orgType: self.settings.orgType
+              orgType: self.settings.orgType,
+              clientId: self.settings.clientId
             });
           }
           self._listenForTokenUpdates();
@@ -479,7 +481,8 @@ Project.prototype._initConfig = function() {
       loginUrl: self.sfdcClient.getLoginUrl(),
       instanceUrl: self.sfdcClient.getInstanceUrl(),
       workspace: self.workspace,
-      subscription: self.subscription || config.get('mm_default_subscription')
+      subscription: self.subscription || config.get('mm_default_subscription'),
+      clientId: self.sfdcClient.getClientId()
     };
     self.writeSettings(settings);
     self._writeCredentials();

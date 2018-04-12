@@ -33,8 +33,13 @@ var config        = require('../config');
  */
 function SalesforceClient(opts) {
   util.applyProperties(this, opts);
+<<<<<<< HEAD
   this.apiVersion = config.get('mm_api_version') || '36.0';
   this.clientId = process.env.SFDC_OAUTH_CLIENT_ID || '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J'
+=======
+  this.apiVersion = config.get('mm_api_version') || '41.0';
+  this.clientId = process.env.SFDC_OAUTH_CLIENT_ID || opts.clientId || '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J'
+>>>>>>> 5ec5c8d... Adding support to save OAuth ClientId in .settings
   this.callbackUrl = process.env.SFDC_OAUTH_CALLBACK_URL || 'http://localhost:56248/sfdc/auth/callback'
   logger.debug('initiating SalesforceClient: ');
 }
@@ -310,6 +315,14 @@ SalesforceClient.prototype.getAccessToken = function() {
  */
 SalesforceClient.prototype.getInstanceUrl = function() {
   return this.instanceUrl || this.conn.instanceUrl || undefined;
+};
+
+/**
+ * Returns client id (OAuth Consumer Key) for this client
+ * @return {String}
+ */
+SalesforceClient.prototype.getClientId = function() {
+  return this.clientId || this.conn.clientId || undefined;
 };
 
 /**

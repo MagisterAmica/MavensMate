@@ -55,7 +55,7 @@
     "fstream": "1.0.2",
     "graceful-fs": "^4.1.6",
     "inherits": "2.0.1",
-    "jsforce": "1.7.0",
+    "jsforce": "^1.9.2",
     "lodash": "3.10.1",
     "merge": "1.2.0",
     "minimist": "1.1.0",

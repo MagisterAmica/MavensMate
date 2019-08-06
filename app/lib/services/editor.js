@@ -98,12 +98,7 @@ EditorService.prototype.launchUI = function(appPath, urlParams) {
     } else {
       // open web browser
       open(url, function() {
-        if (process.env.MAVENSMATE_CONTEXT === 'cli') {
-          resolve();
-          process.exit(0);
-        } else {
-          resolve();
-        }
+        resolve();
       });
 
     }

@@ -33,19 +33,7 @@ Command.prototype.execute = function() {
           username: sfdcClient.conn.userInfo.username,
           metadataTypes: _.sortBy(sfdcClient.describeCache.metadataObjects, 'xmlName')
         };
-        if (process.title === 'mavensmate cli') {
-          config.set('mm_cli_salesforce_session_id', response.sid);
-          config.set('mm_cli_salesforce_instance_url', response.instanceUrl);
-          config.save(function(err) {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(response);
-            }
-          });
-        } else {
-          resolve(response);
-        }
+        resolve(response);
       })
       .catch(function(error) {
         reject(error);

@@ -21,8 +21,6 @@ _.each(commandFiles, function(filepath) {
  * @return {String|Object|STDOUT}         - depends on the configuration of the client (more documentation needed here)
  */
 function _handleCommandResult(result) {
-  // if we're running via the cli, we can print human-friendly responses
-  // otherwise we return proper JSON
   logger.info('handling command result');
   if (result.result) {
     logger.debug(result.result);
@@ -31,32 +29,15 @@ function _handleCommandResult(result) {
   }
 
   if (result.error) {
-    if (process.env.MAVENSMATE_CONTEXT !== 'cli') {
-      result.reject(result.error);
-    } else {
-      console.error(JSON.stringify({
-        error:result.error.message
-      }));
-      process.exit(1);
-    }
+    result.reject(result.error);
   } else {
     if (_.isString(result.result)) {
       var response = {
         message: result.result
       };
-      if (process.env.MAVENSMATE_CONTEXT !== 'cli') {
-        result.resolve(response);
-      } else {
-        console.log(JSON.stringify(response));
-        process.exit(0);
-      }
+      result.resolve(response);
     } else {
-      if (process.env.MAVENSMATE_CONTEXT !== 'cli') {
-        result.resolve(result.result);
-      } else {
-        console.log(JSON.stringify(result.result));
-        process.exit(0);
-      }
+      result.resolve(result.result);
     }
   }
 };
@@ -65,7 +46,7 @@ function _handleCommandResult(result) {
  * Command executor
  * @param  {Object} opts
  * @param  {Function} opts.openWindowFn - js function used to open a UI
- * @param  {Function} opts.project - project instance (used by the cli)
+ * @param  {Function} opts.project - project instance
  * @return {Function}
  */
 module.exports = function(opts) {
@@ -95,11 +76,6 @@ module.exports = function(opts) {
           editor = payload.editor || process.env.MAVENSMATE_EDITOR;
           project = payload.project || opts.project;
           openWindowFn = payload.openWindowFn || opts.openWindowFn;
-
-          // if we're in cli mode and our project has expired creds, we intercept the command and send them to authenticate
-          if (process.env.MAVENSMATE_CONTEXT === 'cli' && project && project.requiresAuthentication) {
-            name = 'oauth-project';
-          }
 
           commandClassName = capitalize(camelize(name))+'Command'; // => new-project -> NewProjectCommand
 

@@ -43,11 +43,8 @@
   "bugs": "https://github.com/joeferraro/mavensmate/issues",
   "dependencies": {
     "archiver": "0.12.0",
-    "autocmdr": "0.0.8",
     "bluebird": "~2.4.2",
     "body-parser": "1.9.2",
-    "commander": "joeferraro/commander.js",
-    "events": "1.0.2",
     "express": "4.10.2",
     "findit": "2.0.0",
     "fs-extra": "0.22.1",
@@ -58,7 +55,6 @@
     "jsforce": "^1.9.2",
     "lodash": "3.10.1",
     "merge": "1.2.0",
-    "minimist": "1.1.0",
     "moment": "2.8.3",
     "nconf": "0.6.9",
     "open": "0.0.3",
@@ -79,14 +75,9 @@
     "keytar": "^4.13.0"
   },
   "devDependencies": {
-    "blanket": "1.1.5",
     "chai": "1.10.0",
     "chai-fs": "0.1.0",
-    "coveralls": "^2.11.12",
     "grunt-nodemon": "latest",
-    "istanbul": "^0.4.5",
-    "mocha": "2.5.3",
-    "mocha-lcov-reporter": "^1.2.0",
     "sinon": "1.17.2",
     "sinon-as-promised": "latest",
     "supertest": "^2.0.0"

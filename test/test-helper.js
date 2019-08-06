@@ -74,20 +74,6 @@ exports.getCommandExecutor = function(openWindowFn) {
   return require('../app/lib/commands')(openWindowFn);
 };
 
-exports.initCli = function() {
-  delete require.cache[require.resolve('commander')];
-  var program = require('commander');
-  program
-    .option('-v --verbose', 'Output logging statements')
-    .option('-h --headless', 'Runs in headless (non-interactive terminal) mode. You may wish to use this flag when calling this executable from a text editor or IDE client.')
-    .option('-e --editor [name]', 'Specifies the plugin client (sublime, atom)') // no default set
-    .option('-p --port [number]', 'UI server port number') // (for sublime text)
-    .parse(process.argv, true); // parse top-level args, defer subcommand
-  program.commandExecutor = commandExecutor;
-  require('../app/lib/loader')(program);
-  return program;
-};
-
 exports.baseTestDirectory = function() {
   return __dirname;
 };

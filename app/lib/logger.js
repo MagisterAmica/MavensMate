@@ -30,8 +30,8 @@ module.exports = function(opts) {
     logLevel = 'info';
   }
 
-  // if we're not a cli client or if our cli client is verbose, log to the console
-  if (!opts.program || (opts.program && opts.program.verbose)) {
+  // log to the console
+  if (!opts.program) {
     winston.cli();
     winston.add(winston.transports.Console, {
       level: logLevel,

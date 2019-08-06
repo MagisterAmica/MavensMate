@@ -76,7 +76,7 @@
     "yauzl": "^2.6.0"
   },
   "optionalDependencies": {
-    "keytar": "3.0.2"
+    "keytar": "^4.13.0"
   },
   "devDependencies": {
     "blanket": "1.1.5",

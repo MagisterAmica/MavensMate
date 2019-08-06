@@ -58,7 +58,7 @@
     "moment": "2.8.3",
     "nconf": "0.6.9",
     "open": "0.0.3",
-    "request": "2.74.0",
+    "request": "^2.88.0",
     "sax": "0.6.1",
     "socket.io": "^1.7.4",
     "strip-json-comments": "1.0.2",

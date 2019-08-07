@@ -77,7 +77,9 @@
   "devDependencies": {
     "chai": "1.10.0",
     "chai-fs": "0.1.0",
+    "grunt-mocha-test": "^0.13.3",
     "grunt-nodemon": "latest",
+    "mocha": "^6.2.0",
     "sinon": "1.17.2",
     "sinon-as-promised": "latest",
     "supertest": "^2.0.0"

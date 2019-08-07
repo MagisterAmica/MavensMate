@@ -141,9 +141,9 @@ module.exports = {
   mm_template_source: {
     title: 'MavensMate template source',
     description: 'If "mm_template_location" is set to "local", set this to the absolute location of the directory where you\'ve forked the MavensMate-Templates project.',
-    example: '"/path/on/your/machine/to/templates"<br/>If "mm_template_location" is set to "remote", set to github location ("username/reponame/branchname"). Project structure must be in the format found here: https://github.com/joeferraro/MavensMate-Templates',
+    example: '"/path/on/your/machine/to/templates"<br/>If "mm_template_location" is set to "remote", set to github location ("username/reponame/branchname"). Project structure must be in the format found here: https://github.com/MagisterAmica/MavensMate-Templates',
     type: 'string',
-    default: 'joeferraro/MavensMate-Templates/master',
+    default: 'MagisterAmica/MavensMate-Templates/master',
     order: 140
   },
   mm_apex_file_extensions: {

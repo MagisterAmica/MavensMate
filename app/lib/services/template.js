@@ -33,7 +33,7 @@ TemplateService.prototype.getTemplateBody = function(metadataTypeXmlName, templa
     var templateFileName = templateOrTemplateFileName.file_name ? template.file_name : templateOrTemplateFileName; // TODO: standardize format
     var templateSource = config.get('mm_template_source');
     if (templateSource === undefined || templateSource === '') {
-      templateSource = 'joeferraro/MavensMate-Templates/master';
+      templateSource = 'MagisterAmica/MavensMate-Templates/master';
     }
     var templateLocation = config.get('mm_template_location');
     if (templateLocation === undefined || templateLocation === '') {
@@ -75,7 +75,7 @@ TemplateService.prototype._getPackage = function() {
     try {
       var templateSource = config.get('mm_template_source');
       if (!templateSource) {
-        templateSource = 'joeferraro/MavensMate-Templates/master';
+        templateSource = 'MagisterAmica/MavensMate-Templates/master';
       }
       var templateLocation = config.get('mm_template_location');
       if (!templateLocation) {

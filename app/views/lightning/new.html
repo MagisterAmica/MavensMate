@@ -101,7 +101,7 @@
           }),
         },
         message: {
-          label: 'Creating new Lighting {{lightningType|capitalize}}...'
+          label: 'Creating new Lightning {{lightningType|capitalize}}...'
         }
       };
 
@@ -111,7 +111,7 @@
           showToast(response.result.message, 'success');
         })
         .catch(function(err) {
-          console.error('could not create lighting app', err);
+          console.error('could not create lightning app', err);
         })
         .finally(function() {
           hideLoading();

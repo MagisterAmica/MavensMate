@@ -34,8 +34,8 @@ var config        = require('../config');
 function SalesforceClient(opts) {
   util.applyProperties(this, opts);
   this.apiVersion = config.get('mm_api_version') || '36.0';
-  this.clientId = process.env.SFDC_OAUTH_CLIENT_ID || '3MVG9uudbyLbNPZP7kLgoRiWVRqiN8gFcKwdAlztVnjgbj9shSk1vMXJNmV7W0ciFbeYiaP9D4tLfBBD06l_7'
-  this.callbackUrl = process.env.SFDC_OAUTH_CALLBACK_URL || 'https://localhost:56248/sfdc/auth/callback'
+  this.clientId = process.env.SFDC_OAUTH_CLIENT_ID || '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J'
+  this.callbackUrl = process.env.SFDC_OAUTH_CALLBACK_URL || 'http://localhost:56248/sfdc/auth/callback'
   logger.debug('initiating SalesforceClient: ');
 }
 

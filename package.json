@@ -48,7 +48,7 @@
     "express": "^4.17.1",
     "findit": "2.0.0",
     "fs-extra": "^0.30.0",
-    "fs-extra-promise": "^0.1.2",
+    "fs-extra-promise": "^0.2.0",
     "fstream": "1.0.2",
     "graceful-fs": "^4.2.1",
     "inherits": "2.0.1",

@@ -1,6 +1,6 @@
 {
   "name": "mavensmate",
-  "version": "1.0.0-beta.32",
+  "version": "1.0.0-beta.33",
   "description": "Core APIs that drive MavensMate IDEs for Salesforce1/Force.com",
   "private": false,
   "bin": {
@@ -60,7 +60,7 @@
     "open": "0.0.3",
     "request": "^2.88.0",
     "sax": "0.6.1",
-    "socket.io": "^1.7.4",
+    "socket.io": "^2.0.0",
     "strip-json-comments": "1.0.2",
     "swig": "joeferraro/swig",
     "temp": "0.8.1",

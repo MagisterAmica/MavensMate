@@ -59,10 +59,8 @@
                   {% if defaultSettings[settingKey].type === 'boolean' %}
                     <label class="slds-checkbox" for="{{ settingKey }}">
                       <input id="{{ settingKey }}" type="checkbox" class="setting-chk" {% if settingValue === true %}checked="checked"{% endif %} id="{{ settingKey }}" data-toggle="checkbox">
-                      <label class="slds-checkbox__label" for="{{ settingKey }}">
-                        <span class="slds-checkbox_faux"></span>
-                        <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</span>
-                      </label>
+                      <span class="slds-checkbox_faux"></span>
+                      <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</span>
                     </label>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">

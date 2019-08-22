@@ -2,153 +2,153 @@
 {% block yield %}
 
 <div class="tab-content" id="main-tab-content">
-	<div id="form" class="tab-pane active">
-		<div class="slds-form--stacked">
-			<fieldset>
+  <div id="form" class="tab-pane active">
+    <div class="slds-form--stacked">
+      <fieldset>
 
-				<div class="slds-form-element">
-					<label class="slds-form-element__label" for="inputSample2">Metadata Template</label>
-					<div class="slds-form-element__control">
-						<select id="template" class="slds-select">
-							<option value="">Select a metadata template</option>
-							{% for t in templates %}
-								<option value="{{ t['name'] }}">{{ t['name'] }}</option>
-							{% endfor %}
-						</select>
-					</div>
-				</div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="inputSample2">Metadata Template</label>
+          <div class="slds-form-element__control">
+            <select id="template" class="slds-select">
+              <option value="">Select a metadata template</option>
+              {% for t in templates %}
+                <option value="{{ t['name'] }}">{{ t['name'] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
 
-				<div id="template_params">
+        <div id="template_params">
 
-				</div>
+        </div>
 
-				<div class="slds-form-element slds-m-top--small" id="template_body_wrapper">
-					<label class="slds-form-element__label" for="inputSample2">Metadata Template Preview</label>
-					<div class="slds-form-element__control">
-						<div id="template_body" class="slds-box">
+        <div class="slds-form-element slds-m-top--small" id="template_body_wrapper">
+          <label class="slds-form-element__label" for="inputSample2">Metadata Template Preview</label>
+          <div class="slds-form-element__control">
+            <div id="template_body" class="slds-box">
 
-						</div>
-					</div>
-				</div>
+            </div>
+          </div>
+        </div>
 
-			</fieldset>
-		</div>
-	</div>
+      </fieldset>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
 
 {% block buttons %}
-	<input type="button" id="btnSubmit" class="slds-button slds-button--brand" value="Create Metadata" onclick='newMetadata();'>
-	{% include 'views/partials/cancel_button.html' %}
+  <input type="button" id="btnSubmit" class="slds-button slds-button--brand" value="Create Metadata" onclick='newMetadata();'>
+  {% include 'views/partials/cancel_button.html' %}
 {% endblock %}
 
 {% block body_js %}
-	<style>
-		pre.template_body_pre.prettyprint {
-			padding: 0px;
-		  border: none;
-		  margin:0px;
-		}
+  <style>
+    pre.template_body_pre.prettyprint {
+      padding: 0px;
+      border: none;
+      margin:0px;
+    }
 
-		#template_body_wrapper {
-			display: none;
-		}
-	</style>
-	<script type="text/javascript">
-		var response;
-		var templates = {{ JSON.stringify(templates) }};
-		var selectedTemplate = null;
-		var metadataType = '{{metadataType}}';
+    #template_body_wrapper {
+      display: none;
+    }
+  </style>
+  <script type="text/javascript">
+    var response;
+    var templates = {{ JSON.stringify(templates) }};
+    var selectedTemplate = null;
+    var metadataType = '{{metadataType}}';
 
-		function newMetadata() {
-			paramPayload = {}
-			$("input.templateParam").each(function(index) {
-				var paramName = $( this ).data( "param" );
-				var paramValue = $( this ).val();
-				paramPayload[paramName] = paramValue;
-			});
-	 		var opts = {
-	 			ajax: {
-	 				type: 'POST',
-					url: "{{ mavensmate.ui.getBaseUrl() }}/app/metadata",
-	 				data: JSON.stringify({
-	 					metadataTypeXmlName: '{{ metadataType }}',
-	 					templateValues: paramPayload,
-	 					template: selectedTemplate
-	 				})
-	 			},
-	 			message: {
-	 				label: 'Creating new metadata...'
-	 			}
-	 	 	};
+    function newMetadata() {
+      paramPayload = {}
+      $("input.templateParam").each(function(index) {
+        var paramName = $( this ).data( "param" );
+        var paramValue = $( this ).val();
+        paramPayload[paramName] = paramValue;
+      });
+   		var opts = {
+   			ajax: {
+   				type: 'POST',
+          url: "{{ mavensmate.ui.getBaseUrl() }}/app/metadata",
+   				data: JSON.stringify({
+   					metadataTypeXmlName: '{{ metadataType }}',
+   					templateValues: paramPayload,
+   					template: selectedTemplate
+   				})
+   			},
+   			message: {
+   				label: 'Creating new metadata...'
+   			}
+   	 	};
 
-	 		mavensmate.request(opts)
-	 			.then(function(response) {
-	 				console.log(response);
-	 				showToast(response.result.message, 'success');
-	 			})
-	 			.catch(function(err) {
-	 				console.error('could not create metadata', err);
-	 			})
-	 			.finally(function() {
-	 				hideLoading();
-	 			});
-		}
+   		mavensmate.request(opts)
+   			.then(function(response) {
+   				console.log(response);
+   				showToast(response.result.message, 'success');
+   			})
+   			.catch(function(err) {
+   				console.error('could not create metadata', err);
+   			})
+   			.finally(function() {
+   				hideLoading();
+   			});
+    }
 
-		$(function() {
-	    // fetch templates from the server
-	    $("#template").change(function() {
-	    	var value = $(this).val();
-	    	selectedTemplate = null;
-	    	var paramsHtml = '';
-	    	if (value === null || value === '') {
-	    		paramsHtml = '';
-	    		$("#template_body_wrapper").hide();
-	    	} else {
-	    		for (t in templates) {
-	    			if (templates[t].name === value) {
-	    				console.log('our template!');
-	    				console.log(templates[t]);
-	    				selectedTemplate = templates[t];
-	    				break;
-	    			}
-	    		}
-	    		for (p in selectedTemplate.params) {
-	    			paramsHtml += '<div class="slds-form-element slds-m-top--small"><label class="slds-form-element__label" for="inputSample2">'+selectedTemplate.params[p].description+'</label><div class="slds-form-element__control"><input class="slds-input templateParam" data-param="'+selectedTemplate.params[p].name+'" type="text" placeholder="'+selectedTemplate.params[p].name+'"/></div></div>';
-	    		}
-	    	}
+    $(function() {
+      // fetch templates from the server
+      $("#template").change(function() {
+        var value = $(this).val();
+        selectedTemplate = null;
+        var paramsHtml = '';
+        if (value === null || value === '') {
+          paramsHtml = '';
+          $("#template_body_wrapper").hide();
+        } else {
+          for (t in templates) {
+            if (templates[t].name === value) {
+              console.log('our template!');
+              console.log(templates[t]);
+              selectedTemplate = templates[t];
+              break;
+            }
+          }
+          for (p in selectedTemplate.params) {
+            paramsHtml += '<div class="slds-form-element slds-m-top--small"><label class="slds-form-element__label" for="inputSample2">'+selectedTemplate.params[p].description+'</label><div class="slds-form-element__control"><input class="slds-input templateParam" data-param="'+selectedTemplate.params[p].name+'" type="text" placeholder="'+selectedTemplate.params[p].name+'"/></div></div>';
+          }
+        }
 
-	    	var opts = {
-		 			async: false,
-		 			ajax: {
-		 				type: 'GET',
-		 				dataType: 'text',
-		 				url: "{{ mavensmate.ui.getBaseUrl() }}/app/metadata/{{metadataType}}/templates/"+encodeURI(selectedTemplate.file_name)
-		 			}
-		 	 	};
+        var opts = {
+     			async: false,
+     			ajax: {
+     				type: 'GET',
+     				dataType: 'text',
+     				url: "{{ mavensmate.ui.getBaseUrl() }}/app/metadata/{{metadataType}}/templates/"+encodeURI(selectedTemplate.file_name)
+     			}
+     	 	};
 
-		 		mavensmate.request(opts)
-		 			.then(function(response) {
-		 				console.log('res is', response);
-		 				if (metadataType === 'ApexClass' || metadataType === 'ApexTrigger') {
-		 					$("#template_body").html('<pre class="template_body_pre prettyprint lang-java"></pre>');
-		 				} else if (metadataType === 'ApexPage' || metadataType === 'ApexComponent') {
-		 					$("#template_body").html('<pre class="template_body_pre prettyprint lang-html"></pre>');
-		 				}
-		 				$(".template_body_pre").text(response);
-		 				prettyPrint();
-		 				$("#template_body_wrapper").show();
-		 			})
-		 			.catch(function(err) {
-		 				console.error('could not retrieve template', err);
-		 			})
-		 			.finally(function() {
-		 				// todo: hide template loading
-		 			});
+     		mavensmate.request(opts)
+     			.then(function(response) {
+     				console.log('res is', response);
+     				if (metadataType === 'ApexClass' || metadataType === 'ApexTrigger') {
+     					$("#template_body").html('<pre class="template_body_pre prettyprint lang-java"></pre>');
+     				} else if (metadataType === 'ApexPage' || metadataType === 'ApexComponent') {
+     					$("#template_body").html('<pre class="template_body_pre prettyprint lang-html"></pre>');
+     				}
+     				$(".template_body_pre").text(response);
+     				prettyPrint();
+     				$("#template_body_wrapper").show();
+     			})
+     			.catch(function(err) {
+     				console.error('could not retrieve template', err);
+     			})
+     			.finally(function() {
+     				// todo: hide template loading
+     			});
 
-	    	$("div#template_params").html(paramsHtml);
-	    });
-		});
-	</script>
+        $("div#template_params").html(paramsHtml);
+      });
+    });
+  </script>
 {% endblock %}

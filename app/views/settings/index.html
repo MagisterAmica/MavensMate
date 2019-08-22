@@ -17,7 +17,7 @@
                 <div class="slds-form-element__control">
                   <!-- string or integer -->
                   {% if defaultSettings[settingKey].type === 'string' || defaultSettings[settingKey].type === 'integer' %}
-                    <h3 class="slds-section-title--divider slds-m-bottom--small">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
+                    <h3 class="slds-text-heading--large slds-m-bottom--small">{{ defaultSettings[settingKey].title }} (<code>{{ settingKey }}<code>)</h3>
                     <input class="slds-input setting" class="form-control" id="{{ settingKey }}" type="text" value="{{ settingValue }}"/>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-top--small">
@@ -36,7 +36,7 @@
                   {% endif %}
                   <!-- array or object -->
                   {% if defaultSettings[settingKey].type === 'array' || defaultSettings[settingKey].type === 'object' %}
-                    <h3 class="slds-section-title--divider slds-m-bottom--small">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
+                    <h3 class="slds-text-heading--large slds-m-bottom--small">{{ defaultSettings[settingKey].title }} (<code>{{ settingKey }}</code>)</h3>
                     <div style="height:110px;">
                       <textarea data-editor="java" rows="15" class="form-control setting" id="{{ settingKey }}">{{ JSON.stringify(settingValue, null, 2) }}</textarea>
                     </div>
@@ -60,7 +60,7 @@
                     <label class="slds-checkbox" for="{{ settingKey }}">
                       <input type="checkbox" class="setting-chk" {% if settingValue === true %}checked="checked"{% endif %} id="{{ settingKey }}" data-toggle="checkbox">
                       <span class="slds-checkbox--faux"></span>
-                      <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</span>
+                      <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} (<code>{{ settingKey }}</code>)</span>
                     </label>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-top--small">

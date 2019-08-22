@@ -13,12 +13,12 @@
 
           {% for settingKey, settingValue in userSettings %}
             {% if defaultSettings[settingKey] %}
-              <div class="slds-form-element" id="{{ settingKey }}-group" style="margin-bottom:20px;">
+              <div class="slds-form-element slds-box" id="{{ settingKey }}-group" style="margin-bottom:20px;">
                 <div class="slds-form-element__control">
                   <!-- string or integer -->
                   {% if defaultSettings[settingKey].type === 'string' || defaultSettings[settingKey].type === 'integer' %}
                     <h3 class="slds-section-title--divider">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
-
+                    <input class="slds-input setting" class="form-control" id="{{ settingKey }}" type="text" value="{{ settingValue }}"/>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">
                         <span class="slds-icon_container slds-p-right--xx-small">
@@ -33,11 +33,13 @@
                         {% endif %}
                       </div>
                     {% endif %}
-                    <input class="slds-input setting" class="form-control" id="{{ settingKey }}" type="text" value="{{ settingValue }}"/>
                   {% endif %}
                   <!-- array or object -->
                   {% if defaultSettings[settingKey].type === 'array' || defaultSettings[settingKey].type === 'object' %}
                     <h3 class="slds-section-title--divider">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
+                    <div style="height:110px;">
+                      <textarea data-editor="java" rows="15" class="form-control setting" id="{{ settingKey }}">{{ JSON.stringify(settingValue, null, 2) }}</textarea>
+                    </div>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">
                         <span class="slds-icon_container slds-p-right--xx-small">
@@ -52,16 +54,15 @@
                         {% endif %}
                       </div>
                     {% endif %}
-                    <div style="height:110px;">
-                      <textarea data-editor="java" rows="15" class="form-control setting" id="{{ settingKey }}">{{ JSON.stringify(settingValue, null, 2) }}</textarea>
-                    </div>
                   {% endif %}
                   <!-- boolean -->
                   {% if defaultSettings[settingKey].type === 'boolean' %}
                     <label class="slds-checkbox" for="{{ settingKey }}">
-                      <input type="checkbox" class="setting-chk" {% if settingValue === true %}checked="checked"{% endif %} id="{{ settingKey }}" data-toggle="checkbox">
-                      <span class="slds-checkbox--faux"></span>
-                      <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</span>
+                      <input id="{{ settingKey }}" type="checkbox" class="setting-chk" {% if settingValue === true %}checked="checked"{% endif %} id="{{ settingKey }}" data-toggle="checkbox">
+                      <label class="slds-checkbox__label" for="{{ settingKey }}">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</span>
+                      </label>
                     </label>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">

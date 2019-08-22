@@ -17,7 +17,7 @@
                 <div class="slds-form-element__control">
                   <!-- string or integer -->
                   {% if defaultSettings[settingKey].type === 'string' || defaultSettings[settingKey].type === 'integer' %}
-                    <h3 class="slds-text-heading--large slds-m-bottom--small">{{ defaultSettings[settingKey].title }} (<code>{{ settingKey }}<code>)</h3>
+                    <h3 class="slds-text-heading--large slds-m-bottom--small">{{ defaultSettings[settingKey].title }} (<code>{{ settingKey }}</code>)</h3>
                     <input class="slds-input setting" class="form-control" id="{{ settingKey }}" type="text" value="{{ settingValue }}"/>
                     {% if defaultSettings[settingKey].description %}
                       <div class="slds-box slds-theme--info slds-m-top--small">

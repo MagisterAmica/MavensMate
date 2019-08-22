@@ -17,10 +17,10 @@
                 <div class="slds-form-element__control">
                   <!-- string or integer -->
                   {% if defaultSettings[settingKey].type === 'string' || defaultSettings[settingKey].type === 'integer' %}
-                    <h3 class="slds-section-title--divider">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
+                    <h3 class="slds-section-title--divider slds-m-bottom--small">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
                     <input class="slds-input setting" class="form-control" id="{{ settingKey }}" type="text" value="{{ settingValue }}"/>
                     {% if defaultSettings[settingKey].description %}
-                      <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">
+                      <div class="slds-box slds-theme--info slds-m-top--small">
                         <span class="slds-icon_container slds-p-right--xx-small">
                           <svg aria-hidden="true" class="slds-icon slds-icon--small">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
@@ -36,12 +36,12 @@
                   {% endif %}
                   <!-- array or object -->
                   {% if defaultSettings[settingKey].type === 'array' || defaultSettings[settingKey].type === 'object' %}
-                    <h3 class="slds-section-title--divider">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
+                    <h3 class="slds-section-title--divider slds-m-bottom--small">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</h3>
                     <div style="height:110px;">
                       <textarea data-editor="java" rows="15" class="form-control setting" id="{{ settingKey }}">{{ JSON.stringify(settingValue, null, 2) }}</textarea>
                     </div>
                     {% if defaultSettings[settingKey].description %}
-                      <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">
+                      <div class="slds-box slds-theme--info slds-m-top--small">
                         <span class="slds-icon_container slds-p-right--xx-small">
                           <svg aria-hidden="true" class="slds-icon slds-icon--small">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
@@ -63,7 +63,7 @@
                       <span class="slds-form-element__label">{{ defaultSettings[settingKey].title }} ({{ settingKey }})</span>
                     </label>
                     {% if defaultSettings[settingKey].description %}
-                      <div class="slds-box slds-theme--info slds-m-bottom--small slds-m-top--small">
+                      <div class="slds-box slds-theme--info slds-m-top--small">
                         <span class="slds-icon_container slds-p-right--xx-small">
                           <svg aria-hidden="true" class="slds-icon slds-icon--small">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#info"></use>

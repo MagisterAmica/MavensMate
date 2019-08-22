@@ -11,48 +11,48 @@
   </ul>
   <div id="tab-default-1" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
 
-  	<form class="slds-form--stacked">
-  		<input type="hidden" value="{{ accessToken }}" id="accessToken"/>
-  		<input type="hidden" value="{{ refreshToken }}" id="refreshToken"/>
-  		<input type="hidden" value="{{ instanceUrl }}" id="instanceUrl"/>
+    <form class="slds-form--stacked">
+      <input type="hidden" value="{{ accessToken }}" id="accessToken"/>
+      <input type="hidden" value="{{ refreshToken }}" id="refreshToken"/>
+      <input type="hidden" value="{{ instanceUrl }}" id="instanceUrl"/>
 
-  		<fieldset>
-  			<div class="slds-form-element">
-  			  <label class="slds-form-element__label" for="inputSample2">Workspace</label>
-  			  <div class="slds-form-element__control">
-  			  	<select id="workspace" class="slds-select"
-  			  		data-placeholder="Select a workspace" data-none-selected-text="No workspace selected (To configure workspaces, set your mm_workspace setting in your MavensMate text editor plugin settings)" data-size="5">
-  			  		{% for m in mavensmate.ui.getWorkspaces() %}
-  			  			<option value="{{ m }}">{{ m }}</option>
-  			  		{% endfor %}
-  			  	</select>
-  			  </div>
-  			</div>
+      <fieldset>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="inputSample2">Workspace</label>
+          <div class="slds-form-element__control">
+            <select id="workspace" class="slds-select"
+              data-placeholder="Select a workspace" data-none-selected-text="No workspace selected (To configure workspaces, set your mm_workspace setting in your MavensMate text editor plugin settings)" data-size="5">
+              {% for m in mavensmate.ui.getWorkspaces() %}
+                <option value="{{ m }}">{{ m }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
 
-  			<div class="slds-form-element slds-m-top--medium large">
-  				<label class="slds-form-element__label" for="inputSample2">Project Name</label>
-  				<div class="slds-form-element__control">
-  					<input class="slds-input" placeholder="Project Name" type="text" id="pn" {% if origin %}value="{{mavensmate.ui.getPathBaseName(origin)}}" disabled="disabled"{% endif %}>
-  				</div>
-  			</div>
+        <div class="slds-form-element slds-m-top--medium large">
+          <label class="slds-form-element__label" for="inputSample2">Project Name</label>
+          <div class="slds-form-element__control">
+            <input class="slds-input" placeholder="Project Name" type="text" id="pn" {% if origin %}value="{{mavensmate.ui.getPathBaseName(origin)}}" disabled="disabled"{% endif %}>
+          </div>
+        </div>
 
-  			<div class="slds-form-element slds-m-top--medium large">
-  				<label class="slds-form-element__label" for="inputSample2">Salesforce.com Username</label>
-  				<div class="slds-form-element__control">
-  					<input class="slds-input" placeholder="Salesforce.com Username" type="text" id="un" value="{{session.username}}" disabled="disabled">
-  				</div>
-  			</div>
+        <div class="slds-form-element slds-m-top--medium large">
+          <label class="slds-form-element__label" for="inputSample2">Salesforce.com Username</label>
+          <div class="slds-form-element__control">
+            <input class="slds-input" placeholder="Salesforce.com Username" type="text" id="un" value="{{session.username}}" disabled="disabled">
+          </div>
+        </div>
 
-  		</fieldset>
-  	</form>
+      </fieldset>
+    </form>
   </div>
   <div id="tab-default-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
-  	<div class="slds-form--stacked">
-			<div class="slds-box slds-theme--info slds-m-bottom--medium">
+    <div class="slds-form--stacked">
+      <div class="slds-box slds-theme--info slds-m-bottom--medium">
         <p>
-  			 Select only those metadata types you need for your project. The default list of metadata types is controlled by the "mm_default_subscription" setting. You can update your project's metadata subscription at any time in the "Edit Project" screen.
+         Select only those metadata types you need for your project. The default list of metadata types is controlled by the "mm_default_subscription" setting. You can update your project's metadata subscription at any time in the "Edit Project" screen.
         </p>
-			</div>
+      </div>
 
       <fieldset>
         <div class="slds-form-element">
@@ -89,7 +89,7 @@
           </div>
         </div>
       </fieldset>
-  	</div>
+    </div>
   </div>
   <div id="tab-default-3" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
     {% include 'views/partials/metadata_tree.html' %}
@@ -103,17 +103,17 @@
 {% endblock %}
 
 {% block buttons %}
-	<button class="slds-button slds-button--brand" onclick="newProject()">Create Project</button>
-	{% include 'views/partials/cancel_button.html' %}
+  <button class="slds-button slds-button--brand" onclick="newProject()">Create Project</button>
+  {% include 'views/partials/cancel_button.html' %}
 {% endblock %}
 
 {% block body_js %}
 
-	<script type="text/javascript">
-		var metadataTree;
+  <script type="text/javascript">
+    var metadataTree;
 
-		$(function() {
-			$('[data-aljs="tabs"]').tabs();
+    $(function() {
+      $('[data-aljs="tabs"]').tabs();
 
       metadataTree = new mavensmate.MetadataTree({
         metadata: {{ session.metadataTypes|json|safe }}
@@ -155,7 +155,7 @@
         sortSubscription();
       });
 
-		});
+    });
 
     function sortSubscription() {
       // sort the dom nodes
@@ -177,41 +177,41 @@
       return selectedMetadataTypes.sort();
     }
 
-		function newProject() {
-			var opts = {
-				ajax: {
-					type: 'POST',
-					url: '{{ mavensmate.ui.getBaseUrl() }}/app/project{% if origin %}/existing{% endif %}',
-					data: JSON.stringify({
-						name: $('#pn').val().trim(),
-						accessToken: $('#accessToken').val(),
-						refreshToken: $('#refreshToken').val(),
-						instanceUrl: $('#instanceUrl').val(),
-						{% if !origin %}
+    function newProject() {
+      var opts = {
+        ajax: {
+          type: 'POST',
+          url: '{{ mavensmate.ui.getBaseUrl() }}/app/project{% if origin %}/existing{% endif %}',
+          data: JSON.stringify({
+            name: $('#pn').val().trim(),
+            accessToken: $('#accessToken').val(),
+            refreshToken: $('#refreshToken').val(),
+            instanceUrl: $('#instanceUrl').val(),
+            {% if !origin %}
             package: metadataTree.getPackage(),
             {% endif %}
-						workspace: $('#workspace').val(),
-						subscription: getSubscription(),
-						origin: $('#origin').val()
-					})
-				},
-				message: {
-					label: 'Creating new MavensMate project...',
-					detail: 'This could take a while depending on the amount of metadata selected. Thanks for being patient! :)'
-				}
-		 	};
+            workspace: $('#workspace').val(),
+            subscription: getSubscription(),
+            origin: $('#origin').val()
+          })
+        },
+        message: {
+          label: 'Creating new MavensMate project...',
+          detail: 'This could take a while depending on the amount of metadata selected. Thanks for being patient! :)'
+        }
+     	};
 
-			mavensmate.request(opts)
-				.then(function(response) {
-					var newProjectId = response.result.id;
-					window.location = '{{ mavensmate.ui.getBaseUrl() }}/app/project/'+newProjectId+'?pid='+newProjectId+'&new=1';
-				})
-				.catch(function(err) {
-					console.error('could not create project', err);
-				})
-				.finally(function() {
-					hideLoading();
-				});
-		}
-	</script>
+      mavensmate.request(opts)
+        .then(function(response) {
+          var newProjectId = response.result.id;
+          window.location = '{{ mavensmate.ui.getBaseUrl() }}/app/project/'+newProjectId+'?pid='+newProjectId+'&new=1';
+        })
+        .catch(function(err) {
+          console.error('could not create project', err);
+        })
+        .finally(function() {
+          hideLoading();
+        });
+    }
+  </script>
 {% endblock %}

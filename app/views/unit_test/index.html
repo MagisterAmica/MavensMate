@@ -8,78 +8,78 @@
       <li class="slds-tabs--scoped__item slds-text-heading--label" title="Test Results" role="presentation" id="li-test-result"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="0" aria-selected="false" aria-controls="tab-default-2" data-aljs-show="tab-default-2">Test Results</a></li>
   </ul>
   <div id="tab-default-1" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
-  	{% if testClasses.length > 0 %}
+    {% if testClasses.length > 0 %}
 
-  	<div class="slds-box slds-theme--shade slds-m-bottom--x-small" id="div-test-classes-filter">
-  	  <div class="slds-grid">
-  	    <div class="slds-col slds-has-flexi-truncate">
-  	      <input type="text" placeholder="Search for test classes" id="txt-test-classes-search" class="slds-input" />
-  	    </div>
-  	  </div>
-  	</div>
+    <div class="slds-box slds-theme--shade slds-m-bottom--x-small" id="div-test-classes-filter">
+      <div class="slds-grid">
+        <div class="slds-col slds-has-flexi-truncate">
+          <input type="text" placeholder="Search for test classes" id="txt-test-classes-search" class="slds-input" />
+        </div>
+      </div>
+    </div>
 
-  	<table id="table-apex-test-classes" class="slds-table slds-table--bordered slds-table--fixed-layout" role="grid">
-  	  <thead>
-  	    <tr class="slds-text-heading--label">
-  	    	<td role="gridcell" class="slds-cell-shrink" scope="col">
-		        <label class="slds-checkbox">
-		          <input type="checkbox" id="chk-select-all-tests" />
-		          <span class="slds-checkbox--faux"></span>
-		          <span class="slds-assistive-text">Select All</span>
-		        </label>
-		      </td>
-		      <th scope="col">
-		        <div class="" title="Class Name">Class Name</div>
-		      </th>
-  	    </tr>
-	    </thead>
-	    <tbody>
-		    	{% for cls in testClasses %}
-			    	<tr class="slds-hint-parent">
-			    		<td role="gridcell" class="slds-cell-shrink" data-label="Select row Cloudhub">
-				        <label class="slds-checkbox">
-				          <input type="checkbox" class="chk-run-test-class" data-class-name={{cls}} />
-				          <span class="slds-checkbox--faux"></span>
-				          <span class="slds-assistive-text">Select row {{cls}}</span>
-				        </label>
-				      </td>
-				      <th scope="row" data-label="{{cls}}">
-				      	<div class="" title="{{cls}}">{{cls}}</div>
-				      </th>
-			    	</tr>
-		    {% endfor %}
-	    </tbody>
+    <table id="table-apex-test-classes" class="slds-table slds-table--bordered slds-table--fixed-layout" role="grid">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <td role="gridcell" class="slds-cell-shrink" scope="col">
+            <label class="slds-checkbox">
+              <input type="checkbox" id="chk-select-all-tests" />
+              <span class="slds-checkbox--faux"></span>
+              <span class="slds-assistive-text">Select All</span>
+            </label>
+          </td>
+          <th scope="col">
+            <div class="" title="Class Name">Class Name</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for cls in testClasses %}
+            <tr class="slds-hint-parent">
+              <td role="gridcell" class="slds-cell-shrink" data-label="Select row Cloudhub">
+                <label class="slds-checkbox">
+                  <input type="checkbox" class="chk-run-test-class" data-class-name={{cls}} />
+                  <span class="slds-checkbox--faux"></span>
+                  <span class="slds-assistive-text">Select row {{cls}}</span>
+                </label>
+              </td>
+              <th scope="row" data-label="{{cls}}">
+                <div class="" title="{{cls}}">{{cls}}</div>
+              </th>
+            </tr>
+        {% endfor %}
+      </tbody>
     </table>
     {% else %}
 
-    	<div class="slds-notify slds-notify--toast slds-theme--warning" role="alert">
-    	  <span class="slds-assistive-text">Success</span>
-    	  <div class="slds-notify__content slds-grid">
-    	    <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
-    	      <use xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
-    	    </svg>
-    	    <div class="slds-col slds-align-middle">
-    	      <h2 class="slds-text-heading--small ">MavensMate could not detect any Apex test classes in your project. Use the <a href="/app/project/{{project.settings.id}}/edit?pid={{project.settings.id}}">Edit Project</a> screen to add classes to your project</h2>
-    	    </div>
-    	  </div>
-    	</div>
+      <div class="slds-notify slds-notify--toast slds-theme--warning" role="alert">
+        <span class="slds-assistive-text">Success</span>
+        <div class="slds-notify__content slds-grid">
+          <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+            <use xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+          </svg>
+          <div class="slds-col slds-align-middle">
+            <h2 class="slds-text-heading--small ">MavensMate could not detect any Apex test classes in your project. Use the <a href="/app/project/{{project.settings.id}}/edit?pid={{project.settings.id}}">Edit Project</a> screen to add classes to your project</h2>
+          </div>
+        </div>
+      </div>
 
     {% endif %}
   </div>
   <div id="tab-default-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
-  	<div id="test-result">
-  		<div class="slds-notify slds-notify--toast slds-theme--info" role="alert">
-  		  <span class="slds-assistive-text">Success</span>
-  		  <div class="slds-notify__content slds-grid">
-  		    <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
-  		      <use xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
-  		    </svg>
-  		    <div class="slds-col slds-align-middle">
-  		      <h2 class="slds-text-heading--small ">Apex unit test results will display here when available.</h2>
-  		    </div>
-  		  </div>
-  		</div>
-  	</div>
+    <div id="test-result">
+      <div class="slds-notify slds-notify--toast slds-theme--info" role="alert">
+        <span class="slds-assistive-text">Success</span>
+        <div class="slds-notify__content slds-grid">
+          <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+            <use xlink:href="/app/static/lds/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+          </svg>
+          <div class="slds-col slds-align-middle">
+            <h2 class="slds-text-heading--small ">Apex unit test results will display here when available.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -87,8 +87,8 @@
 
 
 {% block buttons %}
-	<input type="button" class="slds-button slds-button--brand" value="Run Tests" onclick="runTests()" id="btnRunTests">
-	{% include 'views/partials/cancel_button.html' %}
+  <input type="button" class="slds-button slds-button--brand" value="Run Tests" onclick="runTests()" id="btnRunTests">
+  {% include 'views/partials/cancel_button.html' %}
 {% endblock %}
 
 {% block body_js %}
@@ -96,30 +96,30 @@
 
 <script src="{{ mavensmate.ui.getStaticResourcePath() }}/js/jquery.tablesorter.min.js" type="text/javascript"></script>
 <script>
-	$(function() {
-		$('[data-aljs="tabs"]').tabs();
+  $(function() {
+    $('[data-aljs="tabs"]').tabs();
 
-		$('table#table-apex-test-classes > tbody > tr').on('click', function() {
-			var $chkBox = $(this).find('input.chk-run-test-class');
-			$chkBox.prop('checked', !$chkBox.prop('checked'));
-			if ($chkBox.prop('checked')) {
-				$(this).addClass('slds-is-selected');
-			} else {
-				$(this).removeClass('slds-is-selected');
-			}
-		});
+    $('table#table-apex-test-classes > tbody > tr').on('click', function() {
+      var $chkBox = $(this).find('input.chk-run-test-class');
+      $chkBox.prop('checked', !$chkBox.prop('checked'));
+      if ($chkBox.prop('checked')) {
+        $(this).addClass('slds-is-selected');
+      } else {
+        $(this).removeClass('slds-is-selected');
+      }
+    });
 
-		$('input#chk-select-all-tests').on('click', function() {
-			if ($(this).prop('checked')) {
-				$('table#table-apex-test-classes > tbody > tr:not(.invisible) input.chk-run-test-class').prop('checked', true);
-				$('table#table-apex-test-classes > tbody > tr').not('.invisible').removeClass('slds-is-selected').addClass('slds-is-selected');
-			} else {
-				$('table#table-apex-test-classes > tbody > tr:not(.invisible) input.chk-run-test-class').prop('checked', false);
-				$('table#table-apex-test-classes > tbody > tr').not('.invisible').removeClass('slds-is-selected');
-			}
-		});
+    $('input#chk-select-all-tests').on('click', function() {
+      if ($(this).prop('checked')) {
+        $('table#table-apex-test-classes > tbody > tr:not(.invisible) input.chk-run-test-class').prop('checked', true);
+        $('table#table-apex-test-classes > tbody > tr').not('.invisible').removeClass('slds-is-selected').addClass('slds-is-selected');
+      } else {
+        $('table#table-apex-test-classes > tbody > tr:not(.invisible) input.chk-run-test-class').prop('checked', false);
+        $('table#table-apex-test-classes > tbody > tr').not('.invisible').removeClass('slds-is-selected');
+      }
+    });
 
-		$('input#txt-test-classes-search').change(function() {
+    $('input#txt-test-classes-search').change(function() {
       var thevalue = $(this).val().toLowerCase();
       $('#table-apex-test-classes > tbody > tr > th > div').each(function() {
           var className = $(this).html().toLowerCase();
@@ -133,98 +133,98 @@
     .keyup(function() {
        $(this).change();
     });
-	});
+  });
 
-	function showCoverage(a, apexClassOrTriggerName, metadataTypeXmlName, uncoveredLines) {
-		var $a = $(a);
-		var $resultWrapper = $('#tr-result-wrapper-'+metadataTypeXmlName+'-'+apexClassOrTriggerName);
-		var $coverageWrapper = $('#tr-coverage-wrapper-'+metadataTypeXmlName+'-'+apexClassOrTriggerName);
+  function showCoverage(a, apexClassOrTriggerName, metadataTypeXmlName, uncoveredLines) {
+    var $a = $(a);
+    var $resultWrapper = $('#tr-result-wrapper-'+metadataTypeXmlName+'-'+apexClassOrTriggerName);
+    var $coverageWrapper = $('#tr-coverage-wrapper-'+metadataTypeXmlName+'-'+apexClassOrTriggerName);
 
-		if ($a.html() === 'Show Coverage') {
-			$a.html('Hide Coverage');
-			$resultWrapper.addClass('slds-is-selected');
-		} else {
-			$a.html('Show Coverage');
-			$resultWrapper.removeClass('slds-is-selected');
-		}
+    if ($a.html() === 'Show Coverage') {
+      $a.html('Hide Coverage');
+      $resultWrapper.addClass('slds-is-selected');
+    } else {
+      $a.html('Show Coverage');
+      $resultWrapper.removeClass('slds-is-selected');
+    }
 
-		if ($coverageWrapper.hasClass('retrieved')) {
-			$coverageWrapper.toggle();
-		} else {
-			var opts = {
-			  showPageHeaderLoading: true,
-			  async: false,
-			  ajax: {
-			    type: 'POST',
-			    url: '/app/test/coverage',
-			    data: JSON.stringify({
-		        apexClassOrTriggerName: apexClassOrTriggerName,
-		        type: metadataTypeXmlName,
-		        uncoveredLines: uncoveredLines
-		    	})
-			  }
-			};
+    if ($coverageWrapper.hasClass('retrieved')) {
+      $coverageWrapper.toggle();
+    } else {
+      var opts = {
+        showPageHeaderLoading: true,
+        async: false,
+        ajax: {
+          type: 'POST',
+          url: '/app/test/coverage',
+          data: JSON.stringify({
+            apexClassOrTriggerName: apexClassOrTriggerName,
+            type: metadataTypeXmlName,
+            uncoveredLines: uncoveredLines
+          })
+        }
+      };
 
-			mavensmate.request(opts)
-			  .then(function(response) {
-			    console.log('coverage retrieval done', response);
-			    $coverageWrapper.find('div').html(response.result);
-			    $a.html('Hide Coverage').removeClass('btn-info');
-			    $coverageWrapper.show().addClass('retrieved');
-			  })
-			  .catch(function(err) {
-			    console.error('could not retrieve coverage', err);
-			  })
-			  .finally(function() {
-			    hidePageHeaderLoading();
-			  });
-		}
-	}
+      mavensmate.request(opts)
+        .then(function(response) {
+          console.log('coverage retrieval done', response);
+          $coverageWrapper.find('div').html(response.result);
+          $a.html('Hide Coverage').removeClass('btn-info');
+          $coverageWrapper.show().addClass('retrieved');
+        })
+        .catch(function(err) {
+          console.error('could not retrieve coverage', err);
+        })
+        .finally(function() {
+          hidePageHeaderLoading();
+        });
+    }
+  }
 
-	function runTests() {
-		var opts = {
-		  showPageHeaderLoading: true,
-		  ajax: {
-		    type: 'POST',
-		    url: '/app/test',
-		    data: JSON.stringify({
-		    	ui: true,
-		    	classes: getTestsToRun(),
-		    	html: true
-		    })
-		  }
-		};
+  function runTests() {
+    var opts = {
+      showPageHeaderLoading: true,
+      ajax: {
+        type: 'POST',
+        url: '/app/test',
+        data: JSON.stringify({
+          ui: true,
+          classes: getTestsToRun(),
+          html: true
+        })
+      }
+    };
 
-		mavensmate.request(opts)
-		  .then(function(response) {
-		    console.log('test done', response);
-		    showToast('Test complete', 'success');
-		    $('#test-result').html(response.result.message);
-		    $('.test-result-tabs').tabs();
-		    $('.tablesorter').tablesorter();
-		    $('#li-test-result a').click();
-		  })
-		  .catch(function(err) {
-		    console.error('could not test', err);
-		  })
-		  .finally(function() {
-		    hidePageHeaderLoading();
-		  });
-	}
+    mavensmate.request(opts)
+      .then(function(response) {
+        console.log('test done', response);
+        showToast('Test complete', 'success');
+        $('#test-result').html(response.result.message);
+        $('.test-result-tabs').tabs();
+        $('.tablesorter').tablesorter();
+        $('#li-test-result a').click();
+      })
+      .catch(function(err) {
+        console.error('could not test', err);
+      })
+      .finally(function() {
+        hidePageHeaderLoading();
+      });
+  }
 
-	/*
-	returns an array of test names that are selected
-	 */
-	function getTestsToRun() {
-		var testsToRun = [];
-		$('.chk-run-test-class').each(function() {
-			var $chkbox = $(this);
-			if ($chkbox.attr('checked') === 'checked') {
-				testsToRun.push($chkbox.data('class-name'));
-			}
-		});
-		return testsToRun;
-	}
+  /*
+  returns an array of test names that are selected
+   */
+  function getTestsToRun() {
+    var testsToRun = [];
+    $('.chk-run-test-class').each(function() {
+      var $chkbox = $(this);
+      if ($chkbox.attr('checked') === 'checked') {
+        testsToRun.push($chkbox.data('class-name'));
+      }
+    });
+    return testsToRun;
+  }
 </script>
 
 {% endblock %}

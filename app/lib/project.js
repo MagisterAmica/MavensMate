@@ -616,6 +616,34 @@ Project.prototype.compile = function() {
   });
 };
 
+Project.prototype._explodePackage = async function(pkg) {
+  var self = this;
+
+  const metadata_types = ['ApexClass', 'CustomObject'];
+
+  const project_metadata = await self.getOrgMetadataIndex();
+
+  for (let type of metadata_types) {
+    if (!(pkg[type])) {
+      continue;
+    }
+
+    if (pkg[type] !== '*') {
+      continue;
+    }
+
+    pkg[type] = [];
+
+    let type_collection = _.find(project_metadata, function (item) { return item.id === type });
+
+    _.each(type_collection.children, function(child) {
+      pkg[type].push(child.fullName);
+    });
+  }
+
+  return pkg;
+};
+
 /**
  * Edits project based on provided payload (should be a JSON package)
  * @param  {Object} payload
@@ -626,32 +654,35 @@ Project.prototype.edit = function(pkg) {
   var self = this;
   return new Promise(function(resolve, reject) {
     var newPackage;
-    logger.debug('editing project, requested package is: ', pkg);
     var retrievePath = temp.mkdirSync({ prefix: 'mm_' });
-    self.sfdcClient.retrieveUnpackaged(pkg, true, retrievePath)
-      .then(function(retrieveResult) {
-        return self._writeLocalStore(retrieveResult.fileProperties);
-      })
-      .then(function() {
-        // todo: in conversation with sean he noted that it would be nice to not obliterate working
-        // copies of server metadata on edit-project, which this does
-        // in that case, we may give the user an option of overwriting all local files or only new ones
-        util.emptyDirectoryRecursiveSync(path.join(self.path, 'src'));
-        return self.replaceLocalFiles(path.join(retrievePath, 'unpackaged'), true);
-      })
-      .then(function() {
-        newPackage = new Package({ project: self, path: path.join(self.path, 'src', 'package.xml') });
-        return newPackage.init();
-      })
-      .then(function() {
-        self.packageXml = newPackage;
-        util.removeEmptyDirectoriesRecursiveSync(path.join(self.path, 'src'));
-        resolve();
-      })
-      .catch(function(error) {
-        reject(error);
-      })
-      .done();
+    logger.debug('editing project, requested package is: ', pkg);
+    self._explodePackage(pkg)
+    .then((pkg) => {
+      logger.debug('editing project, exploded package is: ', pkg);
+      return self.sfdcClient.retrieveUnpackaged(pkg, true, retrievePath)
+    })
+    .then(function(retrieveResult) {
+      return self._writeLocalStore(retrieveResult.fileProperties);
+    })
+    .then(function() {
+      // todo: in conversation with sean he noted that it would be nice to not obliterate working
+      // copies of server metadata on edit-project, which this does
+      // in that case, we may give the user an option of overwriting all local files or only new ones
+      util.emptyDirectoryRecursiveSync(path.join(self.path, 'src'));
+      return self.replaceLocalFiles(path.join(retrievePath, 'unpackaged'), true);
+    })
+    .then(function() {
+      newPackage = new Package({ project: self, path: path.join(self.path, 'src', 'package.xml') });
+      return newPackage.init();
+    })
+    .then(function() {
+      self.packageXml = newPackage;
+      util.removeEmptyDirectoriesRecursiveSync(path.join(self.path, 'src'));
+      resolve();
+    })
+    .catch(function(error) {
+      reject(error);
+    });
   });
 };
 

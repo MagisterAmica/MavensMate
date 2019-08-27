@@ -79,6 +79,7 @@
     "chai-fs": "0.1.0",
     "grunt-mocha-test": "^0.13.3",
     "grunt-nodemon": "latest",
+    "istanbul": "^0.4.5",
     "mocha": "^6.2.0",
     "sinon": "1.17.2",
     "sinon-as-promised": "latest",

@@ -514,7 +514,7 @@ IndexService.prototype.ensureParentsAreCheckedIfNecessary = function(orgMetadata
           numberOfChildrenSelected++;
         }
       });
-      if (metadataType.children.length === numberOfChildrenSelected && metadataType.children > 0) {
+      if (metadataType.children.length === numberOfChildrenSelected && metadataType.children.length > 0) {
         metadataType.checked = true;
         metadataType.select = true;
       }

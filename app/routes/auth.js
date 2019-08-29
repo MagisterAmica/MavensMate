@@ -7,6 +7,8 @@ var logger          = require('winston');
 var querystring     = require('querystring');
 var path            = require('path');
 var util            = require('../lib/util');
+var config          = require('../config');
+
 
 router.get('/new', function(req, res) {
   var project;
@@ -42,7 +44,7 @@ router.post('/', function(req, res) {
     }
   }
   var params = {
-    client_id: process.env.SFDC_OAUTH_CLIENT_ID || '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J',
+    client_id: process.env.SFDC_OAUTH_CLIENT_ID || config.get('mm_oauth_client_id'),
     redirect_uri: process.env.SFDC_OAUTH_CALLBACK_URL || 'http://localhost:56248/sfdc/auth/callback',
     response_type: process.env.SFDC_OAUTH_RESPONSE_TYPE || 'token',
     display: 'popup',

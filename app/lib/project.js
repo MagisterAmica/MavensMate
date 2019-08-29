@@ -482,7 +482,7 @@ Project.prototype._initConfig = function() {
       instanceUrl: self.sfdcClient.getInstanceUrl(),
       workspace: self.workspace,
       subscription: self.subscription || config.get('mm_default_subscription'),
-      clientId: self.sfdcClient.getClientId()
+      clientId: ((config.get('mm_oauth_client_id') !== self.sfdcClient.getClientId()) ? self.sfdcClient.getClientId() : undefined),
     };
     self.writeSettings(settings);
     self._writeCredentials();

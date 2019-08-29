@@ -180,5 +180,12 @@ module.exports = {
     type: 'boolean',
     default: false,
     order: 210
+  },
+  mm_oauth_client_id: {
+    title: "OAuth Client Id",
+    description: "If present, overrides the built-in MaventMate client id.",
+    type: 'string',
+    default: '3MVG9Y6d_Btp4xp5rysauNriP6krqgj31_36WOFYeohczCzF1gjoEWkIEkAjSL_5Vef7VTM1DPBq4QJPx8.9J',
+    order: 300
   }
 };

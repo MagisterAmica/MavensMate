@@ -1,10 +1,11 @@
-html, body {
+html,
+body {
   height: 100%;
   overflow-x: hidden;
 }
 
 #frame-left-column {
-  width:70px;
+  width: 70px;
 }
 
 #frame-right-column {
@@ -13,12 +14,17 @@ html, body {
 }
 
 #mmlogo {
-	width:150px;
-	padding-top: 2px;
+  width: 150px;
+  padding-top: 2px;
 }
 
 ul.dynatree-container {
-	border: none !important;
+  border: none !important;
+}
+
+#top-menu a {
+  color: #16325c;
+  text-decoration: none;
 }
 
 #left-menu .slds-dropdown--actions a {
@@ -37,7 +43,7 @@ ul.dynatree-container {
 }
 
 #top-menu {
-	padding: 0.2rem 0.4rem;
+  padding: 0.2rem 0.4rem;
 }
 
 .app-launcher svg {
@@ -46,10 +52,10 @@ ul.dynatree-container {
 }
 
 #top-menu #top-menu-loading-indicator {
-    top: 19px;
-    right: 0.7rem;
-    left: inherit;
-    display: none;
+  top: 19px;
+  right: 0.7rem;
+  left: inherit;
+  display: none;
 }
 
 #page-header {
@@ -62,35 +68,33 @@ ul.dynatree-container {
   background: #fff;
 }
 
-#top-menu a {
-	color: #16325c;
-	text-decoration: none;
-}
-
 #top-menu .slds-button__icon {
-	fill:#fff;
-	width: 1.5rem;
-	height: 1.5rem;
+  fill: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-#top-menu .slds-nubbin--top:before,
-#top-menu .slds-nubbin--top:after {
-	left:15px;
+#top-menu .slds-nubbin--top::before,
+#top-menu .slds-nubbin--top::after {
+  left: 15px;
 }
 
 .slds-dropdown-trigger > [class*="slds-button--icon"] ~ .slds-dropdown--left[class*="slds-nubbin"] {
-	left:0px;
+  left: 0;
 }
 
 #settings-wrapper input.setting {
   font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
 }
+
 #settings-wrapper .ace-tm .ace_string {
   color: #54698d;
 }
+
 #settings-wrapper .ace-tm .ace_constant.ace_language {
   color: #d54d53;
 }
+
 #settings-wrapper .ace_editor.ace-tm {
   background-color: #f4f6f9;
 }
@@ -102,7 +106,7 @@ ul.dynatree-container {
 div#div-metadata-tree-filter,
 div#div-test-classes-filter,
 div#div-project-list-filter {
-  padding:0.5rem;
+  padding: 0.5rem;
 }
 
 .progress {
@@ -123,7 +127,7 @@ div#div-project-list-filter {
 
 span.coverage {
   display: inline-block;
-  width:4rem;
+  width: 4rem;
 }
 
 div.progress-wrapper {
@@ -160,7 +164,6 @@ table#table-apex-test-classes > tbody > tr,
 table#table-project-list > tbody > tr {
   cursor: pointer;
 }
-
 
 th.tablesorter-header {
   cursor: pointer;

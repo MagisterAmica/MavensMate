@@ -45,6 +45,7 @@
     "archiver": "^0.15.0",
     "bluebird": "~2.4.2",
     "body-parser": "1.9.2",
+    "electron-store": "^4",
     "express": "^4.17.1",
     "findit": "2.0.0",
     "fs-extra": "^0.30.0",

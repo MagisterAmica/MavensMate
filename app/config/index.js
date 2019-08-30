@@ -1,79 +1,48 @@
 'use strict';
 
-/**
- * nconf is used globally for config, client instantiates the necessary config files
- * import config throughout the application to share the global nconf
- */
+const electron = require('electron');
+const schema = require('./schema');
+const MavenStore = require('./MavenStore');
 
-var fs        = require('fs-extra');
-var config    = require('nconf');
-var defaults  = require('./default');
-var util      = require('../lib/util');
-var path      = require('path');
-var _         = require('lodash');
+let store;
 
-function _monitor(filePath) {
-  fs.unwatchFile(filePath);
-  fs.watchFile(filePath, function() {
-    _reload();
-  });
+function cleanWindowSettings() {
+  // tweak window min/max values
+  schema.window.properties.width.maximum = electron.screen.getPrimaryDisplay().workAreaSize.width;
+  schema.window.properties.height.maximum = electron.screen.getPrimaryDisplay().workAreaSize.height;
+  // 100px is a buffer to ensure some of the window can be seen to be dragged
+  schema.window.properties.x.maximum = electron.screen.getPrimaryDisplay().workAreaSize.width - 100;
+  schema.window.properties.y.maximum = electron.screen.getPrimaryDisplay().workAreaSize.height - 100;
 }
 
-function _reload() {
-  config.remove('user-client');
-  config.remove('default-client');
-  config.remove('global');
-  _init();
-}
+function init() {
 
-function _init() {
-  config.env().argv().defaults({});
+  // initialise data store
+  store = new MavenStore({schema});
 
-  var userSettingsPath;
-  if (util.isMac()) {
-    userSettingsPath = path.join(util.getHomeDirectory(), '.mavensmate-config.json');
-  } else if (util.isWindows()) {
-    userSettingsPath = path.join(util.getWindowsAppDataPath(), 'MavensMate', 'mavensmate-config.json');
-  } else if (util.isLinux()) {
-    userSettingsPath = path.join(util.getHomeDirectory(), '.config', '.mavensmate-config.json');
+  // ensure window min/max values are within permitted range
+  for (let key in schema.window.properties) {
+    for (let minmax of ['minimum', 'maximum']) {
+      if (store.get(`window.${key}`) > schema.window.properties[key][minmax]) {
+        store.set(`window.${key}`, schema.window.properties[key][minmax]);
+      }
+    }
   }
 
-  var defaultSettings = {};
-  _.each(defaults, function(settingValue, settingKey) {
-    defaultSettings[settingKey] = settingValue.default;
-  });
+  // handle changing of browser window
+  electron.app.on('ready', cleanWindowSettings);
 
-  // if user setting dont exist, copy default to user settings on disk
-  if (!fs.existsSync(userSettingsPath)) {
-    fs.outputJsonSync(userSettingsPath, defaultSettings, {spaces: 2});
+  // set http proxy if given
+  if (store.has('mm.http_proxy')) {
+    process.env.http_proxy = store.get('mm.http_proxy');
   }
 
-  // ensure valid JSON configuration
-  try {
-    util.getFileBody(userSettingsPath, true);
-  } catch(e) {
-    logger.error('could not parse user JSON configuration, reverting to default');
-    fs.outputJsonSync(userSettingsPath, defaultSettings, { spaces: 2 });
-  }
-  config.file('user', userSettingsPath);
-  _monitor(userSettingsPath);
-  config
-    .add('global', { type: 'literal', store: defaultSettings});
-
-  // normalize mm_api_version to string with a single decimal
-  var mmApiVersion = config.get('mm_api_version');
-  if (!util.endsWith(mmApiVersion,'.0')) {
-    mmApiVersion = mmApiVersion+'.0';
-    config.set('mm_api_version', mmApiVersion);
-  }
-
-  if (config.get('mm_http_proxy')) {
-    process.env.http_proxy = config.get('mm_http_proxy');
-  }
-  if (config.get('mm_https_proxy')) {
-    process.env.https_proxy = config.get('mm_https_proxy');
+  // set https proxy if given
+  if (store.has('mm.https_proxy')) {
+    process.env.https_proxy = store.get('mm.https_proxy');
   }
 }
 
-_init();
-module.exports = config;
+init();
+
+module.exports = store;

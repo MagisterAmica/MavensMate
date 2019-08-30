@@ -33,7 +33,6 @@ module.exports.start = function(opts) {
 
     if (!config.get('mm_workspace') || (_.isArray(config.get('mm_workspace')) && config.get('mm_workspace').length === 0)) {
       config.set('mm_workspace', [ util.getDefaultWorkspaceSetting() ]);
-      config.save();
     }
 
     app = express();

@@ -1,24 +1,13 @@
 'use strict';
 
-var express         = require('express');
-var router          = express.Router();
-var fs              = require('fs');
-var util            = require('../lib/util');
-var path            = require('path');
-var logger          = require('winston');
-var config          = require('../config');
-var defaultSettings = require('../config/default');
+const express         = require('express');
+const router          = express.Router();
+const config          = require('../config');
+const defaultSettings = require('../config/schema').mm.properties;
 
 router.get('/', function(req, res) {
-  var userSettings;
-  try {
-    userSettings = config.load();
-  } catch(e) {
-    logger.error('Could not load user settings', e);
-    userSettings = defaultSettings;
-  }
   var locals = {
-    userSettings: userSettings,
+    userSettings: config.get('mm'),
     defaultSettings: defaultSettings,
     title: 'Global Settings'
   };
@@ -27,8 +16,8 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
   try {
-    var updatedSetting = defaultSettings[req.body.settingKey];
-    var settingValue = req.body.settingValue;
+    let updatedSetting = defaultSettings[req.body.settingKey];
+    let settingValue = req.body.settingValue;
     if (updatedSetting.type === 'integer') {
       settingValue = parseInt(settingValue); // parse string from the dom to int for storage
     } else if (updatedSetting.type === 'object' || updatedSetting.type === 'array') {
@@ -36,16 +25,10 @@ router.post('/', function(req, res) {
     } else if (updatedSetting.type === 'string' && settingValue[0] === '"' && settingValue[settingValue.length - 1] === '"') {
       return res.status(500).send({ error: 'Failed to update '+req.body.settingKey+': Invalid string setting value. You should not wrap your string setting value in quotes.' });
     }
-    config.set(req.body.settingKey, settingValue);
-    config.save(function(err) {
-      if (err) {
-        res.status(500).send({ error: 'Failed to update '+req.body.settingKey+': '+ err.message });
-      } else {
-        res.send(JSON.stringify({success:true}));
-      }
-    });
+    config.set('mm.' + req.body.settingKey, settingValue);
+    return res.status(200).send();
   } catch(err) {
-    res.status(500).send({ error: 'Failed to update '+req.body.settingKey+': '+ err.message });
+    return res.status(500).send({ error: 'Failed to update '+req.body.settingKey+': '+ err.message });
   }
 });
 

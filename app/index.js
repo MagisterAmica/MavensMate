@@ -48,18 +48,18 @@ module.exports.start = function(opts) {
     app.use(require('./middleware/swig'));
 
     var viewHelper = new ViewHelper({
-      port: opts.port,
-      supportedEditors: new EditorService().supportedEditors
+      port             : opts.port,
+      supportedEditors : new EditorService().supportedEditors
     });
 
     swig.setDefaults({
-      runInVm: true,
-      locals: {
+      runInVm : true,
+      locals  : {
         mavensmate : {
           ui : viewHelper
         }
       },
-      loader: swig.loaders.fs(path.join(path.dirname(__dirname), 'app'))
+      loader : swig.loaders.fs(path.join(path.dirname(__dirname), 'app'))
     });
 
     app.engine('html', swig.renderFile);
@@ -85,8 +85,8 @@ module.exports.start = function(opts) {
       process.env.MAVENSMATE_CONTEXT = 'server';
       app.set('io', require('socket.io')(server));
       resolve({
-        app: app,
-        server: server
+        app    : app,
+        server : server
       });
     });
 

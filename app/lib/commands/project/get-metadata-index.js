@@ -19,13 +19,13 @@ Command.prototype.execute = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     self.getProject().getOrgMetadataIndexWithSelections()
-      .then(function(metadataIndex) {
-        resolve(metadataIndex);
-      })
-      .catch(function(error) {
-        reject(error);
-      })
-      .done();
+    .then(function(metadataIndex) {
+      resolve(metadataIndex);
+    })
+    .catch(function(error) {
+      reject(error);
+    })
+    .done();
   });
 };
 
@@ -36,7 +36,7 @@ exports.addSubCommand = function(program) {
     .description('Returns indexed metadata')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

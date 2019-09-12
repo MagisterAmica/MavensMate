@@ -25,10 +25,10 @@ var MavensMateFile  = require('../file').MavensMateFile;
 function IndexService(opts) {
   util.applyProperties(this, opts);
   if (this.project) {
-    this.metadataHelper = new MetadataHelper({ sfdcClient : this.project.sfdcClient });
+    this.metadataHelper = new MetadataHelper({ sfdcClient: this.project.sfdcClient });
     this.sfdcClient = this.project.sfdcClient;
   } else if (this.sfdcClient) {
-    this.metadataHelper = new MetadataHelper({ sfdcClient : this.sfdcClient });
+    this.metadataHelper = new MetadataHelper({ sfdcClient: this.sfdcClient });
   }
 }
 
@@ -70,7 +70,7 @@ IndexService.prototype._indexChildren = function(indexedType, typeMap, xmlName, 
             logger.silly(fileBasenameNoExtension);
             logger.silly(fileBody);
 
-            var indexedChildType = _.find(indexedType.children, { 'id': [xmlName,fileBasenameNoExtension].join('.') });
+            var indexedChildType = _.find(indexedType.children, { id: [xmlName,fileBasenameNoExtension].join('.') });
 
             logger.silly('indexedChildType -->');
             logger.silly(indexedChildType);
@@ -81,7 +81,7 @@ IndexService.prototype._indexChildren = function(indexedType, typeMap, xmlName, 
               _.forOwn(xmlObject[xmlName], function(value, tagName) {
 
                 // we're tracking this child type, now we need to add as a level 3 child
-                var matchingChildType = _.find(self.metadataHelper.childTypes, { 'tagName': tagName });
+                var matchingChildType = _.find(self.metadataHelper.childTypes, { tagName: tagName });
                 if (matchingChildType) {
 
                   var leaves = [];
@@ -101,29 +101,29 @@ IndexService.prototype._indexChildren = function(indexedType, typeMap, xmlName, 
                     }
                     if (key) {
                       leaves.push({
-                        leaf: true,
-                        checked: false,
-                        level: 4,
-                        text: key,
-                        title: key,
-                        isFolder: false,
-                        id: [xmlName, fileBasenameNoExtension, tagName, key].join('.'),
-                        select: false
+                        leaf     : true,
+                        checked  : false,
+                        level    : 4,
+                        text     : key,
+                        title    : key,
+                        isFolder : false,
+                        id       : [xmlName, fileBasenameNoExtension, tagName, key].join('.'),
+                        select   : false
                       });
                     }
                   });
 
-                  if ( !_.find(indexedChildType, { 'text' : tagName }) ) {
+                  if ( !_.find(indexedChildType, { text: tagName }) ) {
                     indexedChildType.children.push({
-                      checked: false,
-                      level: 3,
-                      id: [xmlName, fileBasenameNoExtension, tagName].join('.'),
-                      text: tagName,
-                      title: tagName,
-                      isFolder: true,
-                      children: leaves,
-                      select: false,
-                      cls: 'folder'
+                      checked  : false,
+                      level    : 3,
+                      id       : [xmlName, fileBasenameNoExtension, tagName].join('.'),
+                      text     : tagName,
+                      title    : tagName,
+                      isFolder : true,
+                      children : leaves,
+                      select   : false,
+                      cls      : 'folder'
                     });
                   }
                 }
@@ -178,18 +178,18 @@ IndexService.prototype._indexFolders = function(indexedType, typeMap, xmlName) {
           var folderName = Object.keys(r)[0];
           var folderContents = r[folderName];
 
-          var indexedFolder = _.find(indexedType.children, { 'text' : folderName });
+          var indexedFolder = _.find(indexedType.children, { text: folderName });
 
           _.each(folderContents, function(item) {
             indexedFolder.children.push({
-              leaf: true,
-              title: item.fullName.split('/')[1],
-              checked: false,
-              text: item.fullName.split('/')[1],
-              level: 3,
-              isFolder: false,
-              id: [xmlName, item.fullName.split('/')[0], item.fullName.split('/')[1]].join('.'),
-              select: false
+              leaf     : true,
+              title    : item.fullName.split('/')[1],
+              checked  : false,
+              text     : item.fullName.split('/')[1],
+              level    : 3,
+              isFolder : false,
+              id       : [xmlName, item.fullName.split('/')[0], item.fullName.split('/')[1]].join('.'),
+              select   : false
             });
           });
 
@@ -262,7 +262,7 @@ IndexService.prototype._indexType = function(typeListResult, typeMap) {
       _.each(items, function(item) {
         logger.silly('---->');
         logger.silly(item);
-        item.fullName = item.fullName || new MavensMateFile({ path : item.fileName }).name;
+        item.fullName = item.fullName || new MavensMateFile({ path: item.fileName }).name;
         item.leaf = (hasChildTypes || isFolderType) ? false : true;
         item.title = item.fullName;
         item.checked = false;
@@ -378,7 +378,7 @@ IndexService.prototype.indexServerProperties = function(typeXmlNames) {
         logger.error(error.stack);
         reject(error);
       });
-    });
+  });
 };
 
 /**

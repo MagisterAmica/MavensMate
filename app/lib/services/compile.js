@@ -31,7 +31,7 @@ var CompileDelegate = function(project, paths, force) {
   this.project = project;
   this.paths = paths;
   this.force = force;
-  this.metadataHelper = new MetadataHelper({ sfdcClient : this.project.sfdcClient });
+  this.metadataHelper = new MetadataHelper({ sfdcClient: this.project.sfdcClient });
 };
 
 // we standardize the result output to match that of the metadata api compilation/deploy response
@@ -81,31 +81,31 @@ CompileDelegate.prototype.execute = function() {
 
 CompileDelegate.prototype._flattenResults = function(compileResults) {
   var result = {
-    checkOnly: false,
-    completedDate: '',
-    createdBy: '',
-    createdByName: '',
-    createdDate: '',
-    details:
-     { componentSuccesses: [],
-       runTestResult: { numFailures: '0', numTestsRun: '0', totalTime: '0.0' },
-       componentFailures: []
+    checkOnly     : false,
+    completedDate : '',
+    createdBy     : '',
+    createdByName : '',
+    createdDate   : '',
+    details       :
+     { componentSuccesses : [],
+       runTestResult      : { numFailures: '0', numTestsRun: '0', totalTime: '0.0' },
+       componentFailures  : []
      },
-    done: false,
-    id: '',
-    ignoreWarnings: false,
-    lastModifiedDate: '',
-    numberComponentErrors: 0,
-    numberComponentsDeployed: 0,
-    numberComponentsTotal: 0,
-    numberTestErrors: 0,
-    numberTestsCompleted: 0,
-    numberTestsTotal: 0,
-    rollbackOnError: false,
-    runTestsEnabled: 'false',
-    startDate: '',
-    status: '',
-    success: true };
+    done                     : false,
+    id                       : '',
+    ignoreWarnings           : false,
+    lastModifiedDate         : '',
+    numberComponentErrors    : 0,
+    numberComponentsDeployed : 0,
+    numberComponentsTotal    : 0,
+    numberTestErrors         : 0,
+    numberTestsCompleted     : 0,
+    numberTestsTotal         : 0,
+    rollbackOnError          : false,
+    runTestsEnabled          : 'false',
+    startDate                : '',
+    status                   : '',
+    success                  : true };
 
   logger.debug('flattening results: ');
 
@@ -396,7 +396,7 @@ CompileDelegate.prototype._checkConflicts = function(files) {
             // logger.debug('remote copy:');
             // logger.debug(serverCopyResults[i]);
             if (!f.localStoreEntry) {
-              return reject(new Error('No local index found for '+f.name+'. This can happen if you fetch your project from a remote git repository. Please ensure your project subscription includes the metadata type: "'+f.type.xmlName+'", then run the "Clean Project" command to update your local index of metadata.'))
+              return reject(new Error('No local index found for '+f.name+'. This can happen if you fetch your project from a remote git repository. Please ensure your project subscription includes the metadata type: "'+f.type.xmlName+'", then run the "Clean Project" command to update your local index of metadata.'));
               return false;
             }
 
@@ -413,8 +413,8 @@ CompileDelegate.prototype._checkConflicts = function(files) {
               serverCopyResults[i].tempPath = tempFile.path;
 
               conflicts[f.basename] = {
-                local: f.localStoreEntry,
-                remote: serverCopyResults[i]
+                local  : f.localStoreEntry,
+                remote : serverCopyResults[i]
               };
             }
           });

@@ -56,7 +56,7 @@ ApexScriptService.prototype.execute = function(scriptPaths) {
     _.each(scriptPaths, function(sp) {
       var scriptBody = util.getFileBody(sp);
       var payload = {
-        body: scriptBody
+        body : scriptBody
       };
       scriptPromises.push ( self.project.sfdcClient.executeApex(payload) );
     });

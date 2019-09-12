@@ -27,12 +27,12 @@ CheckpointService.prototype.createCheckpoint = function(filePath, lineNumber) {
     logger.debug(lineNumber);
     var mmf = new mavensMateFile.MavensMateFile({ project: self.project, path: filePath });
     self.project.sfdcClient.conn.tooling.sobject('ApexExecutionOverlayAction').create({
-      ActionScriptType : 'None',
+      ActionScriptType   : 'None',
       ExecutableEntityId : mmf.id,
-      IsDumpingHeap : true,
-      Iteration : 1,
-      Line : lineNumber,
-      ScopeId : self.project.sfdcClient.getUserId()
+      IsDumpingHeap      : true,
+      Iteration          : 1,
+      Line               : lineNumber,
+      ScopeId            : self.project.sfdcClient.getUserId()
     }, function(err, res) {
       if (err) {
         reject(err);

@@ -30,14 +30,14 @@ LogService.prototype.downloadLog = function(logId) {
 
     var url = self.project.sfdcClient.conn.tooling._baseUrl() + '/sobjects/ApexLog/'+logId+'/Body';
     self.project.sfdcClient.conn.tooling.request(url, function(err, res) {
-      if (err) { 
-        reject(new Error('Could not download log: '+err.message));  
+      if (err) {
+        reject(new Error('Could not download log: '+err.message));
       } else {
         var logFileName = [moment().format('YYYY-MM-DD HH-mm-ss'), 'log'].join('.');
         var filePath = path.join(self.project.path, 'debug', 'logs', logFileName);
         fs.outputFile(filePath, res, function(e) {
           if (e) {
-            reject(new Error('Could not write log file: '+e.message));  
+            reject(new Error('Could not write log file: '+e.message));
           } else {
             self.emit('mavensmate-log-downloaded', filePath);
             resolve(filePath);
@@ -59,7 +59,7 @@ LogService.prototype.getLogs = function() {
           logPaths.push(path.join(projectLogsPath, f));
         });
         logPaths.sort(function(a, b){
-            return moment(b, 'YYYY-MM-DD HH:mm:ss').toDate().getTime() 
+          return moment(b, 'YYYY-MM-DD HH:mm:ss').toDate().getTime()
                     - moment(a, 'YYYY-MM-DD HH:mm:ss').toDate().getTime();
         });
         resolve(logPaths);
@@ -75,7 +75,7 @@ LogService.prototype.getLog = function(location) {
   return new Promise(function(resolve, reject) {
     try {
       if (!fs.existsSync(location)) {
-        return reject(new Error('Log file not found'))
+        return reject(new Error('Log file not found'));
       }
       fs.readFile(location, 'utf8', function (err, data) {
         if (err) {
@@ -97,7 +97,7 @@ LogService.prototype.filter = function(location, keyword) {
   return new Promise(function(resolve, reject) {
     try {
       if (!fs.existsSync(location)) {
-        return reject(new Error('Log file not found'))
+        return reject(new Error('Log file not found'));
       }
       var matchingLines = [];
       /*

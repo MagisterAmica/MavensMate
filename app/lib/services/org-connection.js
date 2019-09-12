@@ -4,7 +4,7 @@
  */
 
 'use strict';
-var Promise                 = require('bluebird');
+var Promise           = require('bluebird');
 var _                 = require('lodash');
 var fs                = require('fs-extra');
 var path              = require('path');
@@ -87,17 +87,17 @@ OrgConnectionService.prototype.add = function(opts) {
     var connectionId = uuid.v1();
     if (opts.username && opts.password) {
       var newConnection = {
-        name: opts.name,
-        id: connectionId,
-        username: opts.username,
-        orgType: opts.orgType,
-        loginUrl: opts.loginUrl
+        name     : opts.name,
+        id       : connectionId,
+        username : opts.username,
+        orgType  : opts.orgType,
+        loginUrl : opts.loginUrl
       };
     } else {
       var newConnection = {
-        name: opts.name,
-        id: connectionId,
-        instanceUrl: opts.instanceUrl
+        name        : opts.name,
+        id          : connectionId,
+        instanceUrl : opts.instanceUrl
       };
     }
 
@@ -119,17 +119,17 @@ OrgConnectionService.prototype.add = function(opts) {
 
     if (opts.username && opts.password) {
       var orgConnectionClient = new SalesforceClient({
-        username: opts.username,
-        password: opts.password,
-        instanceUrl: opts.instanceUrl,
-        loginUrl: opts.loginUrl,
-        orgType: opts.orgType
+        username    : opts.username,
+        password    : opts.password,
+        instanceUrl : opts.instanceUrl,
+        loginUrl    : opts.loginUrl,
+        orgType     : opts.orgType
       });
     } else {
       var orgConnectionClient = new SalesforceClient({
-        accessToken: opts.accessToken,
-        refreshToken: opts.refreshToken,
-        instanceUrl: opts.instanceUrl
+        accessToken  : opts.accessToken,
+        refreshToken : opts.refreshToken,
+        instanceUrl  : opts.instanceUrl
       });
     }
     orgConnectionClient.initialize()

@@ -47,14 +47,14 @@ inherits(Deploy, events.EventEmitter);
 
 Deploy.prototype.getResultHtml = function(targets, deployOptions, deployResult) {
   var resultHtml = swig.renderFile('views/deploy/result.html', {
-    results: deployResult,
-    targets: targets,
-    deployOptions: deployOptions,
-    project: this.project
+    results       : deployResult,
+    targets       : targets,
+    deployOptions : deployOptions,
+    project       : this.project
   });
   return {
-    html: resultHtml,
-    object: deployResult
+    html   : resultHtml,
+    object : deployResult
   };
 };
 
@@ -66,8 +66,8 @@ Deploy.prototype.getNamedDeployments = function() {
   var namedDeployments = [];
   // this is the default deployment, based on the project's package.xml
   namedDeployments.push({
-    name: 'Project package.xml',
-    path: path.join(self.project.path, 'src', 'package.xml')
+    name : 'Project package.xml',
+    path : path.join(self.project.path, 'src', 'package.xml')
   });
   if (!fs.existsSync(path.join(this.project.path, 'deploy'))) {
     return namedDeployments;
@@ -75,8 +75,8 @@ Deploy.prototype.getNamedDeployments = function() {
     // these are custom "named deploys"
     _.each(util.listDirectories(path.join(this.project.path, 'deploy')), function(savedDeployPath) {
       namedDeployments.push({
-        name: path.basename(savedDeployPath),
-        path: path.join(savedDeployPath, 'unpackaged', 'package.xml')
+        name : path.basename(savedDeployPath),
+        path : path.join(savedDeployPath, 'unpackaged', 'package.xml')
       });
     });
     return namedDeployments;
@@ -90,14 +90,14 @@ Deploy.prototype.getNamedDeployments = function() {
  */
 Deploy.prototype.compileWithMetadataApi = function(files, subscription) {
   var self = this;
-    return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
 
     logger.debug('compiling metadata via metadata api: ');
     // logger.debug(metadata);
     var deployResult;
     self.stage(files, subscription)
       .then(function(zipStream) {
-        return self.project.sfdcClient.deploy(zipStream, { rollbackOnError : true, performRetrieve: true });
+        return self.project.sfdcClient.deploy(zipStream, { rollbackOnError: true, performRetrieve: true });
       })
       .then(function(result) {
         logger.debug('Compile result: ');
@@ -134,8 +134,8 @@ Deploy.prototype.executeRemote = function(deployOptions) {
 
     var deployPromises = [];
     deployOptions = deployOptions || {
-      rollbackOnError: true,
-      performRetrieve: true
+      rollbackOnError : true,
+      performRetrieve : true
     };
 
     var newPath = temp.mkdirSync({ prefix: 'mm_' });
@@ -305,7 +305,7 @@ Deploy.prototype.execute = function(file, deployOptions) {
 
     if (!deployOptions) {
       deployOptions = {
-        rollbackOnError: true
+        rollbackOnError : true
       };
     }
 
@@ -366,9 +366,9 @@ Deploy.prototype.execute = function(file, deployOptions) {
         logger.debug(err);
         logger.debug(err.stack);
         if (err.message.indexOf('polling time out') >= 0) {
-            reject(new Error('MavensMate timed out while polling Salesforce.com servers. To increase polling timeout, set mm_timeout to number of seconds.'));
+          reject(new Error('MavensMate timed out while polling Salesforce.com servers. To increase polling timeout, set mm_timeout to number of seconds.'));
         } else {
-            reject(err);
+          reject(err);
         }
       })
       .done();
@@ -408,16 +408,16 @@ Deploy.prototype._deployToTarget = function(target, deployPath, deployOptions) {
       .then(function() {
         if (target.username && target.password) {
           deployClient = new SalesforceClient({
-            username: target.username,
-            password: target.password,
-            orgType: target.orgType,
-            loginUrl: target.loginUrl
+            username : target.username,
+            password : target.password,
+            orgType  : target.orgType,
+            loginUrl : target.loginUrl
           });
         } else {
           deployClient = new SalesforceClient({
-            accessToken: target.accessToken,
-            refreshToken: target.refreshToken,
-            instanceUrl: target.instanceUrl
+            accessToken  : target.accessToken,
+            refreshToken : target.refreshToken,
+            instanceUrl  : target.instanceUrl
           });
         }
         return deployClient.initialize();

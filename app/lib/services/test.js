@@ -87,8 +87,8 @@ ApexTest.prototype.execute = function() {
         }
         var apexClassId = localStore[path.basename(test.testNameOrPath)].id;
         testsPayload.push({
-          classId: apexClassId,
-          testMethods: test.methodNames
+          classId     : apexClassId,
+          testMethods : test.methodNames
         });
         testClassIds.push(apexClassId);
       });
@@ -136,7 +136,7 @@ ApexTest.prototype.execute = function() {
         _.each(classResults.records, function(classResult) {
           var key = classResult.ApexClass.Name;
           testResults[key] = classResult;
-          testResults[key].results = _.where(methodResults.records, { ApexClassId : classResult.ApexClassId });
+          testResults[key].results = _.where(methodResults.records, { ApexClassId: classResult.ApexClassId });
         });
 
         if (self.skipCoverage) {

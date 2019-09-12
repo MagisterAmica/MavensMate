@@ -118,7 +118,7 @@ EditorService.prototype.openUrl = function(url) {
         resolve();
       } else if (os.platform() === 'darwin') {
         var browserChildProcess = spawn('open', [url], {
-          detached: true
+          detached : true
         });
 
         browserChildProcess.on('close', function (code) {

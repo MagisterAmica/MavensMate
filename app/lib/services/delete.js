@@ -28,7 +28,7 @@ var DeleteDelegate = function(project, paths) {
   }
   this.project = project;
   this.paths = paths;
-  this.metadataHelper = new MetadataHelper({ sfdcClient : this.project.sfdcClient });
+  this.metadataHelper = new MetadataHelper({ sfdcClient: this.project.sfdcClient });
 };
 
 /**
@@ -97,7 +97,7 @@ DeleteDelegate.prototype._performDelete = function() {
 
     var result = {};
     var deployOptions = {
-      purgeOnDelete: config.get('mm_purge_on_delete') || false
+      purgeOnDelete : config.get('mm_purge_on_delete') || false
     };
     var deploy = new Deploy({ project: self.project });
     deploy.stageDelete(deleteSubscription)
@@ -141,7 +141,7 @@ DeleteDelegate.prototype._performDelete = function() {
             }
             result.numberComponentsTotal++;
           });
-          if (!_.find(res, { 'success': false })) {
+          if (!_.find(res, { success: false })) {
             _.each(lightningBundleItemFiles, function(sp) {
               sp.deleteLocally();
             });

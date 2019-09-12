@@ -146,4 +146,3 @@ ResourceBundleService.prototype._zip = function(bundlePath, staticResourcePath) 
 };
 
 module.exports = ResourceBundleService;
-

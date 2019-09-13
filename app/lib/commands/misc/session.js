@@ -27,11 +27,11 @@ Command.prototype.execute = function() {
     sfdcClient.initialize()
       .then(function() {
         var response = {
-          sid: sfdcClient.conn.accessToken,
-          urls: sfdcClient.conn.userInfo.urls,
-          instanceUrl: sfdcClient.conn.instanceUrl,
-          username: sfdcClient.conn.userInfo.username,
-          metadataTypes: _.sortBy(sfdcClient.describeCache.metadataObjects, 'xmlName')
+          sid           : sfdcClient.conn.accessToken,
+          urls          : sfdcClient.conn.userInfo.urls,
+          instanceUrl   : sfdcClient.conn.instanceUrl,
+          username      : sfdcClient.conn.userInfo.username,
+          metadataTypes : _.sortBy(sfdcClient.describeCache.metadataObjects, 'xmlName')
         };
         resolve(response);
       })
@@ -53,11 +53,11 @@ exports.addSubCommand = function(program) {
     .action(function(username, password, orgType) {
       if (username && password) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: {
+          name : this._name,
+          body : {
             username : username,
-            password: password,
-            orgType: orgType || 'developer'
+            password : password,
+            orgType  : orgType || 'developer'
           }
         });
       } else {
@@ -65,9 +65,9 @@ exports.addSubCommand = function(program) {
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

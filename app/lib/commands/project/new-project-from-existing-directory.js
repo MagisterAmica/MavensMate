@@ -48,15 +48,15 @@ Command.prototype.execute = function() {
             return self.editorService.open(newProject.path);
           } else {
             return resolve({
-              message: 'Project created successfully',
-              id: newProject.id
+              message : 'Project created successfully',
+              id      : newProject.id
             });
           }
         })
         .then(function() {
           return resolve({
-            message: 'Project created successfully',
-            id: newProject.id
+            message : 'Project created successfully',
+            id      : newProject.id
           });
         })
         .catch(function(error) {
@@ -81,17 +81,17 @@ exports.addSubCommand = function(program) {
       // else read STDIN
       if (this.ui) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { args: { ui: true, origin: this.directory } }
+          name : this._name,
+          body : { args: { ui: true, origin: this.directory } }
         });
       } else {
         var self = this;
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

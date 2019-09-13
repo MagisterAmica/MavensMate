@@ -41,7 +41,7 @@ exports.addSubCommand = function(program) {
     .description('Starts logging Apex execution for all user ids listed in your project\'s config/.debug file')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

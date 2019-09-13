@@ -17,15 +17,15 @@ var archiver    = require('archiver');
 var logger      = require('winston');
 var which       = require('which');
 var camelize    = require('./utilities/camelize');
-var yauzl       = require("yauzl");
+var yauzl       = require('yauzl');
 
 var platformHash = {
-  darwin: 'osx',
-  linux: 'linux',
-  win32: 'windows'
+  darwin : 'osx',
+  linux  : 'linux',
+  win32  : 'windows'
 };
 
-exports.platformConfigKey = platformHash[os.platform()]
+exports.platformConfigKey = platformHash[os.platform()];
 
 exports.getAppRoot = function() {
   return path.resolve(path.join(__dirname, '..', '..'));
@@ -343,7 +343,7 @@ exports.zipDirectory = function(directoryToZip, zipFileDestination, dest, ext, f
 
     archive.pipe(output);
     archive.bulk([
-        { src: ['**'], dest: dest }
+      { src: ['**'], dest: dest }
     ]);
     archive.finalize();
   });
@@ -412,7 +412,7 @@ exports.unzipLegacy = function(tmpZipLocation, destination) {
       }
     });
   });
-}
+};
 
 exports.unzip = function(tmpZipLocation, destination) {
   logger.debug('unzipping response via yauzl');

@@ -45,18 +45,18 @@ exports.addSubCommand = function(program) {
     .action(function(/* Args here */){
       if (this.ui) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { args: { ui: true } },
-          editor: this.parent.editor
+          name   : this._name,
+          body   : { args: { ui: true } },
+          editor : this.parent.editor
         });
       } else {
         var self = this;
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

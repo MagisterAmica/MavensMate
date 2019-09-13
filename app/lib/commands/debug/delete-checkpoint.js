@@ -39,10 +39,10 @@ exports.addSubCommand = function(program) {
     .description('Creates Apex checkpoint')
     .action(function(filePath, lineNumber){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
-          path: filePath,
-          lineNumber: lineNumber
+        name : this._name,
+        body : {
+          path       : filePath,
+          lineNumber : lineNumber
         }
       });
     });

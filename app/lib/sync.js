@@ -25,7 +25,7 @@ var SyncDelegate = function(project, path, force) {
   this.project = project;
   this.path = path;
   this.force = force;
-  this.metadataHelper = new MetadataHelper({ sfdcClient : this.project.sfdcClient });
+  this.metadataHelper = new MetadataHelper({ sfdcClient: this.project.sfdcClient });
 };
 
 /**
@@ -43,9 +43,9 @@ SyncDelegate.prototype.execute = function() {
 
       mmFile.serverCopy
         .then(function(serverCopyResult) {
-          
+
           if (!mmFile.localStoreEntry) {
-            return reject(new Error('No local index found for '+mmFile.name+'. This can happen if you fetch your project from a remote git repository. Please ensure your project subscription includes the metadata type: "'+mmFile.type.xmlName+'", then run the "Clean Project" command to update your local index of metadata.'))
+            return reject(new Error('No local index found for '+mmFile.name+'. This can happen if you fetch your project from a remote git repository. Please ensure your project subscription includes the metadata type: "'+mmFile.type.xmlName+'", then run the "Clean Project" command to update your local index of metadata.'));
             return false;
           }
 
@@ -67,8 +67,8 @@ SyncDelegate.prototype.execute = function() {
             serverCopyResult.tempPath = tempFile.path;
 
             var result = {
-              local: mmFile.localStoreEntry,
-              remote: serverCopyResult
+              local  : mmFile.localStoreEntry,
+              remote : serverCopyResult
             };
             return resolve(result);
           } else {

@@ -36,7 +36,7 @@ exports.addSubCommand = function(program) {
     .description('List projects in all workspaces')
     .action(function() {
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

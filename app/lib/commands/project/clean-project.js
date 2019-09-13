@@ -53,7 +53,7 @@ exports.addSubCommand = function(program) {
     .description('Retrieves metadata from server based on project package.xml file, resets session')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

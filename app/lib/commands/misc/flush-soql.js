@@ -43,7 +43,7 @@ exports.addSubCommand = function(program) {
     .description('Deletes all soql files in a project')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

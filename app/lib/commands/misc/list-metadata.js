@@ -25,9 +25,9 @@ Command.prototype.execute = function() {
   return new Promise(function(resolve, reject) {
     logger.debug('payload', self.payload);
     var sfdcClient = new SalesforceClient({
-      accessToken: self.payload.accessToken,
-      instanceUrl: self.payload.instanceUrl,
-      transient: true
+      accessToken : self.payload.accessToken,
+      instanceUrl : self.payload.instanceUrl,
+      transient   : true
     });
     sfdcClient.initialize()
       .then(function() {
@@ -52,9 +52,9 @@ exports.addSubCommand = function(program) {
     .action(function(typeXmlName) {
       if (typeXmlName) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: {
-           metadataTypes: [typeXmlName]
+          name : this._name,
+          body : {
+            metadataTypes : [typeXmlName]
           }
         });
       } else {
@@ -62,9 +62,9 @@ exports.addSubCommand = function(program) {
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

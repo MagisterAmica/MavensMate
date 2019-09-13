@@ -25,15 +25,15 @@ exports.getTestCreds = function() {
     } catch(e){}
 
     return {
-      username: 'mm'+parallelismIndex+'@force.com',
-      password: 'force',
-      orgType: process.env.SALESFORCE_ORG_TYPE || 'developer'
+      username : 'mm'+parallelismIndex+'@force.com',
+      password : 'force',
+      orgType  : process.env.SALESFORCE_ORG_TYPE || 'developer'
     };
   } else {
     return {
-      username: process.env.SALESFORCE_USERNAME || 'mm4@force.com',
-      password: process.env.SALESFORCE_PASSWORD || 'force',
-      orgType: process.env.SALESFORCE_ORG_TYPE || 'developer'
+      username : process.env.SALESFORCE_USERNAME || 'mm4@force.com',
+      password : process.env.SALESFORCE_PASSWORD || 'force',
+      orgType  : process.env.SALESFORCE_ORG_TYPE || 'developer'
     };
   }
 };
@@ -101,13 +101,13 @@ exports.addProject = function(projectName) {
     // process.env.mm_workspace = path.join(self.baseTestDirectory(),'workspace');
     var creds = self.getTestCreds();
     var sfdcClient = new SalesforceClient({
-      username: creds.username,
-      password: creds.password,
-      orgType: creds.orgType
+      username : creds.username,
+      password : creds.password,
+      orgType  : creds.orgType
     });
     var project = new Project({
-      path: path.join(self.baseTestDirectory(),'workspace', projectName),
-      sfdcClient: sfdcClient
+      path       : path.join(self.baseTestDirectory(),'workspace', projectName),
+      sfdcClient : sfdcClient
     });
     project.initialize(false)
       .then(function(proj) {
@@ -137,14 +137,14 @@ exports.cleanUpTestData = function(project, paths) {
       }
     });
     var payload = {
-      paths: pathsToDelete
+      paths : pathsToDelete
     };
     var commandExecutor = self.getCommandExecutor();
     commandExecutor.execute({
-        name: 'delete-metadata',
-        body: payload,
-        project: project
-      })
+      name    : 'delete-metadata',
+      body    : payload,
+      project : project
+    })
       .then(function(res) {
         resolve(res);
       })
@@ -168,9 +168,9 @@ exports.createNewMetadata = function(project, typeXmlName, name, templateFileNam
       .then(function(payload) {
         var commandExecutor = self.getCommandExecutor();
         return commandExecutor.execute({
-          name: 'new-metadata',
-          body: payload,
-          project: project
+          name    : 'new-metadata',
+          body    : payload,
+          project : project
         });
       })
       .then(function(response) {
@@ -191,33 +191,33 @@ exports.getNewMetadataPayload = function(typeXmlName, apiName, templateFileName,
     var template;
     if (!templateFileName) {
       template = {
-        author: 'MavensMate',
-        name: 'Default',
-        description: 'The default template for an Apex Class',
-        file_name: 'ApexClass.cls',
-        params: [
+        author      : 'MavensMate',
+        name        : 'Default',
+        description : 'The default template for an Apex Class',
+        file_name   : 'ApexClass.cls',
+        params      : [
           {
-              default: 'MyApexClass',
-              name: 'api_name',
-              description: 'Apex Class API Name'
+            default     : 'MyApexClass',
+            name        : 'api_name',
+            description : 'Apex Class API Name'
           }
         ]
       };
       var payload = {
-        metadataTypeXmlName: typeXmlName,
-        templateValues: templateValues || { 'api_name': apiName },
-        template: template
+        metadataTypeXmlName : typeXmlName,
+        templateValues      : templateValues || { api_name: apiName },
+        template            : template
       };
       resolve(payload);
     } else {
       var templateService = new TemplateService();
       templateService.getTemplatesForType(typeXmlName)
         .then(function(templates) {
-          var template = _.find(templates, { file_name : templateFileName });
+          var template = _.find(templates, { file_name: templateFileName });
           var payload = {
-            metadataTypeXmlName: typeXmlName,
-            templateValues: templateValues || { 'api_name': apiName },
-            template: template
+            metadataTypeXmlName : typeXmlName,
+            templateValues      : templateValues || { api_name: apiName },
+            template            : template
           };
           resolve(payload);
         })
@@ -240,7 +240,7 @@ exports.mockExpress = function(project) {
   res.locals.project = project;
   req.project = project;
   return {
-    req: req,
-    res: res
+    req : req,
+    res : res
   };
 };

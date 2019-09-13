@@ -27,7 +27,7 @@ var RefreshDelegate = function(project, paths) {
   }
   this.project = project;
   this.paths = paths;
-  this.metadataHelper = new MetadataHelper({ sfdcClient : this.project.sfdcClient });
+  this.metadataHelper = new MetadataHelper({ sfdcClient: this.project.sfdcClient });
 };
 
 /**

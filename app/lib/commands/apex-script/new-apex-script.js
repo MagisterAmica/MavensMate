@@ -39,8 +39,8 @@ exports.addSubCommand = function(program) {
     .action(function(scriptName){
       if (scriptName) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { name: scriptName }
+          name : this._name,
+          body : { name: scriptName }
         });
       } else {
         console.error('Please specify a script name');

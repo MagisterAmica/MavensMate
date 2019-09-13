@@ -34,8 +34,8 @@ Command.prototype.execute = function() {
         })
         .catch(function(err) {
           reject({
-            message: 'Could not open new metadata UI',
-            error: err
+            message : 'Could not open new metadata UI',
+            error   : err
           });
         });
     } else {
@@ -104,17 +104,17 @@ exports.addSubCommand = function(program) {
     .action(function() {
       if (this.ui) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { args: { ui: true, type: this.type } }
+          name : this._name,
+          body : { args: { ui: true, type: this.type } }
         });
       } else {
         var self = this;
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

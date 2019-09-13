@@ -40,7 +40,7 @@ exports.addSubCommand = function(program) {
     .description('Launches the default ui')
     .action(function() {
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

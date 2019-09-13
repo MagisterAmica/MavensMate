@@ -40,8 +40,8 @@ exports.addSubCommand = function(program) {
     .description('Removes a new deployment connection')
     .action(function(connectionId){
       program.commandExecutor.execute({
-        name: this._name,
-        body: { id: connectionId }
+        name : this._name,
+        body : { id: connectionId }
       });
     });
 };

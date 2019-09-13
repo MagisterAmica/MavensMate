@@ -39,9 +39,9 @@ exports.addSubCommand = function(program) {
       util.getPayload()
         .then(function(payload) {
           program.commandExecutor.execute({
-            name: self._name,
-            body: payload,
-            editor: self.parent.editor
+            name   : self._name,
+            body   : payload,
+            editor : self.parent.editor
           });
         });
     });

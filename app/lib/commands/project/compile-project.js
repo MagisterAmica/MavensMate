@@ -37,7 +37,7 @@ exports.addSubCommand = function(program) {
     .description('Compiles project based on package.xml')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

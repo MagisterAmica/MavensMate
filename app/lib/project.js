@@ -225,8 +225,8 @@ Project.prototype._initExisting = function() {
     }
 
     self.packageXml = new Package({
-      project: self,
-      path: path.join(self.path, 'src', 'package.xml')
+      project : self,
+      path    : path.join(self.path, 'src', 'package.xml')
     });
     self.packageXml.init()
       .then(function() {
@@ -234,21 +234,21 @@ Project.prototype._initExisting = function() {
           logger.debug('Creating new sfdc client', self.settings, creds);
           if (creds.refreshToken) {
             self.sfdcClient = new SalesforceClient({
-              username: self.settings.username,
-              accessToken: creds.accessToken,
-              refreshToken: creds.refreshToken,
-              instanceUrl: self.settings.instanceUrl,
-              loginUrl: self.settings.loginUrl,
-              orgType: self.settings.orgType,
-              clientId: self.settings.clientId
+              username     : self.settings.username,
+              accessToken  : creds.accessToken,
+              refreshToken : creds.refreshToken,
+              instanceUrl  : self.settings.instanceUrl,
+              loginUrl     : self.settings.loginUrl,
+              orgType      : self.settings.orgType,
+              clientId     : self.settings.clientId
             });
           } else {
             self.sfdcClient = new SalesforceClient({
-              username: self.settings.username,
-              password: creds.password,
-              loginUrl: self.settings.loginUrl,
-              orgType: self.settings.orgType,
-              clientId: self.settings.clientId
+              username : self.settings.username,
+              password : creds.password,
+              loginUrl : self.settings.loginUrl,
+              orgType  : self.settings.orgType,
+              clientId : self.settings.clientId
             });
           }
           self._listenForTokenUpdates();
@@ -473,16 +473,16 @@ Project.prototype._initConfig = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     var settings = {
-      projectName: self.name,
-      username: self.sfdcClient.getUsername(),
-      id: self.id,
-      namespace: self.sfdcClient.getNamespace() || '',
-      orgType: self.sfdcClient.getOrgType(),
-      loginUrl: self.sfdcClient.getLoginUrl(),
-      instanceUrl: self.sfdcClient.getInstanceUrl(),
-      workspace: self.workspace,
-      subscription: self.subscription || config.get('mm_default_subscription'),
-      clientId: ((config.get('mm_oauth_client_id') !== self.sfdcClient.getClientId()) ? self.sfdcClient.getClientId() : undefined),
+      projectName  : self.name,
+      username     : self.sfdcClient.getUsername(),
+      id           : self.id,
+      namespace    : self.sfdcClient.getNamespace() || '',
+      orgType      : self.sfdcClient.getOrgType(),
+      loginUrl     : self.sfdcClient.getLoginUrl(),
+      instanceUrl  : self.sfdcClient.getInstanceUrl(),
+      workspace    : self.workspace,
+      subscription : self.subscription || config.get('mm_default_subscription'),
+      clientId     : ((config.get('mm_oauth_client_id') !== self.sfdcClient.getClientId()) ? self.sfdcClient.getClientId() : undefined),
     };
     self.writeSettings(settings);
     self._writeCredentials();
@@ -590,7 +590,7 @@ Project.prototype.compile = function() {
         util.zipDirectory(path.join(newPath, 'unpackaged'), newPath)
           .then(function() {
             var zipStream = fs.createReadStream(path.join(newPath, 'unpackaged.zip'));
-            return self.sfdcClient.deploy(zipStream, { rollbackOnError : true, performRetrieve: true });
+            return self.sfdcClient.deploy(zipStream, { rollbackOnError: true, performRetrieve: true });
           })
           .then(function(result) {
             logger.debug('Compile result: ');
@@ -634,7 +634,7 @@ Project.prototype._explodePackage = async function(pkg) {
 
     pkg[type] = [];
 
-    let type_collection = _.find(project_metadata, function (item) { return item.id === type });
+    let type_collection = _.find(project_metadata, function (item) { return item.id === type; });
 
     _.each(type_collection.children, function(child) {
       pkg[type].push(child.fullName);
@@ -659,7 +659,7 @@ Project.prototype.edit = function(pkg) {
     self._explodePackage(pkg)
     .then((pkg) => {
       logger.debug('editing project, exploded package is: ', pkg);
-      return self.sfdcClient.retrieveUnpackaged(pkg, true, retrievePath)
+      return self.sfdcClient.retrieveUnpackaged(pkg, true, retrievePath);
     })
     .then(function(retrieveResult) {
       return self._writeLocalStore(retrieveResult.fileProperties);
@@ -964,7 +964,7 @@ Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, pac
                     }
                     if (packageMembers === '*') {
                       ids.push(metadataTypeXmlName);
-                      var indexedType = _.find(orgMetadata, { 'xmlName': metadataTypeXmlName });
+                      var indexedType = _.find(orgMetadata, { xmlName: metadataTypeXmlName });
                       if (_.has(indexedType, 'children')) {
                         _.each(indexedType.children, function(child) {
                           child.select = true;
@@ -980,9 +980,9 @@ Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, pac
                           var id = [ parentMetadataType.xmlName, member.split('.')[0], metadataType.tagName, member.split('.')[1] ].join('.');
                           ids.push(id);
                         } else if (_.has(metadataType, 'childXmlNames')) {
-                          var indexedType = _.find(orgMetadata, { 'xmlName': metadataTypeXmlName });
+                          var indexedType = _.find(orgMetadata, { xmlName: metadataTypeXmlName });
                           if (indexedType) {
-                            var indexedNode = _.find(indexedType.children, { 'id': [metadataTypeXmlName, member].join('.')});
+                            var indexedNode = _.find(indexedType.children, { id: [metadataTypeXmlName, member].join('.')});
                             if (_.has(indexedNode, 'children')) {
                               _.each(indexedNode.children, function(child) {
                                 child.select = true;
@@ -1188,20 +1188,20 @@ Project.prototype._writeDebug = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     var debug = {
-      users: [self.sfdcClient.getUserId()],
-      logType: 'USER_DEBUG',
-      debugLevelName: 'MAVENSMATE',
-      levels: {
-        Workflow: 'INFO',
-        Callout: 'INFO',
-        System: 'DEBUG',
-        Database: 'INFO',
-        ApexCode: 'DEBUG',
-        ApexProfiling: 'INFO',
-        Validation: 'INFO',
-        Visualforce: 'DEBUG'
+      users          : [self.sfdcClient.getUserId()],
+      logType        : 'USER_DEBUG',
+      debugLevelName : 'MAVENSMATE',
+      levels         : {
+        Workflow      : 'INFO',
+        Callout       : 'INFO',
+        System        : 'DEBUG',
+        Database      : 'INFO',
+        ApexCode      : 'DEBUG',
+        ApexProfiling : 'INFO',
+        Validation    : 'INFO',
+        Visualforce   : 'DEBUG'
       },
-      expiration: 480
+      expiration : 480
     };
 
     var filePath = path.join(self.path, 'config', '.debug');
@@ -1228,8 +1228,8 @@ Project.prototype._writeEditorSettings = function() {
     var sublimeSettings = {
       folders : [
         {
-          "folder_exclude_patterns": [
-              "config/.symbols"
+          folder_exclude_patterns : [
+            'config/.symbols'
           ],
           path : '.'
         }
@@ -1237,20 +1237,20 @@ Project.prototype._writeEditorSettings = function() {
       settings : {
         auto_complete_triggers : [
           {
-              characters: '.',
-              selector: 'source - comment'
+            characters : '.',
+            selector   : 'source - comment'
           },
           {
-              characters: ':',
-              selector: 'text.html - comment'
+            characters : ':',
+            selector   : 'text.html - comment'
           },
           {
-              characters: '<',
-              selector: 'text.html - comment'
+            characters : '<',
+            selector   : 'text.html - comment'
           },
           {
-              characters: ' ',
-              selector: 'text.html - comment'
+            characters : ' ',
+            selector   : 'text.html - comment'
           }
         ]
       }
@@ -1305,32 +1305,32 @@ Project.prototype.updateCredentials = function(creds) {
     var instanceUrl = creds.instanceUrl;
     if (username && password) {
       self.sfdcClient = new SalesforceClient({
-        username: username,
-        password: password,
-        orgType: orgType,
-        loginUrl: loginUrl,
-        instanceUrl: instanceUrl
+        username    : username,
+        password    : password,
+        orgType     : orgType,
+        loginUrl    : loginUrl,
+        instanceUrl : instanceUrl
       });
     } else {
       self.sfdcClient = new SalesforceClient({
-        username: username,
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        orgType: orgType,
-        loginUrl: loginUrl,
-        instanceUrl: instanceUrl
+        username     : username,
+        accessToken  : accessToken,
+        refreshToken : refreshToken,
+        orgType      : orgType,
+        loginUrl     : loginUrl,
+        instanceUrl  : instanceUrl
       });
     }
     self.sfdcClient.initialize()
       .then(function() {
         self._writeCredentials(true);
         self.writeSettings({
-          username: username,
-          orgType: orgType,
-          loginUrl: loginUrl,
-          instanceUrl: instanceUrl
+          username    : username,
+          orgType     : orgType,
+          loginUrl    : loginUrl,
+          instanceUrl : instanceUrl
         });
-        return self._updateDebug('users', [self.sfdcClient.getUserId()])
+        return self._updateDebug('users', [self.sfdcClient.getUserId()]);
       })
       .then(function() {
         if (self.requiresAuthentication) {
@@ -1379,12 +1379,12 @@ Project.prototype._writeCredentials = function(replace) {
       logger.debug('storing credentials in config/.credentials');
       if (self.sfdcClient.password) {
         fs.writeFileSync(path.join(self.path, 'config', '.credentials'), JSON.stringify({
-          password: self.sfdcClient.password
+          password : self.sfdcClient.password
         }, null, 4));
       } else {
         fs.writeFileSync(path.join(self.path, 'config', '.credentials'), JSON.stringify({
-          accessToken: self.sfdcClient.accessToken,
-          refreshToken: self.sfdcClient.refreshToken
+          accessToken  : self.sfdcClient.accessToken,
+          refreshToken : self.sfdcClient.refreshToken
         }, null, 4));
       }
     }
@@ -1404,10 +1404,10 @@ Project.prototype._readCredentials = function() {
       return fs.readJsonSync(path.join(this.path, 'config', '.credentials'));
     } else {
       return {
-        accessToken: this.keychainService.getPassword(this.settings.id, 'accessToken', true),
-        refreshToken: this.keychainService.getPassword(this.settings.id, 'refreshToken', true),
-        password: this.keychainService.getPassword(this.settings.id, 'password', true)
-      }
+        accessToken  : this.keychainService.getPassword(this.settings.id, 'accessToken', true),
+        refreshToken : this.keychainService.getPassword(this.settings.id, 'refreshToken', true),
+        password     : this.keychainService.getPassword(this.settings.id, 'password', true)
+      };
     }
   } catch(err) {
     logger.error('Error reading credentials -->', err);

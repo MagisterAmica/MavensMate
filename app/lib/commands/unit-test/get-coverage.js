@@ -21,7 +21,7 @@ Command.prototype.execute = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     var test = new ApexTest({
-      project: self.getProject()
+      project : self.getProject()
     });
     var commandPromise;
     if (self.payload.global) {
@@ -44,25 +44,25 @@ Command.prototype.execute = function() {
 
 exports.command = Command;
 exports.addSubCommand = function(program) {
-	program
+  program
 		.command('get-coverage [apexClassOrTriggerPath]')
     .option('-g, --global', 'Org-wide coverage')
 		.description('Gets coverage for a specified class')
 		.action(function(apexClassOrTriggerPath){
-      if (this.global) {
-        program.commandExecutor.execute({
-          name: this._name,
-          body: {
-            global: true
-          }
-        });
-      } else {
-        program.commandExecutor.execute({
-          name: this._name,
-          body: {
-            paths: [ apexClassOrTriggerPath ]
-          }
-        });
-      }
+		  if (this.global) {
+		    program.commandExecutor.execute({
+		      name : this._name,
+		      body : {
+		        global : true
+		      }
+		    });
+		  } else {
+		    program.commandExecutor.execute({
+		      name : this._name,
+		      body : {
+		        paths : [ apexClassOrTriggerPath ]
+		      }
+		    });
+		  }
 		});
 };

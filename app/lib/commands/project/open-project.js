@@ -52,7 +52,7 @@ exports.addSubCommand = function(program) {
     .description('Open a project in the editor')
     .action(function() {
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

@@ -20,16 +20,16 @@ router.get('/:type/new', function(req, res) {
       .then(function(templates) {
         logger.debug(templates);
         var locals = {
-          templates : templates,
-          metadataType: req.params.type,
-          title: 'New '+req.params.type
+          templates    : templates,
+          metadataType : req.params.type,
+          title        : 'New '+req.params.type
         };
         res.render('metadata/new.html', locals);
       })
       .catch(function(e) {
         logger.error(e);
         res.render('metadata/new.html', {
-          title: 'New Metadata'
+          title : 'New Metadata'
         });
       })
       .done();
@@ -51,15 +51,15 @@ router.get('/:type/templates/:fileName', function(req, res) {
 router.post('/', function(req, res) {
   var commandExecutor = req.app.get('commandExecutor');
   var request = commandExecutor.execute({
-    project: req.project,
-    name: 'new-metadata',
-    body: req.body,
-    editor: req.editor
+    project : req.project,
+    name    : 'new-metadata',
+    body    : req.body,
+    editor  : req.editor
   });
   var requestId = requestStore.add(request);
   return res.send({
-    status: 'pending',
-    id: requestId
+    status : 'pending',
+    id     : requestId
   });
 });
 

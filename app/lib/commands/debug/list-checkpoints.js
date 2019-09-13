@@ -39,9 +39,9 @@ exports.addSubCommand = function(program) {
     .description('List Apex checkpoints for filepath')
     .action(function(filePath){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
-          path: filePath
+        name : this._name,
+        body : {
+          path : filePath
         }
       });
     });

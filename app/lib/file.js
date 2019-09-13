@@ -18,28 +18,28 @@ var logger          = require('winston');
 var TemplateService = require('./services/template');
 
 var types = {
-    TOP_LEVEL_METADATA_DIRECTORY: 'TOP_LEVEL_METADATA_DIRECTORY',
-    TOP_LEVEL_METADATA_FILE: 'TOP_LEVEL_METADATA_FILE',
-    METADATA_FOLDER: 'METADATA_FOLDER',
-    METADATA_FOLDER_ITEM: 'METADATA_FOLDER_ITEM',
-    LIGHTNING_BUNDLE: 'LIGHTNING_BUNDLE',
-    LIGHTNING_BUNDLE_ITEM: 'LIGHTNING_BUNDLE_ITEM'
+  TOP_LEVEL_METADATA_DIRECTORY : 'TOP_LEVEL_METADATA_DIRECTORY',
+  TOP_LEVEL_METADATA_FILE      : 'TOP_LEVEL_METADATA_FILE',
+  METADATA_FOLDER              : 'METADATA_FOLDER',
+  METADATA_FOLDER_ITEM         : 'METADATA_FOLDER_ITEM',
+  LIGHTNING_BUNDLE             : 'LIGHTNING_BUNDLE',
+  LIGHTNING_BUNDLE_ITEM        : 'LIGHTNING_BUNDLE_ITEM'
 };
 Object.freeze(types);
 
 var lightningTypes = {
-    STYLE: 'STYLE',
-    APPLICATION: 'APPLICATION',
-    DOCUMENTATION: 'DOCUMENTATION',
-    COMPONENT: 'COMPONENT',
-    EVENT: 'EVENT',
-    INTERFACE: 'INTERFACE',
-    CONTROLLER: 'CONTROLLER',
-    HELPER: 'HELPER',
-    RENDERER: 'RENDERER',
-    TOKENS: 'TOKENS',
-    DESIGN: 'DESIGN',
-    SVG: 'SVG'
+  STYLE         : 'STYLE',
+  APPLICATION   : 'APPLICATION',
+  DOCUMENTATION : 'DOCUMENTATION',
+  COMPONENT     : 'COMPONENT',
+  EVENT         : 'EVENT',
+  INTERFACE     : 'INTERFACE',
+  CONTROLLER    : 'CONTROLLER',
+  HELPER        : 'HELPER',
+  RENDERER      : 'RENDERER',
+  TOKENS        : 'TOKENS',
+  DESIGN        : 'DESIGN',
+  SVG           : 'SVG'
 };
 Object.freeze(lightningTypes);
 
@@ -47,7 +47,7 @@ var MavensMateFile = function(opts) {
   opts = opts || {};
   this.path = opts.path;
   this.project = opts.project;
-  this.metadataHelper = this.project ? new MetadataHelper({ sfdcClient : this.project.sfdcClient }) : new MetadataHelper();
+  this.metadataHelper = this.project ? new MetadataHelper({ sfdcClient: this.project.sfdcClient }) : new MetadataHelper();
   if (this.path) {
     this.path = path.normalize(this.path);
     this.type = this.metadataHelper.getTypeByPath(this.path);
@@ -73,7 +73,7 @@ MavensMateFile.prototype._apexTriggerObjectName = null;
  * whether the path represents a directory
  */
 Object.defineProperty(MavensMateFile.prototype, 'isDirectory', {
-  get: function() {
+  get : function() {
     if (this.type.xmlName === 'Document') {
       return path.extname(this.path) === ''; //TODO: some documents may not have an extension!
     } else {
@@ -86,10 +86,10 @@ Object.defineProperty(MavensMateFile.prototype, 'isDirectory', {
  * basename of path
  */
 Object.defineProperty(MavensMateFile.prototype, 'basename', {
-  get: function() {
+  get : function() {
     return this._basename;
   },
-  set: function(value) {
+  set : function(value) {
     this._basename = value;
   }
 });
@@ -98,10 +98,10 @@ Object.defineProperty(MavensMateFile.prototype, 'basename', {
  * object name of apex trigger (if applicable)
  */
 Object.defineProperty(MavensMateFile.prototype, 'apexTriggerObjectName', {
-  get: function() {
+  get : function() {
     return this._apexTriggerObjectName;
   },
-  set: function(value) {
+  set : function(value) {
     this._apexTriggerObjectName = value;
   }
 });
@@ -110,10 +110,10 @@ Object.defineProperty(MavensMateFile.prototype, 'apexTriggerObjectName', {
  * basename of path without extension
  */
 Object.defineProperty(MavensMateFile.prototype, 'name', {
-  get: function() {
+  get : function() {
     return this._name;
   },
-  set: function(value) {
+  set : function(value) {
     this._name = value;
   }
 });
@@ -122,10 +122,10 @@ Object.defineProperty(MavensMateFile.prototype, 'name', {
  * basename of path without extension
  */
 Object.defineProperty(MavensMateFile.prototype, 'folderName', {
-  get: function() {
+  get : function() {
     return this._folderName;
   },
-  set: function(value) {
+  set : function(value) {
     this._folderName = value;
   }
 });
@@ -134,10 +134,10 @@ Object.defineProperty(MavensMateFile.prototype, 'folderName', {
  * basename of path without extension
  */
 Object.defineProperty(MavensMateFile.prototype, 'extension', {
-  get: function() {
+  get : function() {
     return this._extension;
   },
-  set: function(value) {
+  set : function(value) {
     this._extension = value;
   }
 });
@@ -146,7 +146,7 @@ Object.defineProperty(MavensMateFile.prototype, 'extension', {
  * name when referenced via package.xml
  */
 Object.defineProperty(MavensMateFile.prototype, 'packageName', {
-  get: function() {
+  get : function() {
     if (this.classification === types.METADATA_FOLDER_ITEM) {
       return this.folderName + '/' + this.name;
     } else {
@@ -156,14 +156,14 @@ Object.defineProperty(MavensMateFile.prototype, 'packageName', {
 });
 
 Object.defineProperty(MavensMateFile.prototype, 'isToolingType', {
-  get: function() {
+  get : function() {
     var supportedExtensions = ['cls', 'trigger', 'page', 'component'];
     return supportedExtensions.indexOf(this.extension) >= 0;
   }
 });
 
 Object.defineProperty(MavensMateFile.prototype, 'isLightningType', {
-  get: function() {
+  get : function() {
     return this.type.xmlName === 'AuraDefinitionBundle';
   }
 });
@@ -173,7 +173,7 @@ Object.defineProperty(MavensMateFile.prototype, 'isLightningType', {
  * @return {String}
  */
 Object.defineProperty(MavensMateFile.prototype, 'lightningBaseName', {
-  get: function() {
+  get : function() {
     var lbn = this.name;
     if (util.endsWith(lbn, 'Controller')) {
       lbn = lbn.replace(/Controller/, '');
@@ -187,7 +187,7 @@ Object.defineProperty(MavensMateFile.prototype, 'lightningBaseName', {
 });
 
 Object.defineProperty(MavensMateFile.prototype, 'lightningType', {
-  get: function() {
+  get : function() {
     if (this.extension === 'css') {
       return 'STYLE';
     } else if (this.extension === 'app') {
@@ -222,7 +222,7 @@ Object.defineProperty(MavensMateFile.prototype, 'lightningType', {
  * classification of the path
  */
 Object.defineProperty(MavensMateFile.prototype, 'classification', {
-  get: function() {
+  get : function() {
     if (!this.type)
       throw new Error('Unrecognized metadata type: '+this.path);
     if (this.type.inFolder) {
@@ -256,7 +256,7 @@ Object.defineProperty(MavensMateFile.prototype, 'classification', {
  * Local file body (source code, conents, etc.)
  */
 Object.defineProperty(MavensMateFile.prototype, 'body', {
-  get: function() {
+  get : function() {
     if (this.isDirectory) {
       throw new Error('Can not get body of directory');
     }
@@ -269,7 +269,7 @@ Object.defineProperty(MavensMateFile.prototype, 'body', {
  * @return {String}
  */
 Object.defineProperty(MavensMateFile.prototype, 'hasMetaFile', {
-  get: function() {
+  get : function() {
     return this.type.metaFile === true;
   }
 });
@@ -279,7 +279,7 @@ Object.defineProperty(MavensMateFile.prototype, 'hasMetaFile', {
 * @return {Boolean}
 */
 Object.defineProperty(MavensMateFile.prototype, 'existsOnFileSystem', {
-  get: function() {
+  get : function() {
     return this.path ? fs.existsSync(this.path) : false;
   }
 });
@@ -289,7 +289,7 @@ Object.defineProperty(MavensMateFile.prototype, 'existsOnFileSystem', {
  * @return {Boolean}
  */
 Object.defineProperty(MavensMateFile.prototype, 'isMetaFile', {
-  get: function() {
+  get : function() {
     return util.endsWith(this.path, '-meta.xml');
   }
 });
@@ -298,7 +298,7 @@ Object.defineProperty(MavensMateFile.prototype, 'isMetaFile', {
  * Id of the file on the server
  */
 Object.defineProperty(MavensMateFile.prototype, 'id', {
-  get: function() {
+  get : function() {
     try {
       if (this.isDirectory) {
         throw new Error('Cannot get server id for directory.');
@@ -306,7 +306,7 @@ Object.defineProperty(MavensMateFile.prototype, 'id', {
         // determine id (useful for lightning/apex/vf types bc tooling api is preferential to ids)
         if (this.isLightningType && this.project) {
           var lightningIndex = this.project.getLightningIndexSync();
-          return _.find(lightningIndex, { AuraDefinitionBundle : { DeveloperName: this.lightningBaseName }, DefType: this.lightningType }).Id;
+          return _.find(lightningIndex, { AuraDefinitionBundle: { DeveloperName: this.lightningBaseName }, DefType: this.lightningType }).Id;
         } else if (this.project) {
           return this.project.getLocalStore()[this.basename].id;
         }
@@ -318,7 +318,7 @@ Object.defineProperty(MavensMateFile.prototype, 'id', {
 });
 
 Object.defineProperty(MavensMateFile.prototype, 'localStoreEntry', {
-  get: function() {
+  get : function() {
     try {
       if (this.isDirectory || this.isLightningType) {
         throw new Error('Cannot get local store entry for directories or lightning types currently.');
@@ -332,7 +332,7 @@ Object.defineProperty(MavensMateFile.prototype, 'localStoreEntry', {
 });
 
 Object.defineProperty(MavensMateFile.prototype, 'serverCopy', {
-  get: function() {
+  get : function() {
     var self = this;
     return new Promise(function(resolve, reject) {
       try {
@@ -374,7 +374,7 @@ Object.defineProperty(MavensMateFile.prototype, 'serverCopy', {
  * local files in this directory
  */
 Object.defineProperty(MavensMateFile.prototype, 'localMembers', {
-  get: function() {
+  get : function() {
     if (!this.isDirectory) {
       throw new Error('localMembers property is only supported for directory types');
     }
@@ -400,7 +400,7 @@ Object.defineProperty(MavensMateFile.prototype, 'localMembers', {
  * @return {String}
  */
 Object.defineProperty(MavensMateFile.prototype, 'folderBaseName', {
-  get: function() {
+  get : function() {
     var folderPath = path.dirname(this.path);
     return path.basename(folderPath);
   },
@@ -411,10 +411,10 @@ Object.defineProperty(MavensMateFile.prototype, 'folderBaseName', {
  * @return {Object}
  */
 Object.defineProperty(MavensMateFile.prototype, 'template', {
-  get: function() {
+  get : function() {
     return this._template;
   },
-  set: function(value) {
+  set : function(value) {
     this._template = value;
   }
 });
@@ -424,7 +424,7 @@ Object.defineProperty(MavensMateFile.prototype, 'template', {
  * @return {String}
  */
 Object.defineProperty(MavensMateFile.prototype, 'subscriptionName', {
-  get: function() {
+  get : function() {
     if (this.type.inFolder) {
       if (this.type.xmlName === 'Document') {
         return this.folderBaseName + '/' + this.name + '.' + this.extension;
@@ -478,7 +478,7 @@ MavensMateFile.prototype.mergeTemplate = function() {
         reject(err);
       })
       .done();
-    });
+  });
 };
 
 /**
@@ -499,8 +499,8 @@ MavensMateFile.prototype.renderAndWriteToDisk = function(destination) {
         if (self.hasMetaFile) {
           var metaFilePath = path.join(destination, self.type.directoryName, [apiName,self.type.suffix+'-meta.xml'].join('.'));
           var metaFileBody = swig.renderFile(path.join(__dirname, 'templates', 'meta.xml'), {
-            metadata: self,
-            apiVersion: config.get('mm_api_version')
+            metadata   : self,
+            apiVersion : config.get('mm_api_version')
           });
           fs.outputFileSync(metaFilePath, metaFileBody);
         }
@@ -510,7 +510,7 @@ MavensMateFile.prototype.renderAndWriteToDisk = function(destination) {
         reject(new Error('Could not write metadata file based on template: '+err));
       })
       .done();
-    });
+  });
 };
 
 MavensMateFile.prototype.writeToDiskSync = function(body) {

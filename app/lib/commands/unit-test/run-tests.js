@@ -63,26 +63,26 @@ exports.addSubCommand = function(program) {
     .action(function(testPath){
       if (this.ui) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { args: { ui: true } },
-          editor: this.parent.editor
+          name   : this._name,
+          body   : { args: { ui: true } },
+          editor : this.parent.editor
         });
       } else {
         var self = this;
         if (testPath) {
-          var payload = { tests : [ testPath ] };
+          var payload = { tests: [ testPath ] };
           program.commandExecutor.execute({
-            name: self._name,
-            body: payload,
-            editor: self.parent.editor
+            name   : self._name,
+            body   : payload,
+            editor : self.parent.editor
           });
         } else {
           util.getPayload()
             .then(function(payload) {
               program.commandExecutor.execute({
-                name: self._name,
-                body: payload,
-                editor: self.parent.editor
+                name   : self._name,
+                body   : payload,
+                editor : self.parent.editor
               });
             });
         }

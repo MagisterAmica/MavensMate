@@ -40,11 +40,11 @@ exports.addSubCommand = function(program) {
     .description('Adds a new deployment connection')
     .action(function(username, password, orgType){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
-          username: username,
-          password: password,
-          orgType: orgType
+        name : this._name,
+        body : {
+          username : username,
+          password : password,
+          orgType  : orgType
         }
       });
     });

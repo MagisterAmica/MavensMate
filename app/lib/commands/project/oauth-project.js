@@ -38,9 +38,9 @@ exports.addSubCommand = function(program) {
     .description('Displays oauth UI for project')
     .action(function(){
       program.commandExecutor.execute({
-        name: this._name,
-        body: { args: { ui: true } },
-        editor: this.parent.editor
+        name   : this._name,
+        body   : { args: { ui: true } },
+        editor : this.parent.editor
       });
     });
 };

@@ -35,7 +35,7 @@ function SalesforceClient(opts) {
   util.applyProperties(this, opts);
   this.apiVersion = config.get('mm_api_version') || '45.0';
   this.clientId = process.env.SFDC_OAUTH_CLIENT_ID || opts.clientId || config.get('mm_oauth_client_id');
-  this.callbackUrl = process.env.SFDC_OAUTH_CALLBACK_URL || 'http://localhost:56248/sfdc/auth/callback'
+  this.callbackUrl = process.env.SFDC_OAUTH_CALLBACK_URL || 'http://localhost:56248/sfdc/auth/callback';
   logger.debug('initiating SalesforceClient: ');
 }
 
@@ -50,9 +50,9 @@ SalesforceClient.prototype._refreshFn = function(conn, callback) {
   logger.debug('manually refreshing access token...');
   // danger: private jsforce api
   conn.oauth2._postParams({
-    grant_type : 'refresh_token',
+    grant_type    : 'refresh_token',
     refresh_token : conn.refreshToken,
-    client_id : conn.oauth2.clientId,
+    client_id     : conn.oauth2.clientId,
   }, function(err, res) {
     if (err) {
       logger.error('_refreshFn error', err);
@@ -142,10 +142,10 @@ SalesforceClient.prototype.initialize = function() {
     logger.debug('initializing connection to salesforce ...', self);
     if (self.accessToken && self.instanceUrl && self.transient) {
       self.conn = new jsforce.Connection({
-        logLevel: config.get('mm_sfdc_api_log_level') || 'FATAL',
-        version: self.apiVersion,
-        instanceUrl: self.instanceUrl || 'https://na1.salesforce.com',
-        accessToken: self.accessToken
+        logLevel    : config.get('mm_sfdc_api_log_level') || 'FATAL',
+        version     : self.apiVersion,
+        instanceUrl : self.instanceUrl || 'https://na1.salesforce.com',
+        accessToken : self.accessToken
       });
       self._configureJsForce();
       self.describe()
@@ -159,17 +159,17 @@ SalesforceClient.prototype.initialize = function() {
         .done();
     } else if (self.accessToken && self.refreshToken) {
       self.conn = new jsforce.Connection({
-        oauth2: {
-          clientId : self.clientId,
+        oauth2 : {
+          clientId    : self.clientId,
           redirectUri : self.callbackUrl,
-          loginUrl: self.instanceUrl
+          loginUrl    : self.instanceUrl
         },
-        refreshFn: self._refreshFn,
-        instanceUrl: self.instanceUrl || 'https://na1.salesforce.com',
-        accessToken: self.accessToken,
-        refreshToken: self.refreshToken,
-        logLevel: config.get('mm_sfdc_api_log_level') || 'FATAL',
-        version: self.apiVersion
+        refreshFn    : self._refreshFn,
+        instanceUrl  : self.instanceUrl || 'https://na1.salesforce.com',
+        accessToken  : self.accessToken,
+        refreshToken : self.refreshToken,
+        logLevel     : config.get('mm_sfdc_api_log_level') || 'FATAL',
+        version      : self.apiVersion
       });
       self._initWebServerRefreshHandler();
       logger.silly('initialized connection', self.conn);
@@ -190,13 +190,13 @@ SalesforceClient.prototype.initialize = function() {
     } else if (self.username && self.password) {
       logger.debug('logging in to salesforce via username/password flow: '+self.getLoginUrl());
       self.conn = new jsforce.Connection({
-        oauth2: {
-          clientId : self.clientId,
+        oauth2 : {
+          clientId    : self.clientId,
           redirectUri : self.callbackUrl
         },
-        logLevel: config.get('mm_sfdc_api_log_level') || 'FATAL',
-        version: self.apiVersion,
-        loginUrl: self.getLoginUrl()
+        logLevel : config.get('mm_sfdc_api_log_level') || 'FATAL',
+        version  : self.apiVersion,
+        loginUrl : self.getLoginUrl()
       });
       self._initUsernamePasswordRefreshHandler();
       self.conn.login(self.username, self.password)
@@ -398,7 +398,7 @@ SalesforceClient.prototype.compileWithToolingApi = function(files) {
         return Promise.all(memberPromises);
       })
       .then(function(memberResults) {
-        var isMemberSuccess = _.where(memberResults, { 'success': false }).length === 0;
+        var isMemberSuccess = _.where(memberResults, { success: false }).length === 0;
 
         if (!isMemberSuccess) {
           return reject('Could not create tooling members: '+JSON.stringify(memberResults));
@@ -474,9 +474,9 @@ SalesforceClient.prototype._createContainerAsyncRequest = function(containerId) 
   var self = this;
   return new Promise(function(resolve, reject) {
     self.conn.tooling.sobject('ContainerAsyncRequest').create({
-      IsCheckOnly: false,
-      MetadataContainerId: containerId,
-      IsRunTests:false
+      IsCheckOnly         : false,
+      MetadataContainerId : containerId,
+      IsRunTests          : false
     }, function(err, res) {
       if (err) {
         reject(err);
@@ -558,7 +558,7 @@ SalesforceClient.prototype._createContainer = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     self.conn.tooling.sobject('MetadataContainer').create({
-      name: util.generateRandomString(32)
+      name : util.generateRandomString(32)
     }, function(err, res) {
       if (err) {
         reject('Could not create container: '+JSON.stringify(res));
@@ -584,9 +584,9 @@ SalesforceClient.prototype._createMember = function(file, containerId) {
     logger.debug(containerId);
     logger.debug(file.id);
     self.conn.tooling.sobject(memberName).create({
-      Body: file.body,
-      MetadataContainerId: containerId,
-      ContentEntityId: file.id
+      Body                : file.body,
+      MetadataContainerId : containerId,
+      ContentEntityId     : file.id
     }, function(err, res) {
       if (err) {
         reject(err);
@@ -655,7 +655,7 @@ SalesforceClient.prototype.runTests = function(classIdsOrTestsPayload) {
     logger.debug('runTests polling interval is: ', pollInterval);
     var postBody;
     if (_.isString(classIdsOrTestsPayload[0])) {
-      postBody = { classids: classIdsOrTestsPayload.join(',') }
+      postBody = { classids: classIdsOrTestsPayload.join(',') };
     } else {
       postBody = { tests: classIdsOrTestsPayload };
     }
@@ -663,12 +663,12 @@ SalesforceClient.prototype.runTests = function(classIdsOrTestsPayload) {
     logger.debug('submitting tests to be run via runTestsAsynchronous:', postBody);
 
     self.conn.request({
-      method: 'POST',
-      url: '/services/data/v'+self.apiVersion+'/tooling/runTestsAsynchronous',
-      headers: {
-        'Content-Type': 'application/json'
+      method  : 'POST',
+      url     : '/services/data/v'+self.apiVersion+'/tooling/runTestsAsynchronous',
+      headers : {
+        'Content-Type' : 'application/json'
       },
-      body: JSON.stringify(postBody)
+      body : JSON.stringify(postBody)
     }, function(err, res) {
       if (err) {
         logger.error('Error submitting to runTestsAsynchronous', err);
@@ -753,12 +753,12 @@ SalesforceClient.prototype.deploy = function(zipInput, opts) {
   return new Promise(function(resolve, reject) {
     self.conn.metadata.deploy(zipInput, opts)
       .complete(true, function(err, result) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        });
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
   });
 };
 
@@ -798,22 +798,22 @@ SalesforceClient.prototype.retrieveUnpackaged = function(metadataTypesOrPackage,
     if (_.isArray(metadataTypesOrPackage)) {
       _.each(metadataTypesOrPackage, function(type) {
         unpackagedTypes.push({
-          members: '*',
-          name: type
+          members : '*',
+          name    : type
         });
       });
     } else {
       _.forOwn(metadataTypesOrPackage, function(value, key) {
         unpackagedTypes.push({
-          members: value,
-          name: key
+          members : value,
+          name    : key
         });
       });
     }
 
     var retrieveRequest = self.conn.metadata.retrieve({
-      unpackaged: { types : unpackagedTypes },
-      apiVersion: self.apiVersion
+      unpackaged : { types: unpackagedTypes },
+      apiVersion : self.apiVersion
     });
 
     var zipStream = new Stream();
@@ -998,16 +998,16 @@ SalesforceClient.prototype.startLogging = function(debugSettings, expiration) {
             logger.debug('creating debug level');
             var debugLevelsToCreate = [];
             var dl = {
-              DeveloperName: debugLevelName,
-              MasterLabel: debugLevelName,
-              Workflow: debugLevels.Workflow || 'DEBUG',
-              Callout: debugLevels.Callout || 'DEBUG',
-              System: debugLevels.System || 'DEBUG',
-              Database: debugLevels.Database || 'DEBUG',
-              ApexCode: debugLevels.ApexCode || 'DEBUG',
-              ApexProfiling: debugLevels.ApexProfiling || 'DEBUG',
-              Validation: debugLevels.Validation || 'DEBUG',
-              Visualforce: debugLevels.Visualforce || 'DEBUG'
+              DeveloperName : debugLevelName,
+              MasterLabel   : debugLevelName,
+              Workflow      : debugLevels.Workflow || 'DEBUG',
+              Callout       : debugLevels.Callout || 'DEBUG',
+              System        : debugLevels.System || 'DEBUG',
+              Database      : debugLevels.Database || 'DEBUG',
+              ApexCode      : debugLevels.ApexCode || 'DEBUG',
+              ApexProfiling : debugLevels.ApexProfiling || 'DEBUG',
+              Validation    : debugLevels.Validation || 'DEBUG',
+              Visualforce   : debugLevels.Visualforce || 'DEBUG'
             };
             debugLevelsToCreate.push(dl);
             logger.debug('attempting to create debug level');
@@ -1019,10 +1019,10 @@ SalesforceClient.prototype.startLogging = function(debugSettings, expiration) {
             var traceFlagsToCreate = [];
             _.each(userIds, function(userId) {
               var tf = {
-                ExpirationDate: expiration,
-                TracedEntityId: userId,
-                LogType: debugSettings.logType || 'USER_DEBUG',
-                DebugLevelId: debugLevelCreateResult[0].id
+                ExpirationDate : expiration,
+                TracedEntityId : userId,
+                LogType        : debugSettings.logType || 'USER_DEBUG',
+                DebugLevelId   : debugLevelCreateResult[0].id
               };
               traceFlagsToCreate.push(tf);
             });

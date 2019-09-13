@@ -39,8 +39,8 @@ exports.addSubCommand = function(program) {
     .description('Downloads a log to your project\'s debug/logs directory')
     .action(function(logId){
       program.commandExecutor.execute({
-        name: this._name,
-        body: { logId: logId }
+        name : this._name,
+        body : { logId: logId }
       });
     });
 };

@@ -19,10 +19,10 @@ mavensmate.startServer = function(opts) {
       var port = opts.port || '56248';
       var verbose = opts.verbose || false;
       server.start({
-        port: port,
-        verbose: opts.verbose,
-        openWindowFn: opts.openWindowFn,
-        mode: opts.mode
+        port         : port,
+        verbose      : opts.verbose,
+        openWindowFn : opts.openWindowFn,
+        mode         : opts.mode
       })
       .then(function(res) {
         console.log('MavensMate server running on port: '+port);

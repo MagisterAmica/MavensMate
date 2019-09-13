@@ -41,9 +41,9 @@ exports.addSubCommand = function(program) {
     .action(function(bundlePath){
       if (bundlePath) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: {
-            paths: util.getAbsolutePaths( [ bundlePath ] )
+          name : this._name,
+          body : {
+            paths : util.getAbsolutePaths( [ bundlePath ] )
           }
         });
       } else {

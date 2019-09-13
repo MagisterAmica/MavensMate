@@ -41,7 +41,7 @@ exports.addSubCommand = function(program) {
     .description('Opens salesforce developer home page in the browser')
     .action(function(){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

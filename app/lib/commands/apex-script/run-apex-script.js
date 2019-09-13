@@ -41,8 +41,8 @@ exports.addSubCommand = function(program) {
     .action(function(scriptPath){
       if (scriptPath) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { paths: util.getAbsolutePaths( [ scriptPath ] ) }
+          name : this._name,
+          body : { paths: util.getAbsolutePaths( [ scriptPath ] ) }
         });
       } else {
         console.error('Please specify a valid script path');

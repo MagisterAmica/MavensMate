@@ -41,7 +41,7 @@ exports.addSubCommand = function(program) {
     .description('Retrieves a list of deployment connections')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

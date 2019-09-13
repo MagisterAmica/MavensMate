@@ -40,8 +40,8 @@ exports.addSubCommand = function(program) {
     .description('Indexes Apex class\'s symbols')
     .action(function(className){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
+        name : this._name,
+        body : {
           className : className
         }
       });

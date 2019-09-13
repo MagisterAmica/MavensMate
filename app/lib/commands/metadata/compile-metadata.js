@@ -42,8 +42,8 @@ exports.addSubCommand = function(program) {
     .action(function(path){
       if (path) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: {
+          name : this._name,
+          body : {
             paths : util.getAbsolutePaths( [ path ] )
           }
         });
@@ -52,9 +52,9 @@ exports.addSubCommand = function(program) {
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

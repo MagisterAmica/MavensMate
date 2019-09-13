@@ -38,7 +38,7 @@ exports.addSubCommand = function(program) {
     .description('Indexes project\'s Apex symbols')
     .action(function(/* Args here */){
       program.commandExecutor.execute({
-        name: this._name
+        name : this._name
       });
     });
 };

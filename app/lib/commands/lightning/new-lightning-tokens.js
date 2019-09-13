@@ -49,7 +49,7 @@ Command.prototype.execute = function() {
           return Promise.all(createPromises);
         })
         .then(function(result) {
-          var failures = _.where(result, { 'success': false });
+          var failures = _.where(result, { success: false });
           if (failures.length > 0) {
             lightningService.deleteBundle(newBundleId)
               .then(function() {
@@ -89,18 +89,18 @@ exports.addSubCommand = function(program) {
     .action(function() {
       if (this.ui) {
         program.commandExecutor.execute({
-          name: this._name,
-          body: { args: { ui: true } },
-          editor: this.parent.editor
+          name   : this._name,
+          body   : { args: { ui: true } },
+          editor : this.parent.editor
         });
       } else {
         var self = this;
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

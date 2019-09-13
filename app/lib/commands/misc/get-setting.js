@@ -20,7 +20,7 @@ Command.prototype.execute = function() {
   var self = this;
   return new Promise(function(resolve, reject) {
     resolve({
-      value: config.get(self.payload.key)
+      value : config.get(self.payload.key)
     });
   });
 };
@@ -32,9 +32,9 @@ exports.addSubCommand = function(program) {
     .description('Returns the setting value for the given key')
     .action(function(key){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
-          key: key
+        name : this._name,
+        body : {
+          key : key
         }
       });
     });

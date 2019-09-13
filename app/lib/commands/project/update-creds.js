@@ -37,14 +37,14 @@ exports.addSubCommand = function(program) {
     .description('Update project\'s salesfore.com credentials')
     .action(function(username, password, orgType, loginUrl){
       var payload = {
-        username: username,
-        password: password,
-        orgType: orgType,
-        loginUrl: loginUrl
+        username : username,
+        password : password,
+        orgType  : orgType,
+        loginUrl : loginUrl
       };
       program.commandExecutor.execute({
-        name: this._name,
-        body: payload
+        name : this._name,
+        body : payload
       });
     });
 };

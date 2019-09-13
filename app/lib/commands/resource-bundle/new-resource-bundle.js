@@ -40,9 +40,9 @@ exports.addSubCommand = function(program) {
     .description('Creates a resource bundle from a static resource, e.g. mavensmate new-resource-bundle path/to/static/resource')
     .action(function(staticResourcePath){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
-          paths: util.getAbsolutePaths( [ staticResourcePath ] )
+        name : this._name,
+        body : {
+          paths : util.getAbsolutePaths( [ staticResourcePath ] )
         }
       });
     });

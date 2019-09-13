@@ -89,10 +89,10 @@ Package.prototype.init = function() {
  *  Unstructured array of Metadata elements included in this package
  */
 Object.defineProperty(Package.prototype, 'files', {
-  get: function() {
+  get : function() {
     return this._files;
   },
-  set: function(value) {
+  set : function(value) {
     this._files = value;
   }
 });
@@ -101,10 +101,10 @@ Object.defineProperty(Package.prototype, 'files', {
  *  Structured Metadata subscription ( { "ApexClass" : [ "thisclass", "thatclass" ], "ApexPage" : "*" } )
  */
 Object.defineProperty(Package.prototype, 'subscription', {
-  get: function() {
+  get : function() {
     return this._subscription;
   },
-  set: function(value) {
+  set : function(value) {
     this._subscription = value;
   }
 });
@@ -113,10 +113,10 @@ Object.defineProperty(Package.prototype, 'subscription', {
  *  File path of this package
  */
 Object.defineProperty(Package.prototype, 'path', {
-  get: function() {
+  get : function() {
     return this._path;
   },
-  set: function(value) {
+  set : function(value) {
     this._path = value;
   }
 });
@@ -254,8 +254,8 @@ Package.prototype._serialize = function() {
   logger.debug('serializing package:');
   logger.debug(self.subscription);
   var serialized = swig.renderFile(path.join(__dirname, 'templates', 'package.xml'), {
-    obj: self.subscription,
-    apiVersion: config.get('mm_api_version')
+    obj        : self.subscription,
+    apiVersion : config.get('mm_api_version')
   });
   return serialized;
 };
@@ -382,8 +382,8 @@ function SharingRulesListProvider(sfdcClient) {
 }
 
 SharingRulesListProvider.prototype = Object.create(ListProvider.prototype, {
-  getList: {
-    value: function() {
+  getList : {
+    value : function() {
       var self = this;
       return new Promise(function(resolve, reject) {
         var memberProvider = new SharingRulesMemberProvider(self.sfdcClient);
@@ -419,8 +419,8 @@ function WorkflowListProvider(sfdcClient) {
 }
 
 WorkflowListProvider.prototype = Object.create(ListProvider.prototype, {
-  getList: {
-    value: function() {
+  getList : {
+    value : function() {
       var self = this;
       return new Promise(function(resolve, reject) {
         Promise.all([
@@ -437,7 +437,7 @@ WorkflowListProvider.prototype = Object.create(ListProvider.prototype, {
             var output = listResults;
             var caseCommentWorkflows = _.filter(retrieveResults.fileProperties, function(fileProperty) {
               return fileProperty.type === 'Workflow';
-            })
+            });
             output.Workflow = output.Workflow.concat(caseCommentWorkflows);
             resolve(output);
           })

@@ -44,25 +44,25 @@ exports.addSubCommand = function(program) {
       var self = this;
       if (testNameOrPath && testMethodName) {
         var payload = {
-          tests: [
+          tests : [
             {
               testNameOrPath : testNameOrPath,
-              methodNames: [ testMethodName ]
+              methodNames    : [ testMethodName ]
             }
           ]
         };
         program.commandExecutor.execute({
-          name: self._name,
-          body: payload,
-          editor: self.parent.editor
+          name   : self._name,
+          body   : payload,
+          editor : self.parent.editor
         });
       } else {
         util.getPayload()
           .then(function(payload) {
             program.commandExecutor.execute({
-              name: self._name,
-              body: payload,
-              editor: self.parent.editor
+              name   : self._name,
+              body   : payload,
+              editor : self.parent.editor
             });
           });
       }

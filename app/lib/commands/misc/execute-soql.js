@@ -23,7 +23,7 @@ Command.prototype.execute = function() {
       .then(function(res) {
         var soqlResultFilePath = project.writeSoqlResult(res);
         resolve({
-          path: soqlResultFilePath
+          path : soqlResultFilePath
         });
       })
       .catch(function(error) {
@@ -40,9 +40,9 @@ exports.addSubCommand = function(program) {
     .description('Executes soql query')
     .action(function(soql){
       program.commandExecutor.execute({
-        name: this._name,
-        body: {
-          soql: soql
+        name : this._name,
+        body : {
+          soql : soql
         }
       });
     });

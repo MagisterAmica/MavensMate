@@ -11,10 +11,10 @@
 
 <div class="slds-tabs--scoped" data-aljs="tabs">
   <ul class="slds-tabs--scoped__nav" role="tablist">
-      <li class="slds-tabs--scoped__item slds-text-heading--label" title="Subscription" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="0" aria-selected="false" aria-controls="tab-default-1" data-aljs-show="tab-default-1">Subscription</a></li>
-      <li class="slds-tabs--scoped__item slds-text-heading--label" title="Advanced" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="-1" aria-selected="true" aria-controls="tab-default-2" data-aljs-show="tab-default-2">Project Metadata</a></li>
+      <li class="slds-tabs--scoped__item slds-text-heading--label" title="Subscription" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="0" aria-selected="false" aria-controls="tab-subscription" data-aljs-show="tab-subscription">Subscription</a></li>
+      <li class="slds-tabs--scoped__item slds-text-heading--label" title="Advanced" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="-1" aria-selected="true" aria-controls="tab-metadata" data-aljs-show="tab-metadata">Project Metadata</a></li>
   </ul>
-  <div id="tab-default-1" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
+  <div id="tab-subscription" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
     <div class="slds-form--stacked">
       <fieldset>
         <div class="slds-form-element slds-m-bottom--medium" >
@@ -51,8 +51,8 @@
       </fieldset>
     </div>
   </div>
-  <div id="tab-default-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
-  {% include 'views/partials/metadata_tree.html' %}
+  <div id="tab-metadata" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
+    {% include 'views/partials/metadata_tree.html' %}
   </div>
 </div>
 
@@ -69,7 +69,7 @@
 
     $(function() {
       $('[data-aljs="tabs"]').tabs({
-        defaultTabId: 'tab-default-2'
+        defaultTabId: 'tab-metadata'
       });
 
       var selectedItems = [

@@ -6,7 +6,6 @@ var config            = require('../app/config');
 var logger            = require('../app/lib/logger')();
 var fs                = require('fs-extra');
 var path              = require('path');
-var Promise           = require('bluebird');
 var sinon             = require('sinon');
 var sinonAsPromised   = require('sinon-as-promised');
 var EditorService     = require('../app/lib/services/editor');

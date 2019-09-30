@@ -7,7 +7,6 @@
 
 var fs                = require('fs-extra-promise');
 var path              = require('path');
-var Promise           = require('bluebird');
 var logger            = require('winston');
 var MetadataHelper    = require('./metadata').MetadataHelper;
 var LightningService  = require('./services/lightning');

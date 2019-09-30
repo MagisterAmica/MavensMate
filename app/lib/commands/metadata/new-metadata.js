@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise         = require('bluebird');
 var util            = require('../../util');
 var mavensMateFile  = require('../../file');
 var Deploy          = require('../../services/deploy');

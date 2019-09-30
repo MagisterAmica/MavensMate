@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise         = require('bluebird');
 var mavensMateFile  = require('../file');
 var logger          = require('winston');
 var _               = require('lodash');

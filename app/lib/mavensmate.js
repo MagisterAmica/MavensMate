@@ -5,7 +5,6 @@
 
 var mavensmate = exports;
 
-var Promise = require('bluebird');
 var server  = require('../index');
 
 mavensmate.CommandExecutor = require('./commands');

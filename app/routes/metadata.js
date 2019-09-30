@@ -7,7 +7,6 @@
 
 var express         = require('express');
 var router          = express.Router();
-var Promise         = require('bluebird');
 var requestStore    = require('../lib/request-store');
 var logger          = require('winston');
 var TemplateService = require('../lib/services/template');

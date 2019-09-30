@@ -4,7 +4,6 @@
  */
 
 'use strict';
-var Promise               = require('bluebird');
 var _                     = require('lodash');
 var temp                  = require('temp');
 var swig                  = require('swig');

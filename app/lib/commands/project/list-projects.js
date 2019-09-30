@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise           = require('bluebird');
 var ViewHelper        = require('../../../helper');
 var BaseCommand       = require('../../command');
 var inherits          = require('inherits');

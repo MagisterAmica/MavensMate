@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise           = require('bluebird');
 var logger            = require('winston');
 var temp              = require('temp');
 var MetadataHelper    = require('./metadata').MetadataHelper;

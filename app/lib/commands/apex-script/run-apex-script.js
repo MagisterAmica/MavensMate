@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise           = require('bluebird');
 var BaseCommand       = require('../../command');
 var inherits          = require('inherits');
 var ApexScriptService = require('../../services/apex-script');

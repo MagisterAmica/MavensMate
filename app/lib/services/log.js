@@ -6,7 +6,6 @@
 'use strict';
 
 var _         = require('lodash');
-var Promise   = require('bluebird');
 var fs        = require('fs-extra');
 var path      = require('path');
 var moment    = require('moment');

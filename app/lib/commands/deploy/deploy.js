@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise         = require('bluebird');
 var util            = require('../../util');
 var Deploy          = require('../../services/deploy');
 var inherits        = require('inherits');

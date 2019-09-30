@@ -4,7 +4,6 @@
  */
 
 'use strict';
-var Promise           = require('bluebird');
 var temp              = require('temp');
 var _                 = require('lodash');
 var fs                = require('fs-extra-promise');

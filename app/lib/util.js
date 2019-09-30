@@ -8,7 +8,6 @@
 var spawn       = require('child_process').spawn;
 var fs          = require('fs-extra-promise');
 var path        = require('path');
-var Promise     = require('bluebird');
 var _           = require('lodash');
 var os          = require('os');
 var stripJson   = require('strip-json-comments');

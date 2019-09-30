@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise = require('bluebird');
 var _       = require('lodash');
 var swig    = require('swig');
 var fs      = require('fs-extra');

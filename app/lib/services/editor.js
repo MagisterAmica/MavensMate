@@ -5,7 +5,6 @@
 
 'use strict';
 
-var Promise     = require('bluebird');
 var _           = require('lodash');
 var which       = require('which');
 var spawn       = require('child_process').spawn;

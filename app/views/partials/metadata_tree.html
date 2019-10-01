@@ -331,6 +331,17 @@
               node.expand(true);
           });
         }
+        (function (tree) {
+          // run in setTimeout because the tree isn't fully populated yet
+          function compare(a, b) {
+            return a.data.title.localeCompare(b.data.title, {sensitivity: 'base'});
+          }
+          setTimeout(function () {
+            for (let i of tree.tnRoot.childList) {
+              i.sortChildren(compare);
+            }
+          }, 100);
+        }(this));
       }
     });
     self.dynatree = $("#metadataTree").dynatree("getTree");

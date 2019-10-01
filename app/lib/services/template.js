@@ -21,8 +21,7 @@ TemplateService.prototype.getTemplatesForType = function(metadataTypeXmlName) {
       })
       .catch(function(e) {
         reject(new Error('Could not retrieve templates for type: '+metadataTypeXmlName+', '+e.message));
-      })
-      .done();
+      });
   });
 };
 

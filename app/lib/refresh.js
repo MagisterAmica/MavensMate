@@ -124,8 +124,7 @@ RefreshDelegate.prototype._refreshLocalPaths = function() {
       .catch(function(err) {
         logger.debug('Could not refresh metadata: '+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -156,8 +155,7 @@ RefreshDelegate.prototype._retrieveAndOverwriteLightningMetadata = function(ligh
       })
       .catch(function(err) {
         reject(err);
-      })
-      .done();
+      });
   });
 };
 

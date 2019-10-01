@@ -85,8 +85,7 @@ Project.prototype.initialize = function(isNewProject, isExistingDirectory) {
         .catch(function(error) {
           logger.error('Could not initiate existing Project instance: '+error.message);
           reject(error);
-        })
-        .done();
+        });
     } else if (isNewProject) {
       var initPromise = isExistingDirectory ? self._initNewProjectFromExistingDirectory() : self._initNew();
       initPromise
@@ -96,8 +95,7 @@ Project.prototype.initialize = function(isNewProject, isExistingDirectory) {
         .catch(function(error) {
           logger.error('Could not initiate new Project instance: '+error.message);
           reject(error);
-        })
-        .done();
+        });
     }
   });
 };
@@ -177,8 +175,7 @@ Project.prototype._initNewProjectFromExistingDirectory = function() {
           fs.removeSync(path.join(self.workspace, self.name));
         }
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -271,8 +268,7 @@ Project.prototype._initExisting = function() {
               })
               .catch(function(error) {
                 logger.debug('Could not download log: '+error.message);
-              })
-              .done();
+              });
           }
         });
         return self.sfdcClient.startSystemStreamingListener();
@@ -295,8 +291,7 @@ Project.prototype._initExisting = function() {
           self.requiresAuthentication = true;
         }
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -458,8 +453,7 @@ Project.prototype.retrieveAndWriteToDisk = function() {
             fs.removeSync(self.path);
           }
           reject(error);
-        })
-        .done();
+        });
     }
   });
 };
@@ -500,8 +494,7 @@ Project.prototype._initConfig = function() {
       .catch(function(err) {
         logger.error('Could not initiate project config directory -->'+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -540,8 +533,7 @@ Project.prototype.refreshFromServer = function() {
       .catch(function(err) {
         logger.error('Error refreshing project from server -->'+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -567,8 +559,7 @@ Project.prototype.clean = function() {
       .catch(function(err) {
         logger.error('Error cleaning project -->'+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -608,8 +599,7 @@ Project.prototype.compile = function() {
           })
           .catch(function(error) {
             reject(error);
-          })
-          .done();
+          });
       }
     });
   });
@@ -831,8 +821,7 @@ Project.prototype._refreshDescribeFromServer = function() {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -854,8 +843,7 @@ Project.prototype.indexLightning = function() {
           logger.error('Could not index lightning -->'+err.message);
           reject(err);
         }
-      })
-      .done();
+      });
   });
 };
 
@@ -880,8 +868,7 @@ Project.prototype.indexSymbols = function(apexClassName) {
       .catch(function(err) {
         logger.error('Could not index apex symbols: '+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -909,8 +896,7 @@ Project.prototype.indexMetadata = function() {
       .catch(function(err) {
         logger.error('Could not index metadataHelper: '+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -1346,8 +1332,7 @@ Project.prototype.updateCredentials = function(creds) {
       .catch(function(err) {
         logger.error('Could not update credentials -->'+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 

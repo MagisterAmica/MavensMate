@@ -156,8 +156,7 @@ DeleteDelegate.prototype._performDelete = function() {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -186,8 +185,7 @@ DeleteDelegate.prototype._deleteLightningBundleItemFiles = function(lightningFil
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 

@@ -142,8 +142,7 @@ IndexService.prototype._indexChildren = function(indexedType, typeMap, xmlName, 
           logger.error('Could not index metadata type '+xmlName+': ' +err.message);
           logger.error(err.stack);
           reject(err);
-        })
-        .done();
+        });
     } catch(err) {
       logger.error('Could not index metadata type '+xmlName+': ' +err.message);
       reject(err);
@@ -199,8 +198,7 @@ IndexService.prototype._indexFolders = function(indexedType, typeMap, xmlName) {
       .catch(function(error) {
         logger.error('Could not finish indexing server properties: '+error.message);
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -300,8 +298,7 @@ IndexService.prototype._indexType = function(typeListResult, typeMap) {
         .catch(function(err) {
           logger.error('Could not index children/folders for '+xmlName+': '+err.message);
           reject(err);
-        })
-        .done();
+        });
     } else {
       resolve(indexedType);
     }

@@ -30,8 +30,7 @@ router.get('/:type/new', function(req, res) {
         res.render('metadata/new.html', {
           title : 'New Metadata'
         });
-      })
-      .done();
+      });
   }
 });
 
@@ -43,8 +42,7 @@ router.get('/:type/templates/:fileName', function(req, res) {
     })
     .catch(function(e) {
       res.status(500).send('Error: '+e.message);
-    })
-    .done();
+    });
 });
 
 router.post('/', function(req, res) {
@@ -71,8 +69,7 @@ function _getTemplates(typeXmlName) {
       })
       .catch(function(e) {
         reject(new Error('Could not retrieve templates: '+e.message));
-      })
-      .done();
+      });
   });
 }
 

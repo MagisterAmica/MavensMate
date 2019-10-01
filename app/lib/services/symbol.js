@@ -47,8 +47,7 @@ SymbolService.prototype.index = function() {
       })
       .catch(function(err) {
         reject(new Error('Could not index Apex Symbols: '+err.message));
-      })
-      .done();
+      });
   });
 };
 
@@ -70,8 +69,7 @@ SymbolService.prototype.indexApexClass = function(apexClassName) {
       .catch(function(err) {
         logger.error('Could not index Apex Symbols: '+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -134,8 +132,7 @@ SymbolService.prototype._getApexClassNames = function() {
       })
       .catch(function(err) {
         reject(new Error('Could not get class names: '+err.message));
-      })
-      .done();
+      });
   });
 };
 

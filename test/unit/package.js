@@ -52,8 +52,7 @@ describe('mavensmate unit-package', function(){
       })
       .catch(function(e) {
         done(e);
-      })
-      .done();
+      });
   });
 
   it('should support adding/removing members', function(done) {
@@ -82,8 +81,7 @@ describe('mavensmate unit-package', function(){
       })
       .catch(function(e) {
         done(e);
-      })
-      .done();
+      });
   });
 
   it('should create instance from metadata array', function(done) {
@@ -107,8 +105,7 @@ describe('mavensmate unit-package', function(){
       })
       .catch(function(e) {
         done(e);
-      })
-      .done();
+      });
   });
 
   it('should create instance from an array of type names', function(done) {
@@ -123,8 +120,7 @@ describe('mavensmate unit-package', function(){
       })
       .catch(function(e) {
         done(e);
-      })
-      .done();
+      });
   });
 
   it('should write package instance to the specified path', function(done) {
@@ -146,7 +142,6 @@ describe('mavensmate unit-package', function(){
       })
       .catch(function(e) {
         done(e);
-      })
-      .done();
+      });
   });
 });

@@ -70,8 +70,7 @@ ApexScriptService.prototype.execute = function(scriptPaths) {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 

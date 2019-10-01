@@ -115,8 +115,7 @@ Deploy.prototype.compileWithMetadataApi = function(files, subscription) {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -192,8 +191,7 @@ Deploy.prototype.executeRemote = function(deployOptions) {
       .catch(function(err) {
         logger.error('Could not complete deployment: '+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -266,8 +264,7 @@ Deploy.prototype.stage = function(files, subscription) {
       .catch(function(err) {
         logger.debug('Could not prepare metadata for deployment: '+err.message);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -287,8 +284,7 @@ Deploy.prototype.executeStream = function(zipStream, opts) {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -369,8 +365,7 @@ Deploy.prototype.execute = function(file, deployOptions) {
         } else {
           reject(err);
         }
-      })
-      .done();
+      });
   });
 };
 
@@ -435,8 +430,7 @@ Deploy.prototype._deployToTarget = function(target, deployPath, deployOptions) {
         logger.error('_deployToTarget failed', target.name, target.id, err.message);
         logger.error(err);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -476,8 +470,7 @@ Deploy.prototype.stageDelete = function(subscription) {
       .catch(function(err) {
         logger.debug('Could not prepare metadata for deletion: '+err);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 

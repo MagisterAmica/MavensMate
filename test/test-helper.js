@@ -179,8 +179,7 @@ exports.createNewMetadata = function(project, typeXmlName, name, templateFileNam
       })
       .catch(function(err) {
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -222,8 +221,7 @@ exports.getNewMetadataPayload = function(typeXmlName, apiName, templateFileName,
         })
         .catch(function(err) {
           reject(err);
-        })
-        .done();
+        });
     }
   });
 };

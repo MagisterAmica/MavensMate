@@ -49,8 +49,7 @@ Command.prototype.execute = function() {
         })
         .catch(function(error) {
           reject(error);
-        })
-        .done();
+        });
     }
   });
 };

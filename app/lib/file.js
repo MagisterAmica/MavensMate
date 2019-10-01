@@ -475,8 +475,7 @@ MavensMateFile.prototype.mergeTemplate = function() {
       })
       .catch(function(err) {
         reject(err);
-      })
-      .done();
+      });
   });
 };
 
@@ -507,8 +506,7 @@ MavensMateFile.prototype.renderAndWriteToDisk = function(destination) {
       })
       .catch(function(err) {
         reject(new Error('Could not write metadata file based on template: '+err));
-      })
-      .done();
+      });
   });
 };
 

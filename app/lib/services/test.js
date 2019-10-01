@@ -156,16 +156,14 @@ ApexTest.prototype.execute = function() {
               logger.error('Failed to get coverage');
               logger.error(err);
               reject(err);
-            })
-            .done();
+            });
         }
       })
       .catch(function(err) {
         logger.error('Could not run tests');
         logger.error(err);
         reject(err);
-      })
-      .done();
+      });
   });
 };
 

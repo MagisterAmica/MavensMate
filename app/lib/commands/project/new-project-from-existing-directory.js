@@ -62,8 +62,7 @@ Command.prototype.execute = function() {
           logger.debug('Could not create project: ');
           logger.debug(error.stack);
           reject(error);
-        })
-        .done();
+        });
     }
   });
 };

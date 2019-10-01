@@ -154,8 +154,7 @@ SalesforceClient.prototype.initialize = function() {
         })
         .catch(function(error) {
           reject(error);
-        })
-        .done();
+        });
     } else if (self.accessToken && self.refreshToken) {
       self.conn = new jsforce.Connection({
         oauth2 : {
@@ -410,8 +409,7 @@ SalesforceClient.prototype.compileWithToolingApi = function(files) {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -695,16 +693,14 @@ SalesforceClient.prototype.runTests = function(classIdsOrTestsPayload) {
                 })
                 .catch(function(err) {
                   reject(new Error('Retrieving test results failed: '+err.message));
-                })
-                .done();
+                });
             } else {
               setTimeout(pollForTestResult, pollInterval);
             }
           })
           .catch(function(err) {
             reject(new Error('Retrieving test results failed: '+err.message));
-          })
-          .done();
+          });
         };
         pollForTestResult();
       }
@@ -1035,8 +1031,7 @@ SalesforceClient.prototype.startLogging = function(debugSettings, expiration) {
           })
           .catch(function(err) {
             reject(new Error('Could not create Trace Flags: '+err.message));
-          })
-          .done();
+          });
       }
     });
     /*jshint camelcase: true */
@@ -1083,8 +1078,7 @@ SalesforceClient.prototype.stopLogging = function(userIds) {
           })
           .catch(function(err) {
             reject(new Error('Could not delete Trace Flags: '+err.message));
-          })
-          .done();
+          });
       }
     });
     /*jshint camelcase: true */

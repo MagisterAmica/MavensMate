@@ -231,14 +231,12 @@ CompileDelegate.prototype._compileToolingFilesLegacy = function(toolingFiles) {
             })
             .catch(function(error) {
               reject(error);
-            })
-            .done();
+            });
         }
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -279,14 +277,12 @@ CompileDelegate.prototype._compileToolingFiles = function(toolingFiles) {
             })
             .catch(function(error) {
               reject(error);
-            })
-            .done();
+            });
         }
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -325,14 +321,12 @@ CompileDelegate.prototype._compileGenericMetadata = function(metadataApiFiles, c
             })
             .catch(function(error) {
               reject(error);
-            })
-            .done();
+            });
         }
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 
@@ -353,8 +347,7 @@ CompileDelegate.prototype._compileLightningBundleItemFiles = function(files) {
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 

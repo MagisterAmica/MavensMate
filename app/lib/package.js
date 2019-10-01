@@ -440,7 +440,7 @@ WorkflowListProvider.prototype = Object.create(ListProvider.prototype, {
             output.Workflow = output.Workflow.concat(caseCommentWorkflows);
             resolve(output);
           })
-          .catch(reject).done();
+          .catch(reject);
       });
     }
   }

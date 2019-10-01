@@ -51,8 +51,7 @@ describe('mavensmate org-index', function(){
       })
       .catch(function(err) {
         done(err);
-      })
-      .done();
+      });
 
   });
 
@@ -90,8 +89,7 @@ describe('mavensmate org-index', function(){
       })
       .catch(function(err) {
         done(err);
-      })
-      .done();
+      });
 
   });
 

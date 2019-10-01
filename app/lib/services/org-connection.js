@@ -161,8 +161,7 @@ OrgConnectionService.prototype.add = function(opts) {
       .catch(function(err) {
         logger.error('could not initialize sfdc client for org connection: '+err.message);
         reject(err);
-      })
-      .done();
+      });
 
   });
 };

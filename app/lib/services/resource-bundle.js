@@ -55,8 +55,7 @@ ResourceBundleService.prototype.create = function(staticResourcePaths) {
       })
       .catch(function(e) {
         reject(new Error('Could not create resource bundle(s): '+e.message));
-      })
-      .done();
+      });
   });
 };
 
@@ -75,8 +74,7 @@ ResourceBundleService.prototype._write = function(staticResourcePath, destinatio
       })
       .catch(function(e) {
         reject(new Error('Could not write bundle stream for '+staticResourcePath+': '+e.message));
-      })
-      .done();
+      });
   });
 };
 
@@ -112,13 +110,11 @@ ResourceBundleService.prototype.deploy = function(bundlePaths) {
           })
           .catch(function(error) {
             reject(error);
-          })
-          .done();
+          });
       })
       .catch(function(error) {
         reject(error);
-      })
-      .done();
+      });
   });
 };
 

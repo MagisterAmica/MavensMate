@@ -100,8 +100,7 @@ function _addProjectById(app, projectId) {
           logger.error('Error initializing project: '+err.message+ ' -> '+err.stack);
           reject(err);
         }
-      })
-      .done();
+      });
   });
 }
 

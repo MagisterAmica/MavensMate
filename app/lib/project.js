@@ -38,7 +38,7 @@ var KeychainService   = require('./services/keychain');
  * @param {String} [opts.path] - (optional) Explicitly sets path of the project (defaults to current working directory)
  * @param {String} [opts.origin] - (optional) When creating a MavensMate project from an existing directory, pass the existing path as "origin"
  */
-var Project = function(opts) {
+var Project = function (opts) {
   this.name = opts.name;
   this.path = opts.path;
   this.workspace = opts.workspace;
@@ -71,28 +71,28 @@ inherits(Project, events.EventEmitter);
  * @param  {Boolean} isNewProject
  * @return {Promise}
  */
-Project.prototype.initialize = function(isNewProject, isExistingDirectory) {
+Project.prototype.initialize = function (isNewProject, isExistingDirectory) {
   var self = this;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     isNewProject = isNewProject || false;
 
     if (!isNewProject) {
       self._initExisting()
-        .then(function() {
+        .then(function () {
           resolve(self);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           logger.error('Could not initiate existing Project instance: '+error.message);
           reject(error);
         });
     } else if (isNewProject) {
       var initPromise = isExistingDirectory ? self._initNewProjectFromExistingDirectory() : self._initNew();
       initPromise
-        .then(function() {
+        .then(function () {
           resolve(self);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           logger.error('Could not initiate new Project instance: '+error.message);
           reject(error);
         });
@@ -104,9 +104,9 @@ Project.prototype.initialize = function(isNewProject, isExistingDirectory) {
  * Initiates an existing (on disk) MavensMate project instance
  * @return {Promise}
  */
-Project.prototype._initNewProjectFromExistingDirectory = function() {
+Project.prototype._initNewProjectFromExistingDirectory = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var pkg, fileProperties;
     if (!self.workspace) {
       throw new Error('Please select a workspace for this project');
@@ -137,18 +137,18 @@ Project.prototype._initNewProjectFromExistingDirectory = function() {
     fs.ensureDirSync(path.join(self.path, 'config'));
 
     self.sfdcClient.describe()
-      .then(function(describe) {
+      .then(function (describe) {
         self.metadataHelper = new MetadataHelper({ sfdcClient: self.sfdcClient });
         return self.setDescribe(describe);
       })
-      .then(function() {
+      .then(function () {
         pkg = new Package({ project: self, path: path.join(self.path, 'src', 'package.xml') });
         return pkg.init();
       })
-      .then(function() {
+      .then(function () {
         return self.sfdcClient.retrieveUnpackaged(pkg.subscription, true, self.path);
       })
-      .then(function(retrieveResult) {
+      .then(function (retrieveResult) {
         logger.debug('retrieve result: ');
         logger.debug(retrieveResult);
         fileProperties = retrieveResult.fileProperties;
@@ -158,16 +158,16 @@ Project.prototype._initNewProjectFromExistingDirectory = function() {
         self.id = uuid.v1();
         return self._initConfig();
       })
-      .then(function() {
+      .then(function () {
         logger.debug('initiating local store');
         logger.silly(fileProperties);
 
         return self._writeLocalStore(fileProperties);
       })
-      .then(function() {
+      .then(function () {
         resolve();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // remove directory from workspace if we encounter an exception along the way
         logger.error('Could not retrieve and write project to file system: '+error.message);
         logger.error(error.stack);
@@ -183,12 +183,12 @@ Project.prototype._initNewProjectFromExistingDirectory = function() {
  * Initiates an existing (on disk) MavensMate project instance
  * @return {Promise}
  */
-Project.prototype._initExisting = function() {
+Project.prototype._initExisting = function () {
   logger.debug('itializing existing project on the disk...');
 
   var self = this;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     if (!self._hasValidStructure()) {
       return reject(new Error('This does not seem to be a valid MavensMate project directory.'));
     }
@@ -222,10 +222,10 @@ Project.prototype._initExisting = function() {
 
     self.packageXml = new Package({
       project : self,
-      path    : path.join(self.path, 'src', 'package.xml')
+      path    : path.join(self.path, 'src', 'package.xml'),
     });
     self.packageXml.init()
-      .then(function() {
+      .then(function () {
         if (!self.sfdcClient) {
           logger.debug('Creating new sfdc client', self.settings, creds);
           if (creds.refreshToken) {
@@ -236,7 +236,7 @@ Project.prototype._initExisting = function() {
               instanceUrl  : self.settings.instanceUrl,
               loginUrl     : self.settings.loginUrl,
               orgType      : self.settings.orgType,
-              clientId     : self.settings.clientId
+              clientId     : self.settings.clientId,
             });
           } else {
             self.sfdcClient = new SalesforceClient({
@@ -244,47 +244,47 @@ Project.prototype._initExisting = function() {
               password : creds.password,
               loginUrl : self.settings.loginUrl,
               orgType  : self.settings.orgType,
-              clientId : self.settings.clientId
+              clientId : self.settings.clientId,
             });
           }
           self._listenForTokenUpdates();
         }
         return self.sfdcClient.initialize();
       })
-      .then(function(res) {
+      .then(function (res) {
         self.metadataHelper = new MetadataHelper({ sfdcClient: self.sfdcClient });
         self.getLocalStore();
         return self.getOrgMetadataIndexWithSelections();
       })
-      .then(function() {
+      .then(function () {
         return self._refreshDescribeFromServer();
       })
-      .then(function() {
-        self.sfdcClient.on('sfdcclient-new-log', function(message) {
+      .then(function () {
+        self.sfdcClient.on('sfdcclient-new-log', function (message) {
           if (message.sobject && message.sobject.Id) {
             self.logService.downloadLog(message.sobject.Id)
-              .then(function(filePath) {
+              .then(function (filePath) {
                 self.emit('new-log', filePath);
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 logger.debug('Could not download log: '+error.message);
               });
           }
         });
         return self.sfdcClient.startSystemStreamingListener();
       })
-      .then(function() {
+      .then(function () {
         if (!self.getDebugSettingsSync().debugLevelName) {
           return self._writeDebug();
         } else {
           return Promise.resolve();
         }
       })
-      .then(function() {
+      .then(function () {
         self.requiresAuthentication = false;
         resolve();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         logger.error(error);
         if (util.isCredentialsError(error)) {
           logger.debug('project has expired access/refresh token, marking as invalid');
@@ -299,9 +299,9 @@ Project.prototype._initExisting = function() {
  * Initiates a new (not yet on disk) MavensMate project instance
  * @return {Promise}
  */
-Project.prototype._initNew = function() {
+Project.prototype._initNew = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     if (!self.workspace) {
       var workspace;
       var workspaceSetting = config.get('mm_workspace');
@@ -337,19 +337,19 @@ Project.prototype._initNew = function() {
  * Whether this project has a valid MavensMate project structure
  * @return {Boolean}
  */
-Project.prototype._hasValidStructure = function() {
+Project.prototype._hasValidStructure = function () {
   if (this.path) {
     return fs.existsSync(path.join(this.path, 'config', '.settings'));
   } else if (this.workspace && this.name) {
     return fs.existsSync(path.join(this.workspace, this.name, 'config', '.settings'));
   } else {
-    return fs.existsSync(path.join(process.cwd(),'config', '.settings'));
+    return fs.existsSync(path.join(process.cwd(), 'config', '.settings'));
   }
 };
 
-Project.prototype.replaceLocalFiles = function(remotePath, replacePackageXml) {
+Project.prototype.replaceLocalFiles = function (remotePath, replacePackageXml) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var finder = find(remotePath);
     finder.on('file', function (file) {
       var fileBasename = path.basename(file);
@@ -378,10 +378,10 @@ Project.prototype.replaceLocalFiles = function(remotePath, replacePackageXml) {
       // TODO: package support
       if (fs.existsSync(remotePath)) {
         fs.removeAsync(remotePath)
-          .then(function() {
+          .then(function () {
             resolve();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             reject(err);
           });
       } else {
@@ -400,10 +400,10 @@ Project.prototype.replaceLocalFiles = function(remotePath, replacePackageXml) {
  * create necessary /config, places on the disk in the correct workspace
  * @return {Promise}
  */
-Project.prototype.retrieveAndWriteToDisk = function() {
+Project.prototype.retrieveAndWriteToDisk = function () {
   var self = this;
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var fileProperties;
     if (fs.existsSync(self.path)) {
       reject(new Error('Project with this name already exists in the specified workspace.'));
@@ -411,23 +411,23 @@ Project.prototype.retrieveAndWriteToDisk = function() {
       if (!self.package) {
         // if user has not specified package, add standard developer objects to package
         self.package = [
-          'ApexClass', 'ApexComponent', 'ApexPage', 'ApexTrigger', 'StaticResource'
+          'ApexClass', 'ApexComponent', 'ApexPage', 'ApexTrigger', 'StaticResource',
         ];
       }
       self.sfdcClient.describe()
-        .then(function(describe) {
+        .then(function (describe) {
           return self.setDescribe(describe);
         })
-        .then(function() {
+        .then(function () {
           self.path = path.join(self.workspace, self.name);
           fs.mkdirSync(self.path);
           fs.mkdirSync(path.join(self.path, 'config'));
           return self.sfdcClient.retrieveUnpackaged(self.package, true, self.path);
         })
-        .then(function(retrieveResult) {
+        .then(function (retrieveResult) {
           fileProperties = retrieveResult.fileProperties;
           if (fs.existsSync(path.join(self.path, 'unpackaged'))) {
-            gracefulFs.rename(path.join(self.path, 'unpackaged'), path.join(self.path, 'src'), function(err, res) {
+            gracefulFs.rename(path.join(self.path, 'unpackaged'), path.join(self.path, 'src'), function (err, res) {
               if (err) {
                 return reject(err);
               } else {
@@ -436,16 +436,16 @@ Project.prototype.retrieveAndWriteToDisk = function() {
             });
           }
         })
-        .then(function() {
+        .then(function () {
           logger.debug('initiating local store');
           logger.silly(fileProperties);
 
           return self._writeLocalStore(fileProperties);
         })
-        .then(function() {
+        .then(function () {
           resolve();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // remove directory from workspace if we encounter an exception along the way
           logger.error('Could not retrieve and write project to file system: '+error.message);
           logger.error(error.stack);
@@ -462,9 +462,9 @@ Project.prototype.retrieveAndWriteToDisk = function() {
  * Writes config/ files
  * @return {Promise}
  */
-Project.prototype._initConfig = function() {
+Project.prototype._initConfig = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var settings = {
       projectName  : self.name,
       username     : self.sfdcClient.getUsername(),
@@ -484,14 +484,14 @@ Project.prototype._initConfig = function() {
       self._writeDebug(),
       self._writeEditorSettings(),
       self._refreshDescribeFromServer(),
-      self.indexLightning()
+      self.indexLightning(),
     ];
 
     Promise.all(promises)
-      .then(function() {
+      .then(function () {
         resolve();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('Could not initiate project config directory -->'+err.message);
         reject(err);
       });
@@ -503,34 +503,34 @@ Project.prototype._initConfig = function() {
  * TODO: handle packages!
  * @return {Promise}
  */
-Project.prototype.refreshFromServer = function() {
+Project.prototype.refreshFromServer = function () {
   // TODO: implement stash!
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     logger.debug('refreshing project from server...');
     var retrieveResult;
     var retrievePath = temp.mkdirSync({ prefix: 'mm_' });
     self.packageXml = new Package({ project: self, path: path.join(self.path, 'src', 'package.xml') });
     self.packageXml.init()
-      .then(function() {
+      .then(function () {
         return self.sfdcClient.retrieveUnpackaged(self.packageXml.subscription, true, retrievePath);
       })
-      .then(function(res) {
+      .then(function (res) {
         retrieveResult = res;
         util.emptyDirectoryRecursiveSync(path.join(self.path, 'src'));
         return self.replaceLocalFiles(path.join(retrievePath, 'unpackaged'), true);
       })
-      .then(function() {
+      .then(function () {
         return self._writeLocalStore(retrieveResult.fileProperties);
       })
-      .then(function() {
+      .then(function () {
         return self.indexLightning();
       })
-      .then(function() {
+      .then(function () {
         util.removeEmptyDirectoriesRecursiveSync(path.join(self.path, 'src'));
         resolve();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('Error refreshing project from server -->'+err.message);
         reject(err);
       });
@@ -542,21 +542,21 @@ Project.prototype.refreshFromServer = function() {
  * TODO: handle packages!
  * @return {Promise}
  */
-Project.prototype.clean = function() {
+Project.prototype.clean = function () {
   // TODO: implement stash!
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     self.refreshFromServer()
-      .then(function() {
+      .then(function () {
         return self._refreshDescribeFromServer();
       })
-      .then(function() {
+      .then(function () {
         return self.indexMetadata();
       })
-      .then(function() {
+      .then(function () {
         resolve();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('Error cleaning project -->'+err.message);
         reject(err);
       });
@@ -567,37 +567,37 @@ Project.prototype.clean = function() {
  * Compiles projects based on package.xml
  * @return {Promise}
  */
-Project.prototype.compile = function() {
+Project.prototype.compile = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // writes temp directory, puts zip file inside
     var newPath = temp.mkdirSync({ prefix: 'mm_' });
-    fs.copy(path.join(self.path, 'src'), path.join(newPath, 'unpackaged'), function(err) {
+    fs.copy(path.join(self.path, 'src'), path.join(newPath, 'unpackaged'), function (err) {
       if (err) {
         return reject(err);
       } else {
         var deployResult;
         util.zipDirectory(path.join(newPath, 'unpackaged'), newPath)
-          .then(function() {
+          .then(function () {
             var zipStream = fs.createReadStream(path.join(newPath, 'unpackaged.zip'));
             return self.sfdcClient.deploy(zipStream, { rollbackOnError: true, performRetrieve: true });
           })
-          .then(function(result) {
+          .then(function (result) {
             logger.debug('Compile result: ');
             logger.debug(result);
             deployResult = result;
             if (deployResult.details.retrieveResult) {
               return self.updateLocalStore(deployResult.details.retrieveResult.fileProperties);
             } else {
-              return new Promise(function(resolve) {
+              return new Promise(function (resolve) {
                 resolve();
               });
             }
           })
-          .then(function() {
+          .then(function () {
             resolve(deployResult);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             reject(error);
           });
       }
@@ -605,7 +605,7 @@ Project.prototype.compile = function() {
   });
 };
 
-Project.prototype._explodePackage = async function(pkg) {
+Project.prototype._explodePackage = async function (pkg) {
   var self = this;
 
   const metadata_types = ['ApexClass', 'CustomObject'];
@@ -623,9 +623,11 @@ Project.prototype._explodePackage = async function(pkg) {
 
     pkg[type] = [];
 
-    let type_collection = _.find(project_metadata, function (item) { return item.id === type; });
+    let type_collection = _.find(project_metadata, function (item) {
+      return item.id === type; 
+    });
 
-    _.each(type_collection.children, function(child) {
+    _.each(type_collection.children, function (child) {
       pkg[type].push(child.fullName);
     });
   }
@@ -638,10 +640,10 @@ Project.prototype._explodePackage = async function(pkg) {
  * @param  {Object} payload
  * @return {Promise}
  */
-Project.prototype.edit = function(pkg) {
+Project.prototype.edit = function (pkg) {
   // TODO: implement stash!
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var newPackage;
     var retrievePath = temp.mkdirSync({ prefix: 'mm_' });
     logger.debug('editing project, requested package is: ', pkg);
@@ -650,26 +652,26 @@ Project.prototype.edit = function(pkg) {
       logger.debug('editing project, exploded package is: ', pkg);
       return self.sfdcClient.retrieveUnpackaged(pkg, true, retrievePath);
     })
-    .then(function(retrieveResult) {
+    .then(function (retrieveResult) {
       return self._writeLocalStore(retrieveResult.fileProperties);
     })
-    .then(function() {
+    .then(function () {
       // todo: in conversation with sean he noted that it would be nice to not obliterate working
       // copies of server metadata on edit-project, which this does
       // in that case, we may give the user an option of overwriting all local files or only new ones
       util.emptyDirectoryRecursiveSync(path.join(self.path, 'src'));
       return self.replaceLocalFiles(path.join(retrievePath, 'unpackaged'), true);
     })
-    .then(function() {
+    .then(function () {
       newPackage = new Package({ project: self, path: path.join(self.path, 'src', 'package.xml') });
       return newPackage.init();
     })
-    .then(function() {
+    .then(function () {
       self.packageXml = newPackage;
       util.removeEmptyDirectoriesRecursiveSync(path.join(self.path, 'src'));
       resolve();
     })
-    .catch(function(error) {
+    .catch(function (error) {
       reject(error);
     });
   });
@@ -679,7 +681,7 @@ Project.prototype.edit = function(pkg) {
  * Retrieves config/.settings from the disk
  * @return {[type]} [description]
  */
-Project.prototype._readSettings = function() {
+Project.prototype._readSettings = function () {
   try {
     return fs.readJsonSync(path.join(this.path, 'config', '.settings'));
   } catch(err) {
@@ -691,7 +693,8 @@ Project.prototype._readSettings = function() {
 /**
  * Writes settings to disk, updates local settings store
  */
-Project.prototype.writeSettings = function(settings) {
+Project.prototype.writeSettings = function (settings) {
+  console.log('Project.prototype.writeSettings');
   try {
     for (var key in settings) {
       this.settings[key] = settings[key];
@@ -704,7 +707,7 @@ Project.prototype.writeSettings = function(settings) {
 };
 
 // retrieves local_store from config/.local_store
-Project.prototype.getLocalStore = function() {
+Project.prototype.getLocalStore = function () {
   var localStore;
   try {
     localStore = fs.readJsonSync(path.join(this.path, 'config', '.local_store'));
@@ -718,7 +721,7 @@ Project.prototype.getLocalStore = function() {
   return localStore;
 };
 
-Project.prototype.getDebugSettingsSync = function() {
+Project.prototype.getDebugSettingsSync = function () {
   var debugSettings;
   try {
     debugSettings = fs.readJsonSync(path.join(this.path, 'config', '.debug'));
@@ -732,9 +735,9 @@ Project.prototype.getDebugSettingsSync = function() {
   return debugSettings;
 };
 
-Project.prototype.setLightningIndex = function(index) {
+Project.prototype.setLightningIndex = function (index) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       fs.outputFileSync(path.join(self.path, 'config', '.lightning'), JSON.stringify(index, null, 4));
       self.lightningIndex = index;
@@ -746,7 +749,7 @@ Project.prototype.setLightningIndex = function(index) {
   });
 };
 
-Project.prototype.getLightningIndexSync = function() {
+Project.prototype.getLightningIndexSync = function () {
   var lightningIndex;
   try {
     lightningIndex = fs.readJsonSync(path.join(this.path, 'config', '.lightning'));
@@ -760,9 +763,9 @@ Project.prototype.getLightningIndexSync = function() {
   return lightningIndex;
 };
 
-Project.prototype.getLightningIndex = function() {
+Project.prototype.getLightningIndex = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     try {
       var lightningIndex = fs.readJsonSync(path.join(self.path, 'config', '.lightning'));
       return resolve(lightningIndex);
@@ -771,12 +774,12 @@ Project.prototype.getLightningIndex = function() {
       logger.debug(err);
       // if err is empty/missing file, index it
       self.indexLightning()
-        .then(function() {
+        .then(function () {
           logger.debug('done indexing lightning, now go get it');
           var lightningIndex = fs.readJsonSync(path.join(self.path, 'config', '.lightning'));
           return resolve(lightningIndex);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           logger.error('Could not get lightning index -->'+err.message);
           reject(err);
         });
@@ -785,16 +788,16 @@ Project.prototype.getLightningIndex = function() {
 };
 
 // retrieves describe from config/.describe
-Project.prototype.getDescribe = function() {
+Project.prototype.getDescribe = function () {
   return this._describe;
 };
 
-Project.prototype.setDescribe = function(describe) {
+Project.prototype.setDescribe = function (describe) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var describePath = path.join(self.path, 'config', '.describe');
     if (fs.existsSync(path.join(self.path, 'config'))) {
-      fs.outputFile(describePath, JSON.stringify(describe, null, 4), function(err) {
+      fs.outputFile(describePath, JSON.stringify(describe, null, 4), function (err) {
         if (err) {
           return reject(err);
         } else {
@@ -809,34 +812,34 @@ Project.prototype.setDescribe = function(describe) {
   });
 };
 
-Project.prototype._refreshDescribeFromServer = function() {
+Project.prototype._refreshDescribeFromServer = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     self.sfdcClient.describe()
-      .then(function(res) {
+      .then(function (res) {
         return self.setDescribe(res);
       })
-      .then(function() {
+      .then(function () {
         resolve();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         reject(error);
       });
   });
 };
 
-Project.prototype.indexLightning = function() {
+Project.prototype.indexLightning = function () {
   var self = this;
   logger.debug('indexing lightning to config/.lightning');
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     self.lightningService.getAll()
-      .then(function(res) {
+      .then(function (res) {
         return self.setLightningIndex(res);
       })
-      .then(function() {
+      .then(function () {
         return resolve();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         if (err.message.indexOf('sObject type \'AuraDefinition\' is not supported') >= 0 || err.message.indexOf('requested resource does not exist') >= 0) {
           resolve();
         } else {
@@ -851,9 +854,9 @@ Project.prototype.indexLightning = function() {
  * Indexes Apex symbols
  * @return {Promise}
  */
-Project.prototype.indexSymbols = function(apexClassName) {
+Project.prototype.indexSymbols = function (apexClassName) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     if (!fs.existsSync(path.join(self.path, 'config', '.symbols'))) {
       fs.mkdirpSync(path.join(self.path, 'config', '.symbols'));
     }
@@ -861,11 +864,11 @@ Project.prototype.indexSymbols = function(apexClassName) {
     // todo: stash existing
     var symbolPromise = apexClassName ? self.symbolService.indexApexClass(apexClassName) : self.symbolService.index();
     symbolPromise
-      .then(function() {
+      .then(function () {
         logger.debug('done indexing symbols!');
         resolve();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('Could not index apex symbols: '+err.message);
         reject(err);
       });
@@ -876,16 +879,16 @@ Project.prototype.indexSymbols = function(apexClassName) {
  * Populates project's config/.org_metadata with server metadata based on the projects subscription
  * @return {Promise}
  */
-Project.prototype.indexMetadata = function() {
+Project.prototype.indexMetadata = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // todo: stash existing
     if (!self.indexService) {
       self.indexService = new IndexService({ project: self });
     }
     self.indexService.indexServerProperties(self.settings.subscription)
-      .then(function(res) {
-        fs.outputFile(path.join(self.path, 'config', '.org_metadata'), JSON.stringify(res, null, 4), function(err) {
+      .then(function (res) {
+        fs.outputFile(path.join(self.path, 'config', '.org_metadata'), JSON.stringify(res, null, 4), function (err) {
           if (err) {
             reject(err);
           } else {
@@ -893,17 +896,17 @@ Project.prototype.indexMetadata = function() {
           }
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('Could not index metadataHelper: '+err.message);
         reject(err);
       });
   });
 };
 
-Project.prototype.getOrgMetadataIndex = function() {
+Project.prototype.getOrgMetadataIndex = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
-    fs.readJson(path.join(self.path, 'config', '.org_metadata'), function(err, orgMetadata) {
+  return new Promise(function (resolve, reject) {
+    fs.readJson(path.join(self.path, 'config', '.org_metadata'), function (err, orgMetadata) {
       if (err) {
         logger.debug('Could not return org metadata: '+err.message);
         resolve([]);
@@ -914,13 +917,13 @@ Project.prototype.getOrgMetadataIndex = function() {
   });
 };
 
-Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, packageXmlPath) {
+Project.prototype.getOrgMetadataIndexWithSelections = function (keyword, ids, packageXmlPath) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     logger.debug('getOrgMetadataIndexWithSelections, package location: ', packageXmlPath);
     if (fs.existsSync(path.join(self.path, 'config', '.org_metadata'))) {
       try {
-        fs.readJson(path.join(self.path, 'config', '.org_metadata'), function(err, orgMetadata) {
+        fs.readJson(path.join(self.path, 'config', '.org_metadata'), function (err, orgMetadata) {
           if (err) {
             reject(err);
           } else {
@@ -935,11 +938,11 @@ Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, pac
             }
 
             promise
-              .then(function() {
+              .then(function () {
                 if (!ids) {
                   ids = [];
                   var pkg = packageXmlPath ? customPackage : self.packageXml;
-                  _.forOwn(pkg.subscription, function(packageMembers, metadataTypeXmlName) {
+                  _.forOwn(pkg.subscription, function (packageMembers, metadataTypeXmlName) {
                     var metadataType = self.metadataHelper.getTypeByXmlName(metadataTypeXmlName); //inFolder, childXmlNames
                     if (!metadataType) {
                       return reject(new Error('Unrecognized package.xml metadata type: '+metadataTypeXmlName));
@@ -951,12 +954,12 @@ Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, pac
                       ids.push(metadataTypeXmlName);
                       var indexedType = _.find(orgMetadata, { xmlName: metadataTypeXmlName });
                       if (_.has(indexedType, 'children')) {
-                        _.each(indexedType.children, function(child) {
+                        _.each(indexedType.children, function (child) {
                           child.select = true;
                         });
                       }
                     } else {
-                      _.each(packageMembers, function(member) {
+                      _.each(packageMembers, function (member) {
                         if (metadataType.inFolder) {
                           // id : Document.FolderName.FileName.txt
                           ids.push([metadataTypeXmlName, member.replace(/\//, '.')].join('.'));
@@ -969,10 +972,10 @@ Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, pac
                           if (indexedType) {
                             var indexedNode = _.find(indexedType.children, { id: [metadataTypeXmlName, member].join('.')});
                             if (_.has(indexedNode, 'children')) {
-                              _.each(indexedNode.children, function(child) {
+                              _.each(indexedNode.children, function (child) {
                                 child.select = true;
                                 if (_.has(child, 'children')) {
-                                  _.each(child.children, function(grandChild) {
+                                  _.each(child.children, function (grandChild) {
                                     grandChild.select = true;
                                   });
                                 }
@@ -1011,20 +1014,20 @@ Project.prototype.getOrgMetadataIndexWithSelections = function(keyword, ids, pac
   });
 };
 
-Project.prototype.hasIndexedMetadata = function() {
+Project.prototype.hasIndexedMetadata = function () {
   return _.isArray(this.orgMetadata) && this.orgMetadata.length > 0;
 };
 
-Project.prototype.updateLocalStore = function(fileProperties) {
+Project.prototype.updateLocalStore = function (fileProperties) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     Promise.resolve(fileProperties).then(function (properties) {
       if (!_.isArray(properties)) {
         properties = [properties];
       }
       try {
         var store = self.getLocalStore();
-        _.each(properties, function(fp) {
+        _.each(properties, function (fp) {
           if (fp.attributes) {
             fp = normalize(fp);
           }
@@ -1065,7 +1068,7 @@ Project.prototype.updateLocalStore = function(fileProperties) {
         });
 
         var filePath = path.join(self.path, 'config', '.local_store');
-        fs.outputFile(filePath, JSON.stringify(store, null, 4), function(err) {
+        fs.outputFile(filePath, JSON.stringify(store, null, 4), function (err) {
           if (err) {
             logger.error('Could not write local store: '+err.message);
             reject(err);
@@ -1081,9 +1084,9 @@ Project.prototype.updateLocalStore = function(fileProperties) {
   });
 };
 
-Project.prototype._writeLocalStore = function(fileProperties) {
+Project.prototype._writeLocalStore = function (fileProperties) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     logger.debug('writing to local store');
     Promise.resolve(fileProperties)
       .then(function (properties) {
@@ -1094,7 +1097,7 @@ Project.prototype._writeLocalStore = function(fileProperties) {
           logger.debug('writing local store...');
           logger.silly(properties);
           var store = {};
-          _.each(properties, function(fp) {
+          _.each(properties, function (fp) {
             if (!self.metadataHelper) {
               self.metadataHelper = new MetadataHelper({ sfdcClient: self.sfdcClient });
             }
@@ -1112,7 +1115,7 @@ Project.prototype._writeLocalStore = function(fileProperties) {
             }
           });
           var filePath = path.join(self.path, 'config', '.local_store');
-          fs.outputFile(filePath, JSON.stringify(store, null, 4), function(err) {
+          fs.outputFile(filePath, JSON.stringify(store, null, 4), function (err) {
             if (err) {
               reject(new Error('Could not write local store: '+err.message));
             } else {
@@ -1124,7 +1127,7 @@ Project.prototype._writeLocalStore = function(fileProperties) {
           reject(err);
         }
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('fileproperties promise rejected', err);
         reject(err);
       });
@@ -1137,9 +1140,9 @@ Project.prototype._writeLocalStore = function(fileProperties) {
  * @param  {Object} value - value to override
  * @return {Promise}                 [description]
  */
-Project.prototype._updateDebug = function(key, value) {
+Project.prototype._updateDebug = function (key, value) {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     logger.debug('updating debug setting ['+key+']');
     logger.debug(value);
 
@@ -1169,9 +1172,9 @@ Project.prototype._updateDebug = function(key, value) {
  * Writes config/.debug to the project on creation
  * @return {Promise}
  */
-Project.prototype._writeDebug = function() {
+Project.prototype._writeDebug = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var debug = {
       users          : [self.sfdcClient.getUserId()],
       logType        : 'USER_DEBUG',
@@ -1184,13 +1187,13 @@ Project.prototype._writeDebug = function() {
         ApexCode      : 'DEBUG',
         ApexProfiling : 'INFO',
         Validation    : 'INFO',
-        Visualforce   : 'DEBUG'
+        Visualforce   : 'DEBUG',
       },
-      expiration : 480
+      expiration : 480,
     };
 
     var filePath = path.join(self.path, 'config', '.debug');
-    fs.outputFile(filePath, JSON.stringify(debug, null, 4), function(err) {
+    fs.outputFile(filePath, JSON.stringify(debug, null, 4), function (err) {
       if (err) {
         reject(err);
       } else {
@@ -1204,9 +1207,9 @@ Project.prototype._writeDebug = function() {
  * Writes editor-specific config to the project root
  * @return {Promise}
  */
-Project.prototype._writeEditorSettings = function() {
+Project.prototype._writeEditorSettings = function () {
   var self = this;
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // TODO: right now these are written to every project root, regardless of editor
 
     /*jshint camelcase: false */
@@ -1214,35 +1217,35 @@ Project.prototype._writeEditorSettings = function() {
       folders : [
         {
           folder_exclude_patterns : [
-            'config/.symbols'
+            'config/.symbols',
           ],
-          path : '.'
-        }
+          path : '.',
+        },
       ],
       settings : {
         auto_complete_triggers : [
           {
             characters : '.',
-            selector   : 'source - comment'
+            selector   : 'source - comment',
           },
           {
             characters : ':',
-            selector   : 'text.html - comment'
+            selector   : 'text.html - comment',
           },
           {
             characters : '<',
-            selector   : 'text.html - comment'
+            selector   : 'text.html - comment',
           },
           {
             characters : ' ',
-            selector   : 'text.html - comment'
-          }
-        ]
-      }
+            selector   : 'text.html - comment',
+          },
+        ],
+      },
     };
     /*jshint camelcase: true */
     var filePath = path.join( self.path, [ self.name, 'sublime-project' ].join('.') );
-    fs.outputFile(filePath, JSON.stringify(sublimeSettings, null, 4), function(err) {
+    fs.outputFile(filePath, JSON.stringify(sublimeSettings, null, 4), function (err) {
       if (err) {
         reject(err);
       } else {
@@ -1257,10 +1260,10 @@ Project.prototype._writeEditorSettings = function() {
  * Attaches listener to sfdcClient that updates the local token store on refresh
  * @return {Nothing}
  */
-Project.prototype._listenForTokenUpdates = function() {
+Project.prototype._listenForTokenUpdates = function () {
   var self = this;
   if (self.sfdcClient.listeners('token-refresh').length === 0) {
-    self.sfdcClient.on('token-refresh', function() {
+    self.sfdcClient.on('token-refresh', function () {
       logger.debug('handling sfdcClient:token-refresh');
       try {
         self._writeCredentials(true);
@@ -1277,10 +1280,10 @@ Project.prototype._listenForTokenUpdates = function() {
  * @param  {Object} creds
  * @return {Promise}
  */
-Project.prototype.updateCredentials = function(creds) {
+Project.prototype.updateCredentials = function (creds) {
   var self = this;
   logger.debug('updating project creds', creds);
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var username = creds.username || self.settings.username;
     var password = creds.password;
     var accessToken = creds.accessToken;
@@ -1294,7 +1297,7 @@ Project.prototype.updateCredentials = function(creds) {
         password    : password,
         orgType     : orgType,
         loginUrl    : loginUrl,
-        instanceUrl : instanceUrl
+        instanceUrl : instanceUrl,
       });
     } else {
       self.sfdcClient = new SalesforceClient({
@@ -1303,33 +1306,35 @@ Project.prototype.updateCredentials = function(creds) {
         refreshToken : refreshToken,
         orgType      : orgType,
         loginUrl     : loginUrl,
-        instanceUrl  : instanceUrl
+        instanceUrl  : instanceUrl,
       });
     }
     self.sfdcClient.initialize()
-      .then(function() {
+      .then(function () {
         self._writeCredentials(true);
         self.writeSettings({
           username    : username,
           orgType     : orgType,
           loginUrl    : loginUrl,
-          instanceUrl : instanceUrl
+          instanceUrl : instanceUrl,
         });
         return self._updateDebug('users', [self.sfdcClient.getUserId()]);
       })
-      .then(function() {
+      .then(function () {
         if (self.requiresAuthentication) {
           logger.debug('project required authentication, running init again');
           return self._initExisting();
         } else {
-          return new Promise(function(res) { res(); });
+          return new Promise(function (res) {
+            res(); 
+          });
         }
       })
-      .then(function() {
+      .then(function () {
         self._listenForTokenUpdates();
         resolve();
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error('Could not update credentials -->'+err.message);
         reject(err);
       });
@@ -1342,7 +1347,7 @@ Project.prototype.updateCredentials = function(creds) {
  * @param  {[type]} replace [description]
  * @return {[type]}         [description]
  */
-Project.prototype._writeCredentials = function(replace) {
+Project.prototype._writeCredentials = function (replace) {
   var self = this;
   try {
     logger.debug('_writeCredentials');
@@ -1363,12 +1368,12 @@ Project.prototype._writeCredentials = function(replace) {
       logger.debug('storing credentials in config/.credentials');
       if (self.sfdcClient.password) {
         fs.writeFileSync(path.join(self.path, 'config', '.credentials'), JSON.stringify({
-          password : self.sfdcClient.password
+          password : self.sfdcClient.password,
         }, null, 4));
       } else {
         fs.writeFileSync(path.join(self.path, 'config', '.credentials'), JSON.stringify({
           accessToken  : self.sfdcClient.accessToken,
-          refreshToken : self.sfdcClient.refreshToken
+          refreshToken : self.sfdcClient.refreshToken,
         }, null, 4));
       }
     }
@@ -1382,7 +1387,7 @@ Project.prototype._writeCredentials = function(replace) {
  * Retrieves access/refresh credentials from config/.credentials or the keychain
  * @return {Promise}
  */
-Project.prototype._readCredentials = function() {
+Project.prototype._readCredentials = function () {
   try {
     if (fs.existsSync(path.join(this.path, 'config', '.credentials'))) {
       return fs.readJsonSync(path.join(this.path, 'config', '.credentials'));
@@ -1390,7 +1395,7 @@ Project.prototype._readCredentials = function() {
       return {
         accessToken  : this.keychainService.getPassword(this.settings.id, 'accessToken', true),
         refreshToken : this.keychainService.getPassword(this.settings.id, 'refreshToken', true),
-        password     : this.keychainService.getPassword(this.settings.id, 'password', true)
+        password     : this.keychainService.getPassword(this.settings.id, 'password', true),
       };
     }
   } catch(err) {
@@ -1403,7 +1408,7 @@ Project.prototype._readCredentials = function() {
  * Writes result of a SOQL query to the project's soql/ directory
  * @return {None}
  */
-Project.prototype.writeSoqlResult = function(res) {
+Project.prototype.writeSoqlResult = function (res) {
   var soqlFileName = [moment().format('YYYY-MM-DD HH-mm-ss'), 'json'].join('.');
   var filePath = path.join(this.path, 'soql', soqlFileName);
   fs.outputFileSync(filePath, JSON.stringify(res, null, 4));

@@ -9,7 +9,8 @@ var EditorService   = require('../services/editor');
 var commands = {};
 var cmdPath = path.join(__dirname);
 var commandFiles = util.walkSync(cmdPath);
-_.each(commandFiles, function(filepath) {
+_.each(commandFiles, function (filepath) {
+  console.log(capitalize(camelize(path.basename(filepath).split('.')[0])+'Command'));
   commands[capitalize(camelize(path.basename(filepath).split('.')[0])+'Command')] = require(filepath).command;
 });
 
@@ -33,14 +34,14 @@ function _handleCommandResult(result) {
   } else {
     if (_.isString(result.result)) {
       var response = {
-        message: result.result
+        message : result.result,
       };
       result.resolve(response);
     } else {
       result.resolve(result.result);
     }
   }
-};
+}
 
 /**
  * Command executor
@@ -49,7 +50,7 @@ function _handleCommandResult(result) {
  * @param  {Function} opts.project - project instance
  * @return {Function}
  */
-module.exports = function(opts) {
+module.exports = function (opts) {
 
   opts = opts || {};
 
@@ -64,10 +65,10 @@ module.exports = function(opts) {
      * @param  {Function} payload.callback - callback, will be called when command finishes executing
      * @return {Nothing}
      */
-    execute: function(payload) {
-      return new Promise(function(resolve, reject) {
+    execute : function (payload) {
+      return new Promise(function (resolve, reject) {
         try {
-          logger.info('\n\n==================> executing command');
+          logger.info(`\n\n==================> executing command ${payload.name}`);
           // logger.silly('payload ', payload);
 
           var name, body, editor, project, openWindowFn, commandClassName;
@@ -77,41 +78,43 @@ module.exports = function(opts) {
           project = payload.project || opts.project;
           openWindowFn = payload.openWindowFn || opts.openWindowFn;
 
+          logger.info('name: ', name);
+          logger.info('project: ', project && project.name ? project.name : 'none');
+          logger.info('body: ', JSON.stringify(body));
+          logger.info('editor: ', editor || 'none');
+
           commandClassName = capitalize(camelize(name))+'Command'; // => new-project -> NewProjectCommand
+
+          logger.debug('mavensmate command class name: '+commandClassName);
 
           var editorService = new EditorService(editor, openWindowFn);
 
           var command = new commands[commandClassName](project, body, editorService);
 
-          logger.info('name: ', name);
-          logger.info('project: ', project && project.name ? project.name : 'none');
-          logger.info('body: ', JSON.stringify(body));
-          logger.info('editor: ', editor || 'none');
-          logger.debug('mavensmate command class name: '+commandClassName);
           logger.silly('mavensmate command instance: ', command);
 
           if (!commands[commandClassName]) {
             _handleCommandResult({
-              error: new Error('Command not supported: '+name),
-              resolve: resolve,
-              reject: reject
+              error   : new Error('Command not supported: '+name),
+              resolve : resolve,
+              reject  : reject,
             });
             return;
           }
 
           command.execute()
-            .then(function(result) {
+            .then(function (result) {
               _handleCommandResult({
-                result: result,
-                resolve: resolve,
-                reject: reject
+                result  : result,
+                resolve : resolve,
+                reject  : reject,
               });
             })
-            .catch(function(error) {
+            .catch(function (error) {
               _handleCommandResult({
-                error: error,
-                resolve: resolve,
-                reject: reject
+                error   : error,
+                resolve : resolve,
+                reject  : reject,
               });
             });
         } catch(e) {
@@ -119,6 +122,6 @@ module.exports = function(opts) {
           _handleCommandResult(e);
         }
       });
-    }
-  }
-}
+    },
+  };
+};

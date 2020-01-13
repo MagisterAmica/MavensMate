@@ -233,4 +233,22 @@ router.get('/:id/index', function (req, res) {
   });
 });
 
+router.post('/:id/settings', function (req, res) {
+
+  var commandExecutor = req.app.get('commandExecutor');
+
+  var request = commandExecutor.execute({
+    project : req.project,
+    name    : 'update-settings',
+    body    : req.body,
+  });
+
+  var requestId = requestStore.add(request);
+
+  return res.send({
+    status : 'pending',
+    id     : requestId,
+  });
+});
+
 module.exports = router;

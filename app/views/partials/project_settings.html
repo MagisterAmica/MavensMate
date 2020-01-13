@@ -1,0 +1,55 @@
+
+{% if project %}
+  <div class="slds-form--stacked" id="project-settings" data-project-id="{{ project.settings.id }}">
+    {% for key, val in project.settings %}
+      <div class="slds-form-element" id="{{ key }}-group">
+        <label class="slds-form-element__label" for="setting-{{ key }}">{{ key }}</label>
+        <div class="slds-form-element__control">
+          <input type="text" id="setting-{{ key }}" data-key="{{ key }}" placeholder="{{ key }}" class="slds-input" value="{{ val }}" />
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+
+    function handleProjectSettingsChange(event) {
+      var key = this.dataset.key;
+      var val = this.value;
+
+      if (this.matches('[type="checkbox"]')) {
+        val = this.checked;
+      }
+
+      updateSettings(key, val);
+    }
+
+    function updateSettings(key, val) {
+      mavensmate
+      .request({
+        async: false,
+        ajax: {
+          type: 'POST',
+          url: '{{ mavensmate.ui.getBaseUrl() }}/app/project/{{ project.settings.id }}/settings',
+          data: JSON.stringify({
+            [key]: val,
+          }),
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        showToast('Project settings updated', 'success');
+      })
+      .catch((err) => {
+        console.error(err);
+        showToast('Could not update project settings', 'error');
+        showToast(err, 'error');
+      });
+    }
+
+    jQuery(function ($) {
+      $('#project-settings').on('change', ':input', handleProjectSettingsChange);
+    });
+
+  </script>
+{% endif %}

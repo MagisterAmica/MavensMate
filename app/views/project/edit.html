@@ -13,6 +13,7 @@
   <ul class="slds-tabs--scoped__nav" role="tablist">
       <li class="slds-tabs--scoped__item slds-text-heading--label" title="Subscription" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="0" aria-selected="false" aria-controls="tab-subscription" data-aljs-show="tab-subscription">Subscription</a></li>
       <li class="slds-tabs--scoped__item slds-text-heading--label" title="Advanced" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="-1" aria-selected="true" aria-controls="tab-metadata" data-aljs-show="tab-metadata">Project Metadata</a></li>
+      <li class="slds-tabs--scoped__item slds-text-heading--label" title="Settings" role="presentation"><a class="slds-tabs--scoped__link" href="#" role="tab" tabindex="1" aria-selected="false" aria-controls="tab-settings" data-aljs-show="tab-settings">Project Settings</a></li>
   </ul>
   <div id="tab-subscription" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
     <div class="slds-form--stacked">
@@ -53,6 +54,9 @@
   </div>
   <div id="tab-metadata" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
     {% include 'views/partials/metadata_tree.html' %}
+  </div>
+  <div id="tab-settings" class="slds-tabs--scoped__content slds-hide" role="tabpanel">
+    {% include 'views/partials/project_settings.html' %}
   </div>
 </div>
 
